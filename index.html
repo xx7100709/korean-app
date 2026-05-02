@@ -7,781 +7,1038 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#f5f5f7">
 <title>한국어 TOPIK II</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#f5f5f7;--bg2:#ffffff;--bg3:#eef0f5;--surface:#ffffff;--surface2:#eef0f5;
-  --blue:#003478;--red:#cd2e3a;--blue-light:#e8edf5;--red-light:#fdf0f1;
-  --accent:#003478;--accent2:#cd2e3a;--green:#2a9d5c;--orange:#e8871a;
-  --text:#1a1a2e;--text2:#555566;--text3:#9999aa;
-  --radius:14px;--radius-sm:10px;
-  --shadow:0 2px 12px rgba(0,52,120,.08);--shadow-sm:0 1px 6px rgba(0,52,120,.06);
+  --bg:#f5f5f7;--surface:#fff;--surface2:#eef0f5;
+  --blue:#003478;--red:#cd2e3a;--blue-lt:#e8edf5;--red-lt:#fdf0f1;
+  --green:#2a9d5c;--orange:#e8871a;
+  --text:#1a1a2e;--text2:#556;--text3:#99a;
+  --r:14px;--rs:10px;
+  --sh:0 2px 12px rgba(0,52,120,.08);--ssh:0 1px 6px rgba(0,52,120,.06);
 }
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;overflow-x:hidden}
 button{cursor:pointer;border:none;background:none;color:inherit;font-family:inherit}
-.screen{display:none;min-height:100vh;padding-bottom:80px}
+.screen{display:none;min-height:100vh;padding-bottom:82px}
 .screen.active{display:block}
 
 /* NAV */
-.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid rgba(0,52,120,.1);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -2px 12px rgba(0,52,120,.06)}
-.nav-btn{flex:1;padding:10px 0 8px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:var(--text3);transition:.2s}
-.nav-btn.active{color:var(--blue)}
-.nav-btn svg{width:22px;height:22px}
-.nav-dot{width:4px;height:4px;border-radius:50%;background:var(--accent2);display:none;margin-top:1px}
-.nav-dot.show{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid rgba(0,52,120,.1);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -2px 10px rgba(0,52,120,.06)}
+.nb{flex:1;padding:9px 0 7px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;color:var(--text3);transition:.2s}
+.nb.active{color:var(--blue)}
+.nb svg{width:21px;height:21px}
+.ndot{width:5px;height:5px;border-radius:50%;background:var(--red);display:none;margin-top:1px}
+.ndot.on{display:block}
 
 /* PAGE HEADER */
-.page-header{padding:56px 20px 16px;background:#fff;border-bottom:1px solid rgba(0,52,120,.06)}
-.page-title{font-size:20px;font-weight:900;color:var(--blue)}
-.back-btn{font-size:20px;color:var(--text2);padding:2px 8px 2px 0}
+.ph{padding:52px 20px 14px;background:#fff;border-bottom:1px solid rgba(0,52,120,.06);display:flex;align-items:center;gap:10px}
+.ph-title{font-size:19px;font-weight:900;color:var(--blue);flex:1}
+.back{font-size:22px;color:var(--text2);padding:2px 8px 2px 0}
 
 /* HOME */
-.home-top{padding:52px 20px 16px;background:linear-gradient(135deg,var(--blue) 0%,#1a4a8a 100%);color:#fff}
-.home-level{font-size:12px;opacity:.7;margin-bottom:4px}
-.home-name{font-size:22px;font-weight:900;margin-bottom:12px}
+.home-hero{padding:50px 20px 16px;background:linear-gradient(135deg,#003478,#1a4a8a);color:#fff}
+.hero-lv{font-size:12px;opacity:.7;margin-bottom:4px}
+.hero-name{font-size:21px;font-weight:900;margin-bottom:12px}
 .xp-row{display:flex;align-items:center;gap:10px}
-.xp-bar-wrap{flex:1;background:rgba(255,255,255,.2);border-radius:50px;height:8px;overflow:hidden}
-.xp-bar{height:100%;background:#fff;border-radius:50px;transition:.5s}
-.xp-label{font-size:11px;opacity:.8;white-space:nowrap}
-.streak-chip{background:rgba(205,46,58,.9);border-radius:50px;padding:5px 12px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:5px;margin-top:10px}
-.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:16px 20px}
-.stat-box{background:#fff;border-radius:var(--radius);padding:14px 10px;text-align:center;box-shadow:var(--shadow-sm)}
+.xp-track{flex:1;background:rgba(255,255,255,.2);border-radius:50px;height:8px;overflow:hidden}
+.xp-fill{height:100%;background:#fff;border-radius:50px;transition:.5s}
+.xp-lbl{font-size:11px;opacity:.8;white-space:nowrap}
+.streak-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(205,46,58,.85);border-radius:50px;padding:5px 13px;font-size:12px;font-weight:700;margin-top:10px}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px 20px}
+.stat{background:#fff;border-radius:var(--r);padding:13px 8px;text-align:center;box-shadow:var(--ssh)}
 .stat-n{font-size:22px;font-weight:900;color:var(--blue)}
 .stat-l{font-size:11px;color:var(--text2);margin-top:2px}
-.section-label{font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.06em;text-transform:uppercase;padding:4px 20px 8px}
-.mission-list{padding:0 20px;display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
-.mission-row{background:#fff;border-radius:var(--radius-sm);padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-sm)}
-.m-info{flex:1}
-.m-name{font-size:13px;font-weight:700}
-.m-prog{font-size:11px;color:var(--text2);margin-top:2px}
-.m-bar{height:4px;background:var(--bg3);border-radius:50px;margin-top:5px;overflow:hidden}
-.m-fill{height:100%;background:var(--green);border-radius:50px;transition:.4s}
-.m-xp{font-size:11px;color:var(--blue);font-weight:700;white-space:nowrap}
-.heatmap-wrap{padding:0 20px 14px}
-.heatmap{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}
-.hm-cell{aspect-ratio:1;border-radius:3px;background:var(--bg3)}
-.hm-cell.l1{background:rgba(0,52,120,.15)}
-.hm-cell.l2{background:rgba(0,52,120,.35)}
-.hm-cell.l3{background:rgba(0,52,120,.6)}
-.hm-cell.l4{background:var(--blue)}
-.badges-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:0 20px 20px}
-.badge-item{background:#fff;border-radius:10px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:20px;box-shadow:var(--shadow-sm)}
-.badge-item.locked{opacity:.3;filter:grayscale(1)}
-.badge-label{font-size:9px;color:var(--text2);text-align:center}
-.profile-xp-wrap{margin:0 20px 12px;background:#fff;border-radius:var(--radius);padding:14px;box-shadow:var(--shadow-sm)}
-.profile-xp-bar{height:8px;background:var(--bg3);border-radius:50px;overflow:hidden;margin-top:6px}
-.profile-xp-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--accent2));border-radius:50px;transition:.5s}
-.profile-xp-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text2)}
+.sec-lbl{font-size:11px;font-weight:700;color:var(--text2);letter-spacing:.07em;text-transform:uppercase;padding:4px 20px 8px}
+.mis-list{padding:0 20px;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.mis-row{background:#fff;border-radius:var(--rs);padding:11px 13px;display:flex;align-items:center;gap:11px;box-shadow:var(--ssh)}
+.mis-info{flex:1}
+.mis-name{font-size:13px;font-weight:700}
+.mis-prog{font-size:11px;color:var(--text2);margin-top:2px}
+.mis-bar{height:4px;background:var(--surface2);border-radius:50px;margin-top:5px;overflow:hidden}
+.mis-fill{height:100%;background:var(--green);border-radius:50px;transition:.4s}
+.mis-xp{font-size:11px;color:var(--blue);font-weight:700;white-space:nowrap}
+.hm{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;padding:0 20px 14px}
+.hmc{aspect-ratio:1;border-radius:3px;background:var(--surface2)}
+.hmc.l1{background:rgba(0,52,120,.15)}.hmc.l2{background:rgba(0,52,120,.35)}.hmc.l3{background:rgba(0,52,120,.6)}.hmc.l4{background:var(--blue)}
+.bg-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:0 20px 20px}
+.bg-item{background:#fff;border-radius:10px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:19px;box-shadow:var(--ssh)}
+.bg-item.locked{opacity:.3;filter:grayscale(1)}
+.bg-lbl{font-size:9px;color:var(--text2);text-align:center}
 
 /* VOCAB */
-.flashcard{background:#fff;border-radius:20px;min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 24px;cursor:pointer;position:relative;box-shadow:var(--shadow);margin:0 20px 10px}
-.flashcard-inner{width:100%;transition:transform .5s;transform-style:preserve-3d;position:relative;min-height:220px;perspective:1000px}
-.flashcard.flipped .flashcard-inner{transform:rotateY(180deg)}
-.fc-front,.fc-back{position:absolute;width:100%;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:10px 0}
-.fc-back{transform:rotateY(180deg)}
-.fc-kr{font-size:46px;font-weight:900;color:var(--blue)}
-.fc-rom{font-size:13px;color:var(--text2);font-family:'Space Mono',monospace}
-.fc-zh{font-size:24px;font-weight:700;color:var(--accent2)}
-.fc-example{font-size:13px;color:var(--text2);text-align:center;line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid var(--bg3);width:100%}
-.fc-hint{font-size:11px;color:var(--text3);margin-top:8px}
-.fc-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 20px 12px}
-.fc-btn{padding:14px 0;border-radius:var(--radius-sm);font-size:14px;font-weight:700;transition:.2s}
-.fc-btn:active{transform:scale(.96)}
-.fc-btn.hard{background:var(--red-light);color:var(--accent2);border:1.5px solid rgba(205,46,58,.2)}
-.fc-btn.good{background:var(--blue-light);color:var(--blue);border:1.5px solid rgba(0,52,120,.15)}
-.vp-wrap{display:flex;align-items:center;gap:10px;padding:0 20px 10px;font-size:12px;color:var(--text2)}
-.vp-bar{flex:1;height:5px;background:var(--bg3);border-radius:50px;overflow:hidden}
+.fc{background:#fff;border-radius:20px;min-height:270px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 22px;cursor:pointer;box-shadow:var(--sh);margin:0 20px 10px;position:relative}
+.fc-inner{width:100%;transition:transform .5s;transform-style:preserve-3d;position:relative;min-height:210px;perspective:1000px}
+.fc.flipped .fc-inner{transform:rotateY(180deg)}
+.fc-f,.fc-b{position:absolute;width:100%;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:8px 0}
+.fc-b{transform:rotateY(180deg)}
+.fc-kr{font-size:44px;font-weight:900;color:var(--blue)}
+.fc-rom{font-size:12px;color:var(--text2);font-family:'Space Mono',monospace}
+.fc-zh{font-size:22px;font-weight:700;color:var(--red)}
+.fc-ex{font-size:13px;color:var(--text2);text-align:center;line-height:1.7;margin-top:8px;padding-top:8px;border-top:1px solid var(--surface2);width:100%}
+.fc-hint{font-size:11px;color:var(--text3)}
+.vp-row{display:flex;align-items:center;gap:10px;padding:0 20px 10px;font-size:12px;color:var(--text2)}
+.vp-track{flex:1;height:5px;background:var(--surface2);border-radius:50px;overflow:hidden}
 .vp-fill{height:100%;background:var(--blue);border-radius:50px;transition:.3s}
+.fc-acts{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 20px 12px}
+.fca{padding:14px 0;border-radius:var(--rs);font-size:13px;font-weight:700;transition:.2s}
+.fca:active{transform:scale(.96)}
+.fca.hard{background:var(--red-lt);color:var(--red);border:1.5px solid rgba(205,46,58,.2)}
+.fca.good{background:var(--blue-lt);color:var(--blue);border:1.5px solid rgba(0,52,120,.15)}
+.ai-ex-box{margin:0 20px 10px;background:var(--blue-lt);border-radius:var(--rs);padding:12px 14px;font-size:13px;color:var(--blue);line-height:1.7;display:none}
+.ai-ex-box.show{display:block}
 
-/* REVIEW SCREEN */
-.review-card{background:#fff;border-radius:var(--radius);margin:0 20px 10px;box-shadow:var(--shadow-sm);overflow:hidden}
-.review-card-head{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
-.review-kr{font-size:18px;font-weight:900;color:var(--blue)}
-.review-zh{font-size:13px;color:var(--text2)}
-.review-card-body{padding:0 16px 14px;border-top:1px solid var(--bg3);display:none}
-.review-card-body.open{display:block}
-.review-ex{font-size:13px;line-height:1.7;margin-top:8px;color:var(--text2)}
-.review-quiz-wrap{margin-top:10px;background:var(--bg3);border-radius:var(--radius-sm);padding:12px}
-.review-quiz-q{font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px}
-.review-quiz-input{width:100%;background:#fff;border:1.5px solid rgba(0,52,120,.15);border-radius:var(--radius-sm);padding:10px 12px;font-size:16px;font-family:'Noto Sans KR',sans-serif;color:var(--text)}
-.review-quiz-input:focus{outline:none;border-color:var(--blue)}
-.review-quiz-result{font-size:13px;margin-top:8px;font-weight:700;display:none}
+/* REVIEW */
+.rev-card{background:#fff;border-radius:var(--r);margin:0 20px 10px;box-shadow:var(--ssh);overflow:hidden}
+.rev-head{padding:13px 15px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.rev-kr{font-size:17px;font-weight:900;color:var(--blue)}
+.rev-zh{font-size:13px;color:var(--text2)}
+.rev-body{padding:0 15px 13px;border-top:1px solid var(--surface2);display:none}
+.rev-body.open{display:block}
+.rev-ex{font-size:13px;line-height:1.7;margin-top:8px;color:var(--text2)}
+.rev-quiz{margin-top:10px;background:var(--surface2);border-radius:var(--rs);padding:11px}
+.rev-q{font-size:13px;font-weight:700;margin-bottom:7px}
+.rev-input{width:100%;background:#fff;border:1.5px solid rgba(0,52,120,.15);border-radius:var(--rs);padding:9px 11px;font-size:16px;font-family:'Noto Sans KR',sans-serif;color:var(--text)}
+.rev-input:focus{outline:none;border-color:var(--blue)}
+.rev-res{font-size:13px;margin-top:7px;font-weight:700;display:none}
 
-/* READING */
-.reading-passage-box{background:#fff;border-radius:var(--radius);padding:16px;margin:0 20px 12px;box-shadow:var(--shadow-sm);line-height:2.2;font-size:15px;position:relative}
-.rword{cursor:pointer;border-radius:3px;padding:0 1px;transition:.1s;border-bottom:1px dashed rgba(0,52,120,.25);color:var(--blue)}
-.rword:active{background:rgba(0,52,120,.08)}
-.word-tip{position:absolute;background:var(--blue);color:#fff;padding:5px 10px;border-radius:8px;font-size:12px;white-space:nowrap;z-index:50;pointer-events:none;box-shadow:0 4px 12px rgba(0,52,120,.3);transform:translateX(-50%)}
+/* AI LOADING */
+.ai-loading{display:flex;align-items:center;gap:10px;padding:30px 20px;color:var(--text2);font-size:14px}
+.ai-loading svg{width:24px;height:24px;animation:spin 1s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* READING / LISTENING */
+.art-box{background:#fff;border-radius:var(--r);padding:15px;margin:0 20px 12px;box-shadow:var(--ssh);line-height:2.1;font-size:15px}
+.rword{cursor:pointer;border-bottom:1px dashed rgba(0,52,120,.25);color:var(--blue);border-radius:2px}
+.word-tip{position:fixed;background:var(--blue);color:#fff;padding:5px 11px;border-radius:8px;font-size:12px;white-space:nowrap;z-index:200;pointer-events:none;box-shadow:0 4px 12px rgba(0,52,120,.3);transform:translateX(-50%)}
 .word-tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--blue)}
-.reading-q-box{background:#fff;border-radius:var(--radius);padding:16px;margin:0 20px 12px;box-shadow:var(--shadow-sm)}
-.reading-q{font-size:14px;font-weight:700;margin-bottom:12px;line-height:1.5;color:var(--text)}
-.r-opt{padding:12px 14px;background:var(--bg3);border-radius:var(--radius-sm);font-size:13px;cursor:pointer;border:2px solid transparent;transition:.2s;text-align:left;width:100%;margin-bottom:7px;display:block}
-.r-opt.correct{background:#e8f5ef;border-color:var(--green);color:var(--green)}
-.r-opt.wrong{background:var(--red-light);border-color:var(--accent2);color:var(--accent2)}
-.r-explain{margin-top:8px;padding:10px 12px;background:var(--blue-light);border-radius:var(--radius-sm);font-size:13px;color:var(--blue);line-height:1.7;display:none}
-.r-explain.open{display:block}
-.passage-zh{font-size:12px;color:var(--text3);line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid var(--bg3)}
+.art-zh{font-size:12px;color:var(--text3);line-height:1.6;margin-top:10px;padding-top:10px;border-top:1px solid var(--surface2)}
+.q-box{background:#fff;border-radius:var(--r);padding:15px;margin:0 20px 12px;box-shadow:var(--ssh)}
+.q-text{font-size:14px;font-weight:700;margin-bottom:11px;line-height:1.5;color:var(--text)}
+.opt{padding:11px 13px;background:var(--surface2);border-radius:var(--rs);font-size:13px;cursor:pointer;border:2px solid transparent;transition:.2s;text-align:left;width:100%;margin-bottom:7px;display:block;color:var(--text)}
+.opt.ok{background:#e8f5ef;border-color:var(--green);color:var(--green)}
+.opt.bad{background:var(--red-lt);border-color:var(--red);color:var(--red)}
+.opt-explain{margin-top:8px;padding:10px 12px;background:var(--blue-lt);border-radius:var(--rs);font-size:13px;color:var(--blue);line-height:1.7;display:none}
+.opt-explain.open{display:block}
+
+/* LISTENING */
+.listen-ctx{background:#fff;border-radius:var(--r);padding:15px;margin:0 20px 12px;box-shadow:var(--sh)}
+.listen-tag{font-size:11px;font-weight:700;color:var(--blue);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.listen-dialog{font-size:14px;line-height:2;color:var(--text)}
+.listen-spk{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:50px;margin-right:5px}
+.listen-spk.a{background:var(--blue-lt);color:var(--blue)}
+.listen-spk.b{background:var(--red-lt);color:var(--red)}
 
 /* GAMES */
-.game-card{background:#fff;border-radius:var(--radius);padding:18px;display:flex;gap:14px;align-items:center;box-shadow:var(--shadow-sm);cursor:pointer;transition:.2s;margin:0 20px 10px}
-.game-card:active{transform:scale(.98)}
-.game-icon{font-size:34px;width:52px;text-align:center}
-.game-info{flex:1}
-.game-name{font-size:15px;font-weight:700;color:var(--blue)}
-.game-desc{font-size:12px;color:var(--text2);margin-top:3px}
-.game-hs{font-size:11px;color:var(--accent2);font-weight:700;margin-top:3px}
 .game-screen{position:fixed;inset:0;background:var(--bg);z-index:150;display:none;flex-direction:column}
 .game-screen.open{display:flex}
-.game-header{padding:52px 20px 14px;background:#fff;border-bottom:1px solid var(--bg3);display:flex;align-items:center;gap:12px}
+.game-header{padding:50px 20px 13px;background:#fff;border-bottom:1px solid var(--surface2);display:flex;align-items:center;gap:11px}
 .game-title{font-size:18px;font-weight:900;color:var(--blue);flex:1}
-
-/* MATCH */
 .match-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 16px;align-content:start;overflow-y:auto;flex:1}
-.match-card{background:#fff;border-radius:var(--radius-sm);padding:12px 8px;text-align:center;font-size:14px;font-weight:700;cursor:pointer;border:2px solid transparent;transition:.2s;min-height:50px;display:flex;align-items:center;justify-content:center;line-height:1.3;color:var(--text);box-shadow:var(--shadow-sm)}
-.match-card.selected{border-color:var(--blue);background:var(--blue-light)}
-.match-card.matched{border-color:var(--green);background:#e8f5ef;color:var(--green);opacity:.6;pointer-events:none}
-.match-card.wrong{border-color:var(--accent2);animation:shake .3s}
+.mc{background:#fff;border-radius:var(--rs);padding:11px 7px;text-align:center;font-size:13px;font-weight:700;cursor:pointer;border:2px solid transparent;transition:.2s;min-height:48px;display:flex;align-items:center;justify-content:center;line-height:1.3;color:var(--text);box-shadow:var(--ssh)}
+.mc.sel{border-color:var(--blue);background:var(--blue-lt)}
+.mc.matched{border-color:var(--green);background:#e8f5ef;color:var(--green);opacity:.55;pointer-events:none}
+.mc.wrong{border-color:var(--red);animation:shake .3s}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 
 /* TYPING */
-.typing-area{padding:16px 20px;flex:1;display:flex;flex-direction:column;gap:12px;overflow-y:auto}
-.typing-prompt{background:#fff;border-radius:var(--radius);padding:20px;text-align:center;box-shadow:var(--shadow-sm)}
-.typing-zh{font-size:24px;font-weight:900;color:var(--blue);margin-bottom:6px}
-.typing-rom{font-size:13px;color:var(--text2)}
-.typing-input{width:100%;background:#fff;border:2px solid rgba(0,52,120,.15);border-radius:var(--radius-sm);padding:14px;font-size:22px;font-family:'Noto Sans KR',sans-serif;color:var(--text);text-align:center;box-shadow:var(--shadow-sm)}
-.typing-input:focus{outline:none;border-color:var(--blue)}
-.typing-reveal{background:#fff;border-radius:var(--radius-sm);padding:14px;font-size:16px;font-weight:700;text-align:center;display:none;line-height:1.6;box-shadow:var(--shadow-sm)}
-.typing-reveal.show{display:block}
-.typing-reveal.ok{color:var(--green);border-left:4px solid var(--green)}
-.typing-reveal.bad{color:var(--accent2);border-left:4px solid var(--accent2)}
-.score-row{display:flex;justify-content:space-around;background:#fff;border-radius:var(--radius-sm);padding:12px;box-shadow:var(--shadow-sm)}
-.score-item{text-align:center}
-.score-n{font-size:22px;font-weight:900;color:var(--blue)}
-.score-l{font-size:11px;color:var(--text2)}
+.tp-area{padding:14px 20px;flex:1;display:flex;flex-direction:column;gap:12px;overflow-y:auto}
+.tp-prompt{background:#fff;border-radius:var(--r);padding:18px;text-align:center;box-shadow:var(--ssh)}
+.tp-zh{font-size:23px;font-weight:900;color:var(--blue);margin-bottom:5px}
+.tp-rom{font-size:13px;color:var(--text2)}
+.tp-input{width:100%;background:#fff;border:2px solid rgba(0,52,120,.15);border-radius:var(--rs);padding:13px;font-size:21px;font-family:'Noto Sans KR',sans-serif;color:var(--text);text-align:center;box-shadow:var(--ssh)}
+.tp-input:focus{outline:none;border-color:var(--blue)}
+.tp-reveal{background:#fff;border-radius:var(--rs);padding:13px;font-size:16px;font-weight:700;text-align:center;display:none;line-height:1.6;box-shadow:var(--ssh)}
+.tp-reveal.show{display:block}
+.tp-reveal.ok{color:var(--green);border-left:4px solid var(--green)}
+.tp-reveal.bad{color:var(--red);border-left:4px solid var(--red)}
+.sc-row{display:flex;justify-content:space-around;background:#fff;border-radius:var(--rs);padding:11px;box-shadow:var(--ssh)}
+.sc-item{text-align:center}
+.sc-n{font-size:22px;font-weight:900;color:var(--blue)}
+.sc-l{font-size:11px;color:var(--text2)}
 
 /* SCRAMBLE */
-.scramble-area{padding:12px 20px;flex:1;display:flex;flex-direction:column;gap:12px;overflow-y:auto}
-.scramble-zh{font-size:17px;font-weight:700;text-align:center;padding:16px;background:#fff;border-radius:var(--radius);box-shadow:var(--shadow-sm);color:var(--blue)}
-.sc-drop{min-height:52px;background:var(--blue-light);border:2px dashed rgba(0,52,120,.2);border-radius:var(--radius-sm);padding:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.sc-tokens{display:flex;flex-wrap:wrap;gap:8px;padding:4px 0}
-.sc-token{background:#fff;border:1.5px solid rgba(0,52,120,.15);border-radius:var(--radius-sm);padding:8px 14px;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;color:var(--blue);box-shadow:var(--shadow-sm)}
-.sc-token:active{transform:scale(.95)}
-.sc-token.used{opacity:.25;pointer-events:none}
-.sc-token.placed{background:var(--blue-light);border-color:var(--blue)}
-.sc-result{padding:12px;border-radius:var(--radius-sm);font-size:14px;font-weight:700;display:none;text-align:center}
-.sc-result.show{display:block}
-.sc-result.ok{background:#e8f5ef;color:var(--green);border:1.5px solid var(--green)}
-.sc-result.bad{background:var(--red-light);color:var(--accent2);border:1.5px solid var(--accent2)}
+.scr-area{padding:12px 20px;flex:1;display:flex;flex-direction:column;gap:11px;overflow-y:auto}
+.scr-zh{font-size:16px;font-weight:700;text-align:center;padding:14px;background:#fff;border-radius:var(--r);box-shadow:var(--ssh);color:var(--blue)}
+.scr-drop{min-height:50px;background:var(--blue-lt);border:2px dashed rgba(0,52,120,.2);border-radius:var(--rs);padding:9px;display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+.scr-pool{display:flex;flex-wrap:wrap;gap:7px;padding:3px 0}
+.tok{background:#fff;border:1.5px solid rgba(0,52,120,.15);border-radius:var(--rs);padding:7px 13px;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;color:var(--blue);box-shadow:var(--ssh)}
+.tok:active{transform:scale(.95)}
+.tok.used{opacity:.2;pointer-events:none}
+.tok.placed{background:var(--blue-lt);border-color:var(--blue)}
+.scr-res{padding:11px;border-radius:var(--rs);font-size:14px;font-weight:700;display:none;text-align:center}
+.scr-res.show{display:block}
+.scr-res.ok{background:#e8f5ef;color:var(--green);border:1.5px solid var(--green)}
+.scr-res.bad{background:var(--red-lt);color:var(--red);border:1.5px solid var(--red)}
 
-/* FILLBLANK */
-.fb-opt{padding:12px 14px;background:var(--bg3);border-radius:var(--radius-sm);font-size:14px;cursor:pointer;border:2px solid transparent;transition:.2s;text-align:left;width:100%;margin-bottom:7px;display:block;color:var(--text)}
-.fb-opt.correct{background:#e8f5ef;border-color:var(--green);color:var(--green)}
-.fb-opt.wrong{background:var(--red-light);border-color:var(--accent2);color:var(--accent2)}
+/* FB opts */
+.fb-opt{padding:11px 13px;background:var(--surface2);border-radius:var(--rs);font-size:13px;cursor:pointer;border:2px solid transparent;transition:.2s;text-align:left;width:100%;margin-bottom:7px;display:block;color:var(--text)}
+.fb-opt.ok{background:#e8f5ef;border-color:var(--green);color:var(--green)}
+.fb-opt.bad{background:var(--red-lt);border-color:var(--red);color:var(--red)}
 
 /* SPEAKING */
-.speak-tabs{display:flex;gap:8px;margin:0 20px 14px}
-.speak-tab{flex:1;padding:9px;background:#fff;border-radius:var(--radius-sm);font-size:13px;font-weight:700;text-align:center;color:var(--text2);box-shadow:var(--shadow-sm);transition:.2s}
-.speak-tab.active{background:var(--blue);color:#fff}
-.shadow-card{background:#fff;border-radius:var(--radius);padding:20px;margin:0 20px 10px;box-shadow:var(--shadow)}
-.shadow-kr{font-size:26px;font-weight:900;text-align:center;margin-bottom:6px;color:var(--blue)}
-.shadow-rom{font-size:13px;color:var(--text2);text-align:center;font-family:'Space Mono',monospace;margin-bottom:4px}
-.shadow-zh{font-size:16px;color:var(--accent2);text-align:center;margin-bottom:16px;font-weight:700}
-.spk-btn{width:100%;padding:13px;border-radius:var(--radius);font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s;margin-bottom:8px}
-.spk-btn.play{background:var(--blue);color:#fff}
-.spk-btn.rec{background:var(--accent2);color:#fff}
-.spk-btn.recording{animation:pulse 1s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
-.spk-btn:active{transform:scale(.97)}
-.spk-result{background:#fff;border-radius:var(--radius-sm);padding:14px;margin:0 20px;font-size:13px;line-height:1.6;display:none;box-shadow:var(--shadow-sm)}
-.spk-result.open{display:block}
-.conv-msgs{background:#fff;border-radius:var(--radius);padding:14px;height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
-.msg{max-width:85%;padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.6}
-.msg.ai{background:var(--blue-light);align-self:flex-start;border-bottom-left-radius:4px}
-.msg.user{background:rgba(205,46,58,.08);border:1px solid rgba(205,46,58,.15);align-self:flex-end;border-bottom-right-radius:4px}
-.msg .ko{font-weight:700;color:var(--blue)}
-.msg .zh{font-size:11px;color:var(--text2);margin-top:3px}
-.conv-row{display:flex;gap:8px;align-items:flex-end}
-.conv-input{flex:1;background:#fff;border:1.5px solid rgba(0,52,120,.15);border-radius:var(--radius-sm);padding:10px 12px;color:var(--text);font-size:14px;font-family:'Noto Sans KR',sans-serif;resize:none;max-height:80px}
-.conv-input:focus{outline:none;border-color:var(--blue)}
-.conv-send{background:var(--blue);color:#fff;border-radius:var(--radius-sm);padding:10px 14px;font-size:14px;font-weight:700}
-.conv-mic{background:var(--bg3);color:var(--text2);border-radius:var(--radius-sm);padding:10px 12px;font-size:16px}
+.sh-card{background:#fff;border-radius:var(--r);padding:18px;margin:0 20px 10px;box-shadow:var(--sh)}
+.sh-kr{font-size:24px;font-weight:900;text-align:center;margin-bottom:5px;color:var(--blue)}
+.sh-rom{font-size:12px;color:var(--text2);text-align:center;font-family:'Space Mono',monospace;margin-bottom:4px}
+.sh-zh{font-size:15px;color:var(--red);text-align:center;font-weight:700;margin-bottom:14px}
+.spkbtn{width:100%;padding:12px;border-radius:var(--r);font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:7px;transition:.2s;margin-bottom:7px}
+.spkbtn.play{background:var(--blue);color:#fff}
+.spkbtn.rec{background:var(--red);color:#fff}
+.spkbtn.recording{animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+.spkbtn:active{transform:scale(.97)}
+.spk-res{background:#fff;border-radius:var(--rs);padding:13px;margin:0 20px;font-size:13px;line-height:1.6;display:none;box-shadow:var(--ssh)}
+.spk-res.open{display:block}
 
 /* BUTTONS */
-.btn-primary{padding:13px;background:var(--blue);color:#fff;border-radius:var(--radius);font-size:15px;font-weight:700;width:100%;transition:.2s}
-.btn-primary:active{transform:scale(.97)}
-.btn-primary:disabled{background:var(--bg3);color:var(--text3)}
-.btn-secondary{padding:12px;background:var(--bg3);color:var(--text2);border-radius:var(--radius);font-size:14px;font-weight:700;width:100%}
-.btn-next{padding:13px;background:var(--accent2);color:#fff;border-radius:var(--radius);font-size:15px;font-weight:700;width:100%;display:none;transition:.2s}
-.btn-next.show{display:block}
+.btn-p{padding:13px;background:var(--blue);color:#fff;border-radius:var(--r);font-size:15px;font-weight:700;width:100%;transition:.2s}
+.btn-p:active{transform:scale(.97)}
+.btn-p:disabled,.btn-dis{padding:13px;background:var(--surface2);color:var(--text3);border-radius:var(--r);font-size:15px;font-weight:700;width:100%;cursor:default}
+.btn-s{padding:12px;background:var(--surface2);color:var(--text2);border-radius:var(--r);font-size:14px;font-weight:700;width:100%}
+.btn-next{padding:13px;background:var(--red);color:#fff;border-radius:var(--r);font-size:15px;font-weight:700;width:100%;display:none;transition:.2s}
+.btn-next.on{display:block}
 .btn-next:active{transform:scale(.97)}
-.btn-disabled{padding:13px;background:var(--bg3);color:var(--text3);border-radius:var(--radius);font-size:15px;font-weight:700;width:100%;cursor:default}
 
 /* TOAST & XP */
-.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--blue);color:#fff;padding:10px 20px;border-radius:50px;font-size:13px;font-weight:700;z-index:999;opacity:0;transition:.3s;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,52,120,.3)}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--blue);color:#fff;padding:9px 18px;border-radius:50px;font-size:13px;font-weight:700;z-index:999;opacity:0;transition:.3s;pointer-events:none;white-space:nowrap;box-shadow:0 4px 14px rgba(0,52,120,.3)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.xp-pop{position:fixed;top:58px;right:16px;opacity:0;transform:scale(.5) translateX(30px);z-index:998;pointer-events:none;transition:.35s cubic-bezier(.34,1.56,.64,1)}
-.xp-pop.show{opacity:1;transform:scale(1) translateX(0)}
-.xp-pop-inner{background:var(--blue);color:#fff;font-size:13px;font-weight:900;padding:7px 14px;border-radius:50px;box-shadow:0 3px 12px rgba(0,52,120,.3)}
+.xpp{position:fixed;top:56px;right:14px;opacity:0;transform:scale(.5) translateX(30px);z-index:998;pointer-events:none;transition:.35s cubic-bezier(.34,1.56,.64,1)}
+.xpp.show{opacity:1;transform:scale(1) translateX(0)}
+.xpp-inner{background:var(--blue);color:#fff;font-size:13px;font-weight:900;padding:7px 14px;border-radius:50px;box-shadow:0 3px 12px rgba(0,52,120,.3)}
 
 /* RESULT */
-.result-screen{position:fixed;inset:0;background:#fff;z-index:160;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:40px}
+.result-screen{position:fixed;inset:0;background:#fff;z-index:160;display:none;flex-direction:column;align-items:center;justify-content:center;gap:13px;padding:40px}
 .result-screen.open{display:flex}
-.result-emoji{font-size:70px}
-.result-title{font-size:26px;font-weight:900;color:var(--blue)}
-.result-score{font-size:52px;font-weight:900;color:var(--accent2)}
-.result-label{font-size:13px;color:var(--text2);text-align:center}
 
-.loading{display:flex;align-items:center;gap:7px;color:var(--text2);font-size:13px;padding:10px}
-.dot{width:6px;height:6px;border-radius:50%;background:var(--blue);animation:blink 1.2s infinite}
-.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
-@keyframes blink{0%,80%,100%{opacity:.15}40%{opacity:1}}
+.loading-dots{display:flex;gap:6px;align-items:center;padding:8px 0}
+.ld{width:7px;height:7px;border-radius:50%;background:var(--blue);animation:ld .9s infinite}
+.ld:nth-child(2){animation-delay:.15s}.ld:nth-child(3){animation-delay:.3s}
+@keyframes ld{0%,80%,100%{opacity:.15;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
 </style>
 </head>
 <body>
 
 <!-- HOME -->
 <div class="screen active" id="screen-home">
-  <div class="home-top">
-    <div class="home-level">Level <span id="home-level">1</span> · TOPIK II 備考中</div>
-    <div class="home-name">🇰🇷 韓語學習者</div>
+  <div class="home-hero">
+    <div class="hero-lv">Level <span id="h-lv">1</span> · TOPIK II 備考中</div>
+    <div class="hero-name">🇰🇷 韓語學習者</div>
     <div class="xp-row">
-      <div class="xp-bar-wrap"><div class="xp-bar" id="xp-bar" style="width:0%"></div></div>
-      <div class="xp-label">XP <span id="xp-curr">0</span>/<span id="xp-need">100</span></div>
+      <div class="xp-track"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
+      <div class="xp-lbl">XP <span id="xp-c">0</span>/<span id="xp-n">100</span></div>
     </div>
     <div class="streak-chip">🔥 <span id="streak-n">0</span> 天連續</div>
   </div>
-  <div class="stats-grid">
-    <div class="stat-box"><div class="stat-n" id="s-words">0</div><div class="stat-l">已學單字</div></div>
-    <div class="stat-box"><div class="stat-n" id="s-acc">-</div><div class="stat-l">正確率</div></div>
-    <div class="stat-box"><div class="stat-n" id="s-days">0</div><div class="stat-l">學習天數</div></div>
+  <div class="stat-row">
+    <div class="stat"><div class="stat-n" id="s-w">0</div><div class="stat-l">已學單字</div></div>
+    <div class="stat"><div class="stat-n" id="s-a">-</div><div class="stat-l">正確率</div></div>
+    <div class="stat"><div class="stat-n" id="s-d">0</div><div class="stat-l">學習天數</div></div>
   </div>
-  <div class="section-label">每日任務</div>
-  <div class="mission-list" id="mission-list"></div>
-  <div class="section-label">學習熱力圖</div>
-  <div class="heatmap-wrap"><div class="heatmap" id="heatmap"></div></div>
-  <div class="section-label">成就徽章</div>
-  <div class="badges-grid" id="badges-grid"></div>
+  <div class="sec-lbl">每日任務</div>
+  <div class="mis-list" id="mis-list"></div>
+  <div class="sec-lbl">學習紀錄</div>
+  <div class="hm" id="hm"></div>
+  <div class="sec-lbl">成就徽章</div>
+  <div class="bg-grid" id="bg-grid"></div>
 </div>
 
 <!-- VOCAB -->
 <div class="screen" id="screen-vocab">
-  <div class="page-header" style="display:flex;align-items:center;gap:8px">
-    <button class="back-btn" onclick="goScreen('home')">←</button>
-    <div class="page-title">單字練習</div>
-    <div style="margin-left:auto;font-size:12px;color:var(--text2)" id="vocab-info"></div>
+  <div class="ph">
+    <button class="back" onclick="go('home')">←</button>
+    <div class="ph-title">單字練習</div>
+    <div style="font-size:12px;color:var(--text2)" id="v-info"></div>
   </div>
-  <div style="height:12px"></div>
-  <div class="vp-wrap">
-    <div class="vp-bar"><div class="vp-fill" id="vp-fill" style="width:0%"></div></div>
-    <span id="vp-text" style="font-size:12px;color:var(--text2)">0/0</span>
+  <div style="height:10px"></div>
+  <div class="vp-row">
+    <div class="vp-track"><div class="vp-fill" id="vp-fill" style="width:0%"></div></div>
+    <span id="vp-txt" style="font-size:12px;color:var(--text2)">0/0</span>
   </div>
-  <div class="flashcard" id="flashcard" onclick="flipCard()">
-    <div class="flashcard-inner" id="fc-inner">
-      <div class="fc-front">
-        <div class="fc-kr" id="fc-kr">가다</div>
-        <div class="fc-rom" id="fc-rom">ga-da</div>
+  <div class="fc" id="fc" onclick="flipCard()">
+    <div class="fc-inner" id="fc-inner">
+      <div class="fc-f">
+        <div class="fc-kr" id="fc-kr">—</div>
+        <div class="fc-rom" id="fc-rom"></div>
         <div class="fc-hint" id="fc-hint">點擊翻面查看意思</div>
       </div>
-      <div class="fc-back">
-        <div class="fc-kr" id="fc-kr2">가다</div>
-        <div class="fc-zh" id="fc-zh">去</div>
-        <div class="fc-example" id="fc-ex"></div>
+      <div class="fc-b">
+        <div class="fc-kr" id="fc-kr2">—</div>
+        <div class="fc-zh" id="fc-zh"></div>
+        <div class="fc-ex" id="fc-ex"></div>
       </div>
     </div>
   </div>
-  <div class="fc-actions">
-    <button class="fc-btn hard" onclick="rateCard('hard')">😰 不熟 → 複習區</button>
-    <button class="fc-btn good" onclick="rateCard('good')">😄 很熟 +10 XP</button>
+  <div class="fc-acts">
+    <button class="fca hard" onclick="rate('hard')">😰 不熟 → 複習區</button>
+    <button class="fca good" onclick="rate('good')">😄 很熟 +10 XP</button>
+  </div>
+  <div class="ai-ex-box" id="ai-ex-box">
+    <div style="font-size:11px;font-weight:700;margin-bottom:4px">🤖 AI 延伸解說</div>
+    <div id="ai-ex-text"></div>
+  </div>
+  <div style="padding:0 20px 8px;display:flex;gap:8px">
+    <button onclick="loadAIEx()" style="flex:1;padding:10px;background:var(--blue-lt);color:var(--blue);border-radius:var(--rs);font-size:13px;font-weight:700">🤖 AI 出例句和解說</button>
   </div>
 </div>
 
-<!-- REVIEW (待複習) -->
+<!-- REVIEW -->
 <div class="screen" id="screen-review">
-  <div class="page-header" style="display:flex;align-items:center;gap:8px">
-    <button class="back-btn" onclick="goScreen('home')">←</button>
-    <div class="page-title">📌 待複習</div>
-    <div style="margin-left:auto;background:var(--accent2);color:#fff;padding:3px 10px;border-radius:50px;font-size:12px;font-weight:700" id="review-count-badge">0</div>
+  <div class="ph">
+    <button class="back" onclick="go('home')">←</button>
+    <div class="ph-title">📌 待複習</div>
+    <div id="rev-badge" style="background:var(--red);color:#fff;padding:3px 10px;border-radius:50px;font-size:12px;font-weight:700">0</div>
   </div>
-  <div style="padding:12px 20px;font-size:13px;color:var(--text2)">展開單字查看例句，填空測驗正確後自動移除 ✅</div>
-  <div id="review-list"></div>
+  <div style="padding:10px 20px;font-size:13px;color:var(--text2)">填空答對後自動移除 ✅</div>
+  <div id="rev-list"></div>
 </div>
 
 <!-- READING -->
 <div class="screen" id="screen-reading">
-  <div class="page-header" style="display:flex;align-items:center;gap:8px">
-    <button class="back-btn" onclick="goScreen('home')">←</button>
-    <div class="page-title">閱讀測驗</div>
-    <div style="margin-left:auto;font-size:12px;color:var(--text2)">篇 <span id="r-art">1</span>/4 · 題 <span id="r-q">1</span>/3</div>
+  <div class="ph">
+    <button class="back" onclick="go('home')">←</button>
+    <div class="ph-title">閱讀測驗</div>
+    <div style="font-size:12px;color:var(--text2)">題 <span id="r-q">1</span>/3</div>
   </div>
-  <div style="height:10px"></div>
+  <div style="height:8px"></div>
   <div id="reading-content"></div>
+  <div style="padding:0 20px;display:flex;flex-direction:column;gap:8px">
+    <button onclick="newArticle()" id="r-new-btn" class="btn-p" style="display:none">🤖 生成下一篇文章</button>
+  </div>
+</div>
+
+<!-- LISTENING -->
+<div class="screen" id="screen-listen">
+  <div class="ph">
+    <button class="back" onclick="go('home')">←</button>
+    <div class="ph-title">聽力測驗</div>
+    <div style="font-size:12px;color:var(--text2)">題 <span id="l-q">1</span>/4</div>
+  </div>
+  <div style="height:8px"></div>
+  <div id="listen-content"></div>
+  <div style="padding:0 20px;display:flex;flex-direction:column;gap:8px">
+    <button onclick="newListen()" id="l-new-btn" class="btn-p" style="display:none">🤖 生成下一篇對話</button>
+  </div>
 </div>
 
 <!-- GAMES -->
 <div class="screen" id="screen-games">
-  <div class="page-header"><div class="page-title">闖關遊戲 🎮</div></div>
-  <div style="height:12px"></div>
-  <div class="game-card" onclick="startGame('match')">
-    <div class="game-icon">🔗</div>
-    <div class="game-info"><div class="game-name">配對連連看</div><div class="game-desc">韓文↔中文，60秒計時</div><div class="game-hs">最高：<span id="hs-match">0</span></div></div>
-    <div style="color:var(--text3);font-size:20px">›</div>
-  </div>
-  <div class="game-card" onclick="startGame('typing')">
-    <div class="game-icon">⌨️</div>
-    <div class="game-info"><div class="game-name">打字挑戰（10題）</div><div class="game-desc">看中文打韓文，無時限，錯誤加待複習</div><div class="game-hs">最高：<span id="hs-typing">0</span></div></div>
-    <div style="color:var(--text3);font-size:20px">›</div>
-  </div>
-  <div class="game-card" onclick="startGame('scramble')">
-    <div class="game-icon">🔀</div>
-    <div class="game-info"><div class="game-name">排句遊戲</div><div class="game-desc">把打亂的詞彙排成正確句子</div><div class="game-hs">最高：<span id="hs-scramble">0</span></div></div>
-    <div style="color:var(--text3);font-size:20px">›</div>
-  </div>
-  <div class="game-card" onclick="startGame('fillblank')">
-    <div class="game-icon">✏️</div>
-    <div class="game-info"><div class="game-name">克漏字填空</div><div class="game-desc">選出正確的文法或單字</div><div class="game-hs">最高：<span id="hs-fillblank">0</span></div></div>
-    <div style="color:var(--text3);font-size:20px">›</div>
+  <div class="ph"><div class="ph-title">闖關遊戲 🎮</div></div>
+  <div style="height:10px"></div>
+  <div style="padding:0 20px;display:flex;flex-direction:column;gap:10px">
+    <div onclick="startGame('typing')" style="background:#fff;border-radius:var(--r);padding:16px;display:flex;gap:12px;align-items:center;box-shadow:var(--ssh);cursor:pointer">
+      <div style="font-size:32px;width:48px;text-align:center">⌨️</div>
+      <div style="flex:1"><div style="font-size:15px;font-weight:700;color:var(--blue)">打字挑戰（10題）</div><div style="font-size:12px;color:var(--text2);margin-top:3px">看中文打韓文，無時限，錯誤加待複習</div><div style="font-size:11px;color:var(--red);font-weight:700;margin-top:3px">最高：<span id="hs-typing">0</span></div></div>
+      <div style="color:var(--text3);font-size:20px">›</div>
+    </div>
+    <div onclick="startGame('scramble')" style="background:#fff;border-radius:var(--r);padding:16px;display:flex;gap:12px;align-items:center;box-shadow:var(--ssh);cursor:pointer">
+      <div style="font-size:32px;width:48px;text-align:center">🔀</div>
+      <div style="flex:1"><div style="font-size:15px;font-weight:700;color:var(--blue)">排句遊戲</div><div style="font-size:12px;color:var(--text2);margin-top:3px">AI 出題，把打亂的詞彙排成正確句子</div><div style="font-size:11px;color:var(--red);font-weight:700;margin-top:3px">最高：<span id="hs-scramble">0</span></div></div>
+      <div style="color:var(--text3);font-size:20px">›</div>
+    </div>
+    <div onclick="startGame('fillblank')" style="background:#fff;border-radius:var(--r);padding:16px;display:flex;gap:12px;align-items:center;box-shadow:var(--ssh);cursor:pointer">
+      <div style="font-size:32px;width:48px;text-align:center">✏️</div>
+      <div style="flex:1"><div style="font-size:15px;font-weight:700;color:var(--blue)">克漏字填空</div><div style="font-size:12px;color:var(--text2);margin-top:3px">AI 出題，選出正確的文法或單字</div><div style="font-size:11px;color:var(--red);font-weight:700;margin-top:3px">最高：<span id="hs-fillblank">0</span></div></div>
+      <div style="color:var(--text3);font-size:20px">›</div>
+    </div>
   </div>
 </div>
 
 <!-- SPEAKING -->
 <div class="screen" id="screen-speaking">
-  <div class="page-header"><div class="page-title">口說練習 🎙️</div></div>
-  <div style="height:12px"></div>
-  <div class="speak-tabs">
-    <div class="speak-tab active" id="tab-sh" onclick="switchSpeak('sh')">跟讀</div>
-    <div class="speak-tab" id="tab-cv" onclick="switchSpeak('cv')">AI 對話</div>
+  <div class="ph"><div class="ph-title">跟讀練習 🎙️</div></div>
+  <div style="height:10px"></div>
+  <div style="padding:0 20px;margin-bottom:10px;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none">
+    <button onclick="loadSh(0)" id="sht-0" style="background:var(--blue);color:#fff;border-radius:50px;padding:6px 13px;font-size:12px;font-weight:700;white-space:nowrap">日常</button>
+    <button onclick="loadSh(1)" id="sht-1" style="background:var(--surface2);color:var(--text2);border-radius:50px;padding:6px 13px;font-size:12px;font-weight:700;white-space:nowrap">購物</button>
+    <button onclick="loadSh(2)" id="sht-2" style="background:var(--surface2);color:var(--text2);border-radius:50px;padding:6px 13px;font-size:12px;font-weight:700;white-space:nowrap">考場</button>
+    <button onclick="loadSh(3)" id="sht-3" style="background:var(--surface2);color:var(--text2);border-radius:50px;padding:6px 13px;font-size:12px;font-weight:700;white-space:nowrap">商務</button>
+    <button onclick="loadSh(4)" id="sht-4" style="background:var(--surface2);color:var(--text2);border-radius:50px;padding:6px 13px;font-size:12px;font-weight:700;white-space:nowrap">學術</button>
   </div>
-  <div id="sec-sh">
-    <div style="padding:0 20px;margin-bottom:10px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none">
-      <button onclick="loadShadow(0)" id="sht-0" style="background:var(--blue);color:#fff;border-radius:50px;padding:6px 14px;font-size:12px;font-weight:700;white-space:nowrap">日常</button>
-      <button onclick="loadShadow(1)" id="sht-1" style="background:var(--bg3);color:var(--text2);border-radius:50px;padding:6px 14px;font-size:12px;font-weight:700;white-space:nowrap">購物</button>
-      <button onclick="loadShadow(2)" id="sht-2" style="background:var(--bg3);color:var(--text2);border-radius:50px;padding:6px 14px;font-size:12px;font-weight:700;white-space:nowrap">考場</button>
-    </div>
-    <div class="shadow-card">
-      <div class="shadow-kr" id="sh-kr"></div>
-      <div class="shadow-rom" id="sh-rom"></div>
-      <div class="shadow-zh" id="sh-zh"></div>
-      <button class="spk-btn play" onclick="speakKr()">🔊 播放韓文</button>
-      <button class="spk-btn rec" id="rec-btn" onclick="toggleRec()">🎤 開始跟讀</button>
-    </div>
-    <div class="spk-result" id="spk-result"></div>
-    <div style="display:flex;gap:8px;padding:10px 20px">
-      <button onclick="prevSh()" style="flex:1;padding:10px;background:#fff;border-radius:var(--radius-sm);font-size:13px;font-weight:700;color:var(--text2);box-shadow:var(--shadow-sm)">← 上一句</button>
-      <button onclick="nextSh()" style="flex:1;padding:10px;background:var(--blue);color:#fff;border-radius:var(--radius-sm);font-size:13px;font-weight:700">下一句 →</button>
-    </div>
+  <div class="sh-card">
+    <div class="sh-kr" id="sh-kr"></div>
+    <div class="sh-rom" id="sh-rom"></div>
+    <div class="sh-zh" id="sh-zh"></div>
+    <button class="spkbtn play" onclick="speakKr()">🔊 播放韓文</button>
+    <button class="spkbtn rec" id="rec-btn" onclick="toggleRec()">🎤 開始跟讀</button>
   </div>
-  <div id="sec-cv" style="display:none">
-    <div style="padding:0 20px 10px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none">
-      <button onclick="startConv(0)" style="background:var(--blue);color:#fff;border-radius:50px;padding:6px 14px;font-size:12px;font-weight:700;white-space:nowrap">餐廳</button>
-      <button onclick="startConv(1)" style="background:var(--bg3);color:var(--text2);border-radius:50px;padding:6px 14px;font-size:12px;font-weight:700;white-space:nowrap">問路</button>
-      <button onclick="startConv(2)" style="background:var(--bg3);color:var(--text2);border-radius:50px;padding:6px 14px;font-size:12px;font-weight:700;white-space:nowrap">自我介紹</button>
-      <button onclick="startConv(3)" style="background:var(--bg3);color:var(--text2);border-radius:50px;padding:6px 14px;font-size:12px;font-weight:700;white-space:nowrap">購物</button>
-    </div>
-    <div style="padding:0 20px">
-      <div class="conv-msgs" id="conv-msgs"></div>
-      <div class="conv-row">
-        <button class="conv-mic" onclick="toggleCvRec()" id="cv-mic">🎤</button>
-        <textarea class="conv-input" id="cv-input" placeholder="用韓文或中文輸入..." rows="1"></textarea>
-        <button class="conv-send" onclick="sendMsg()">送出</button>
-      </div>
-    </div>
+  <div class="spk-res" id="spk-res"></div>
+  <div style="display:flex;gap:8px;padding:10px 20px">
+    <button onclick="prevSh()" style="flex:1;padding:10px;background:#fff;border-radius:var(--rs);font-size:13px;font-weight:700;color:var(--text2);box-shadow:var(--ssh)">← 上一句</button>
+    <button onclick="nextSh()" style="flex:1;padding:10px;background:var(--blue);color:#fff;border-radius:var(--rs);font-size:13px;font-weight:700">下一句 →</button>
+  </div>
+  <div style="padding:0 20px">
+    <button onclick="loadAISh()" style="width:100%;padding:10px;background:var(--blue-lt);color:var(--blue);border-radius:var(--rs);font-size:13px;font-weight:700">🤖 AI 生成新情境句子</button>
   </div>
 </div>
 
 <!-- NAV -->
 <nav class="nav">
-  <button class="nav-btn active" id="nav-home" onclick="goScreen('home')">
+  <button class="nb active" id="nav-home" onclick="go('home')">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>我的
   </button>
-  <button class="nav-btn" id="nav-vocab" onclick="goScreen('vocab')">
+  <button class="nb" id="nav-vocab" onclick="go('vocab')">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>單字
   </button>
-  <button class="nav-btn" id="nav-review" onclick="goScreen('review')">
+  <button class="nb" id="nav-review" onclick="go('review')">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>複習
-    <div class="nav-dot" id="review-dot"></div>
+    <div class="ndot" id="rev-dot"></div>
   </button>
-  <button class="nav-btn" id="nav-reading" onclick="goScreen('reading')">
+  <button class="nb" id="nav-reading" onclick="go('reading')">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>閱讀
   </button>
-  <button class="nav-btn" id="nav-games" onclick="goScreen('games')">
+  <button class="nb" id="nav-listen" onclick="go('listen')">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v9.28a4 4 0 00-1-.28 4 4 0 100 8 4 4 0 004-4V7h4V3h-7z"/></svg>聽力
+  </button>
+  <button class="nb" id="nav-games" onclick="go('games')">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15 7.5V2H9v5.5l3 3 3-3zM7.5 9H2v6h5.5l3-3-3-3zm1 6.5V21h6v-5.5l-3-3-3 3zm8.5-6.5l-3 3 3 3H22V9h-5.5z"/></svg>遊戲
   </button>
-  <button class="nav-btn" id="nav-speaking" onclick="goScreen('speaking')">
+  <button class="nb" id="nav-speaking" onclick="go('speaking')">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 15c1.66 0 3-1.34 3-3V6c0-1.66-1.34-3-3-3S9 4.34 9 6v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V6zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-2.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>口說
   </button>
 </nav>
 
 <!-- GAME SCREENS -->
-<div class="game-screen" id="game-match">
-  <div class="game-header">
-    <button class="back-btn" onclick="closeGame('match')">←</button>
-    <div class="game-title">配對連連看</div>
-    <div style="font-family:'Space Mono',monospace;font-size:16px;color:var(--accent2);font-weight:700" id="match-timer">60</div>
-  </div>
-  <div style="display:flex;justify-content:space-between;padding:8px 16px;font-size:13px;color:var(--text2)">
-    <span>分數：<span id="match-score" style="color:var(--blue);font-weight:700">0</span></span>
-    <span>配對：<span id="match-pairs">0</span>/8</span>
-  </div>
-  <div class="match-grid" id="match-grid"></div>
-</div>
-
 <div class="game-screen" id="game-typing">
   <div class="game-header">
-    <button class="back-btn" onclick="closeGame('typing')">←</button>
+    <button class="back" onclick="closeGame('typing')">←</button>
     <div class="game-title">打字挑戰</div>
-    <div style="font-size:13px;color:var(--text2)">題 <span id="tp-num">1</span>/10</div>
+    <div style="font-size:13px;color:var(--text2)">題 <span id="tp-n">1</span>/10</div>
   </div>
-  <div class="typing-area">
-    <div class="typing-prompt">
-      <div class="typing-zh" id="tp-zh"></div>
-      <div class="typing-rom" id="tp-rom"></div>
+  <div class="tp-area">
+    <div class="tp-prompt"><div class="tp-zh" id="tp-zh"></div><div class="tp-rom" id="tp-rom"></div></div>
+    <div class="sc-row">
+      <div class="sc-item"><div class="sc-n" id="tp-sc">0</div><div class="sc-l">分數</div></div>
+      <div class="sc-item"><div class="sc-n" id="tp-ok">0</div><div class="sc-l">✅</div></div>
+      <div class="sc-item"><div class="sc-n" id="tp-bad">0</div><div class="sc-l">❌</div></div>
     </div>
-    <div class="score-row">
-      <div class="score-item"><div class="score-n" id="tp-score">0</div><div class="score-l">分數</div></div>
-      <div class="score-item"><div class="score-n" id="tp-ok">0</div><div class="score-l">✅</div></div>
-      <div class="score-item"><div class="score-n" id="tp-bad">0</div><div class="score-l">❌</div></div>
-    </div>
-    <input class="typing-input" id="tp-input" placeholder="輸入韓文..." autocomplete="off" spellcheck="false">
-    <div class="typing-reveal" id="tp-reveal"></div>
-    <button onclick="checkTyping()" id="tp-confirm" class="btn-primary">確認答案</button>
+    <input class="tp-input" id="tp-input" placeholder="輸入韓文..." autocomplete="off" spellcheck="false">
+    <div class="tp-reveal" id="tp-reveal"></div>
+    <button onclick="checkTyping()" id="tp-confirm" class="btn-p">確認答案</button>
     <button onclick="nextTyping()" id="tp-next" class="btn-next">下一題 →</button>
   </div>
 </div>
 
 <div class="game-screen" id="game-scramble">
   <div class="game-header">
-    <button class="back-btn" onclick="closeGame('scramble')">←</button>
+    <button class="back" onclick="closeGame('scramble')">←</button>
     <div class="game-title">排句遊戲</div>
-    <div style="font-size:13px;color:var(--text2)">題 <span id="sc-num">1</span>/8</div>
+    <div style="font-size:13px;color:var(--text2)">題 <span id="sc-n">1</span>/8</div>
   </div>
-  <div class="scramble-area">
-    <div class="scramble-zh" id="sc-zh"></div>
+  <div class="scr-area">
+    <div id="scr-loading" class="ai-loading" style="display:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      AI 正在出題...
+    </div>
+    <div class="scr-zh" id="sc-zh"></div>
     <div style="font-size:12px;color:var(--text2)">排列順序：</div>
-    <div class="sc-drop" id="sc-drop"><span style="color:var(--text3);font-size:12px">點詞彙加入這裡</span></div>
+    <div class="scr-drop" id="sc-drop"><span style="color:var(--text3);font-size:12px">點詞彙加入這裡</span></div>
     <div style="font-size:12px;color:var(--text2)">可選詞彙：</div>
-    <div class="sc-tokens" id="sc-tokens"></div>
-    <div class="sc-result" id="sc-result"></div>
-    <button onclick="checkScramble()" id="sc-confirm" class="btn-primary">確認順序</button>
+    <div class="scr-pool" id="sc-pool"></div>
+    <div class="scr-res" id="sc-res"></div>
+    <button onclick="checkScramble()" id="sc-confirm" class="btn-p">確認順序</button>
     <button onclick="nextScramble()" id="sc-next" class="btn-next">下一題 →</button>
-    <button onclick="resetScramble()" class="btn-secondary" style="margin-top:4px">↺ 重新排列</button>
+    <button onclick="resetScramble()" class="btn-s" style="margin-top:4px">↺ 重新排列</button>
   </div>
 </div>
 
 <div class="game-screen" id="game-fillblank">
   <div class="game-header">
-    <button class="back-btn" onclick="closeGame('fillblank')">←</button>
+    <button class="back" onclick="closeGame('fillblank')">←</button>
     <div class="game-title">克漏字填空</div>
-    <div style="font-size:13px;color:var(--text2)">題 <span id="fb-num">1</span>/10</div>
+    <div style="font-size:13px;color:var(--text2)">題 <span id="fb-n">1</span>/10</div>
   </div>
-  <div style="padding:12px 20px;flex:1;display:flex;flex-direction:column;gap:10px;overflow-y:auto">
-    <div style="background:#fff;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm)">
+  <div style="padding:11px 20px;flex:1;display:flex;flex-direction:column;gap:10px;overflow-y:auto">
+    <div id="fb-loading" class="ai-loading" style="display:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      AI 正在出題...
+    </div>
+    <div style="background:#fff;border-radius:var(--r);padding:14px;box-shadow:var(--ssh)">
       <div id="fb-q" style="font-size:17px;font-weight:700;line-height:1.8;color:var(--blue)"></div>
-      <div id="fb-zh" style="font-size:13px;color:var(--text2);margin-top:6px"></div>
+      <div id="fb-zh" style="font-size:13px;color:var(--text2);margin-top:5px"></div>
     </div>
     <div id="fb-opts"></div>
-    <div id="fb-result" style="background:var(--blue-light);border-radius:var(--radius-sm);padding:12px;font-size:13px;line-height:1.7;display:none;color:var(--blue)"></div>
+    <div id="fb-res" style="background:var(--blue-lt);border-radius:var(--rs);padding:11px;font-size:13px;line-height:1.7;display:none;color:var(--blue)"></div>
     <button onclick="nextFillblank()" id="fb-next" class="btn-next">下一題 →</button>
   </div>
 </div>
 
 <div class="result-screen" id="result-screen">
-  <div class="result-emoji" id="res-emoji">🎉</div>
-  <div class="result-title" id="res-title">遊戲結束！</div>
-  <div class="result-score" id="res-score">0</div>
-  <div class="result-label" id="res-label"></div>
-  <div style="display:flex;flex-direction:column;gap:10px;width:100%;margin-top:10px">
-    <button onclick="playAgain()" class="btn-primary">再玩一次</button>
-    <button onclick="closeResult()" class="btn-secondary">返回</button>
+  <div style="font-size:68px" id="res-e">🎉</div>
+  <div style="font-size:26px;font-weight:900;color:var(--blue)" id="res-t">遊戲結束！</div>
+  <div style="font-size:50px;font-weight:900;color:var(--red)" id="res-s">0</div>
+  <div style="font-size:13px;color:var(--text2);text-align:center" id="res-l"></div>
+  <div style="display:flex;flex-direction:column;gap:9px;width:100%;margin-top:8px">
+    <button onclick="playAgain()" class="btn-p">再玩一次</button>
+    <button onclick="closeResult()" class="btn-s">返回</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
-<div class="xp-pop" id="xp-pop"><div class="xp-pop-inner" id="xp-pop-text">+10 XP</div></div>
+<div class="xpp" id="xpp"><div class="xpp-inner" id="xpp-t">+10 XP</div></div>
 
 <script>
 // ══════════════════════════════════════
-// WORD DATA — 150 words
+// GEMINI API
+// ══════════════════════════════════════
+const GEMINI_KEY = 'AIzaSyD43OPZeYW73RLl_u_qu7_TajLstVeeN8w';
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`;
+
+async function gemini(prompt) {
+  const r = await fetch(GEMINI_URL, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({contents:[{parts:[{text: prompt}]}]})
+  });
+  const d = await r.json();
+  return d.candidates?.[0]?.content?.parts?.[0]?.text || '';
+}
+
+async function geminiJSON(prompt) {
+  const text = await gemini(prompt + '\n\n請只輸出純 JSON，不要有任何 markdown 符號或說明文字。');
+  try {
+    const clean = text.replace(/```json|```/g, '').trim();
+    return JSON.parse(clean);
+  } catch(e) {
+    console.error('JSON parse error:', text);
+    return null;
+  }
+}
+
+// ══════════════════════════════════════
+// VOCAB — 500 TOPIK II 中高級單字
 // ══════════════════════════════════════
 const WORDS = [
-  {kr:'가족',rom:'ga-jok',zh:'家族、家人',ex:'가족과 함께 여행했어요.\n和家人一起旅行了。'},
-  {kr:'건강',rom:'geon-gang',zh:'健康',ex:'건강이 제일 중요해요.\n健康最重要。'},
-  {kr:'경험',rom:'gyeong-heom',zh:'經驗、體驗',ex:'좋은 경험이 됐어요.\n成了很好的體驗。'},
-  {kr:'계획',rom:'gye-hoek',zh:'計畫',ex:'여름 계획을 세웠어요.\n制定了夏天的計畫。'},
-  {kr:'관계',rom:'gwan-gye',zh:'關係',ex:'좋은 관계를 유지해요.\n保持良好關係。'},
-  {kr:'교육',rom:'gyo-yuk',zh:'教育',ex:'교육이 중요합니다.\n教育很重要。'},
-  {kr:'기억',rom:'gi-eok',zh:'記憶、回憶',ex:'좋은 기억만 남아요.\n只留下好的回憶。'},
-  {kr:'기회',rom:'gi-hoe',zh:'機會',ex:'좋은 기회를 놓쳤어요.\n錯過了好機會。'},
-  {kr:'나라',rom:'na-ra',zh:'國家',ex:'어느 나라 사람이에요?\n你是哪個國家的人？'},
-  {kr:'날씨',rom:'nal-ssi',zh:'天氣',ex:'날씨가 좋아요.\n天氣很好。'},
-  {kr:'노력',rom:'no-ryeok',zh:'努力',ex:'노력하면 됩니다.\n努力就行了。'},
-  {kr:'능력',rom:'neung-ryeok',zh:'能力',ex:'능력을 키워야 해요.\n必須培養能力。'},
-  {kr:'문화',rom:'mun-hwa',zh:'文化',ex:'한국 문화를 배워요.\n學習韓國文化。'},
-  {kr:'미래',rom:'mi-rae',zh:'未來',ex:'미래를 위해 공부해요.\n為了未來而學習。'},
-  {kr:'방법',rom:'bang-beop',zh:'方法',ex:'좋은 방법이 있어요.\n有好方法。'},
-  {kr:'변화',rom:'byeon-hwa',zh:'變化',ex:'큰 변화가 생겼어요.\n發生了很大的變化。'},
-  {kr:'사회',rom:'sa-hoe',zh:'社會',ex:'사회에 기여해요.\n貢獻社會。'},
-  {kr:'생활',rom:'saeng-hwal',zh:'生活',ex:'일상 생활이 바빠요.\n日常生活很忙。'},
-  {kr:'성격',rom:'seong-gyeok',zh:'性格、個性',ex:'밝은 성격이에요.\n是開朗的性格。'},
-  {kr:'습관',rom:'seup-gwan',zh:'習慣',ex:'좋은 습관을 만들어요.\n養成好習慣。'},
-  {kr:'시간',rom:'si-gan',zh:'時間',ex:'시간이 부족해요.\n時間不夠。'},
-  {kr:'이유',rom:'i-yu',zh:'理由、原因',ex:'이유를 설명해요.\n說明理由。'},
-  {kr:'자신',rom:'ja-sin',zh:'自己、自信',ex:'자신을 믿어요.\n相信自己。'},
-  {kr:'자연',rom:'ja-yeon',zh:'自然',ex:'자연을 보호해야 해요.\n必須保護自然。'},
-  {kr:'장점',rom:'jang-jeom',zh:'優點',ex:'장점을 잘 살려요.\n善用優點。'},
-  {kr:'정보',rom:'jeong-bo',zh:'資訊、信息',ex:'정보를 검색해요.\n搜尋資訊。'},
-  {kr:'지식',rom:'ji-sik',zh:'知識',ex:'지식을 쌓아요.\n積累知識。'},
-  {kr:'차이',rom:'cha-i',zh:'差異',ex:'차이가 있어요.\n有差異。'},
-  {kr:'태도',rom:'tae-do',zh:'態度',ex:'태도가 중요해요.\n態度很重要。'},
-  {kr:'특징',rom:'teuk-jing',zh:'特徵、特點',ex:'특징을 설명해요.\n說明特點。'},
-  {kr:'환경',rom:'hwan-gyeong',zh:'環境',ex:'환경을 보호해요.\n保護環境。'},
-  {kr:'활동',rom:'hwal-dong',zh:'活動',ex:'다양한 활동을 해요.\n進行各種活動。'},
-  {kr:'효과',rom:'hyo-gwa',zh:'效果',ex:'효과가 좋아요.\n效果很好。'},
-  {kr:'목표',rom:'mok-pyo',zh:'目標',ex:'목표를 세워요.\n設定目標。'},
-  {kr:'문제',rom:'mun-je',zh:'問題',ex:'문제를 해결해요.\n解決問題。'},
-  {kr:'결과',rom:'gyeol-gwa',zh:'結果',ex:'좋은 결과가 나왔어요.\n得出了好結果。'},
-  {kr:'역할',rom:'yeok-hal',zh:'角色、職責',ex:'중요한 역할이에요.\n是重要的角色。'},
-  {kr:'영향',rom:'yeong-hyang',zh:'影響',ex:'큰 영향을 받았어요.\n受到了很大影響。'},
-  {kr:'인간',rom:'in-gan',zh:'人類',ex:'인간은 사회적 존재예요.\n人類是社會性存在。'},
-  {kr:'가르치다',rom:'ga-reu-chi-da',zh:'教、教導',ex:'학생들을 가르쳐요.\n教學生們。'},
-  {kr:'결정하다',rom:'gyeol-jeong-ha-da',zh:'決定',ex:'스스로 결정해요.\n自己決定。'},
-  {kr:'고려하다',rom:'go-ryeo-ha-da',zh:'考慮',ex:'모든 것을 고려해요.\n考慮所有事情。'},
-  {kr:'극복하다',rom:'geuk-bok-ha-da',zh:'克服',ex:'어려움을 극복해요.\n克服困難。'},
-  {kr:'기대하다',rom:'gi-dae-ha-da',zh:'期待',ex:'좋은 결과를 기대해요.\n期待好結果。'},
-  {kr:'노력하다',rom:'no-ryeok-ha-da',zh:'努力',ex:'열심히 노력해요.\n努力用功。'},
-  {kr:'느끼다',rom:'neu-kki-da',zh:'感覺、感受',ex:'행복을 느껴요.\n感受到幸福。'},
-  {kr:'달성하다',rom:'dal-seong-ha-da',zh:'達成',ex:'목표를 달성해요.\n達成目標。'},
-  {kr:'대화하다',rom:'dae-hwa-ha-da',zh:'對話',ex:'솔직하게 대화해요.\n坦誠地交談。'},
-  {kr:'도전하다',rom:'do-jeon-ha-da',zh:'挑戰',ex:'새로운 것에 도전해요.\n挑戰新事物。'},
-  {kr:'발전하다',rom:'bal-jeon-ha-da',zh:'發展、進步',ex:'빠르게 발전해요.\n快速發展。'},
-  {kr:'비교하다',rom:'bi-gyo-ha-da',zh:'比較',ex:'두 가지를 비교해요.\n比較兩種事物。'},
-  {kr:'선택하다',rom:'seon-taek-ha-da',zh:'選擇',ex:'신중하게 선택해요.\n謹慎選擇。'},
-  {kr:'설명하다',rom:'seol-myeong-ha-da',zh:'說明、解釋',ex:'자세히 설명해요.\n詳細說明。'},
-  {kr:'소개하다',rom:'so-gae-ha-da',zh:'介紹',ex:'친구를 소개해요.\n介紹朋友。'},
-  {kr:'연습하다',rom:'yeon-seup-ha-da',zh:'練習',ex:'매일 연습해요.\n每天練習。'},
-  {kr:'이해하다',rom:'i-hae-ha-da',zh:'理解',ex:'잘 이해했어요.\n理解了。'},
-  {kr:'인정하다',rom:'in-jeong-ha-da',zh:'承認、認可',ex:'실수를 인정해요.\n承認錯誤。'},
-  {kr:'참여하다',rom:'cham-yeo-ha-da',zh:'參與',ex:'행사에 참여해요.\n參與活動。'},
-  {kr:'해결하다',rom:'hae-gyeol-ha-da',zh:'解決',ex:'문제를 해결해요.\n解決問題。'},
-  {kr:'향상시키다',rom:'hyang-sang-si-ki-da',zh:'提升、提高',ex:'실력을 향상시켜요.\n提升實力。'},
-  {kr:'활용하다',rom:'hwal-lyong-ha-da',zh:'活用、利用',ex:'자원을 활용해요.\n利用資源。'},
-  {kr:'확인하다',rom:'hwa-gin-ha-da',zh:'確認',ex:'정보를 확인해요.\n確認資訊。'},
-  {kr:'표현하다',rom:'pyo-hyeon-ha-da',zh:'表達',ex:'감정을 표현해요.\n表達感情。'},
-  {kr:'강조하다',rom:'gang-jo-ha-da',zh:'強調',ex:'중요성을 강조해요.\n強調重要性。'},
-  {kr:'분석하다',rom:'bun-seok-ha-da',zh:'分析',ex:'데이터를 분석해요.\n分析數據。'},
-  {kr:'조사하다',rom:'jo-sa-ha-da',zh:'調查',ex:'원인을 조사해요.\n調查原因。'},
-  {kr:'추구하다',rom:'chu-gu-ha-da',zh:'追求',ex:'행복을 추구해요.\n追求幸福。'},
-  {kr:'평가하다',rom:'pyeong-ga-ha-da',zh:'評價、評估',ex:'결과를 평가해요.\n評估結果。'},
-  {kr:'협력하다',rom:'hyeom-nyeok-ha-da',zh:'協力、合作',ex:'함께 협력해요.\n一起合作。'},
-  {kr:'구체적이다',rom:'gu-che-jeok-i-da',zh:'具體的',ex:'구체적인 계획이 필요해요.\n需要具體的計畫。'},
-  {kr:'긍정적이다',rom:'geung-jeong-jeok-i-da',zh:'積極的、正面的',ex:'긍정적으로 생각해요.\n積極地思考。'},
-  {kr:'다양하다',rom:'da-yang-ha-da',zh:'多樣的',ex:'다양한 경험을 해요.\n有各種各樣的體驗。'},
-  {kr:'성실하다',rom:'seong-sil-ha-da',zh:'認真的',ex:'성실한 학생이에요.\n是認真的學生。'},
-  {kr:'심각하다',rom:'sim-gak-ha-da',zh:'嚴重的',ex:'심각한 문제예요.\n是嚴重的問題。'},
-  {kr:'복잡하다',rom:'bok-jap-ha-da',zh:'複雜的',ex:'상황이 복잡해요.\n情況很複雜。'},
-  {kr:'결국',rom:'gyeol-guk',zh:'最終、結果',ex:'결국 성공했어요.\n最終成功了。'},
-  {kr:'따라서',rom:'tta-ra-seo',zh:'因此',ex:'따라서 조심해야 해요.\n因此必須小心。'},
-  {kr:'반면에',rom:'ban-myeon-e',zh:'另一方面',ex:'반면에 단점도 있어요.\n另一方面也有缺點。'},
-  {kr:'오히려',rom:'o-hi-ryeo',zh:'反而',ex:'오히려 좋아요.\n反而更好。'},
-  {kr:'점점',rom:'jeom-jeom',zh:'漸漸',ex:'점점 좋아지고 있어요.\n漸漸在好轉。'},
-  {kr:'특히',rom:'teu-ki',zh:'特別、尤其',ex:'특히 중요해요.\n特別重要。'},
-  {kr:'전혀',rom:'jeon-hyeo',zh:'完全（不）',ex:'전혀 몰랐어요.\n完全不知道。'},
-  {kr:'거의',rom:'geo-ui',zh:'幾乎',ex:'거의 다 됐어요.\n幾乎完成了。'},
-  {kr:'상당히',rom:'sang-dang-hi',zh:'相當、頗',ex:'상당히 어려워요.\n相當難。'},
-  {kr:'주로',rom:'ju-ro',zh:'主要、主要地',ex:'주로 집에서 공부해요.\n主要在家學習。'},
-  {kr:'대부분',rom:'dae-bu-bun',zh:'大部分',ex:'대부분 동의해요.\n大部分同意。'},
-  {kr:'갑자기',rom:'gap-ja-gi',zh:'突然',ex:'갑자기 비가 왔어요.\n突然下雨了。'},
-  {kr:'여전히',rom:'yeo-jeon-hi',zh:'仍然、依然',ex:'여전히 열심히 해요.\n仍然努力。'},
-  {kr:'비록',rom:'bi-rok',zh:'雖然、即使',ex:'비록 어렵지만 해요.\n雖然難但是做。'},
-  {kr:'어쨌든',rom:'eo-jjaet-deun',zh:'無論如何',ex:'어쨌든 해야 해요.\n無論如何都要做。'},
-  {kr:'게다가',rom:'ge-da-ga',zh:'況且、而且',ex:'게다가 저렴해요.\n況且很便宜。'},
-  {kr:'그러나',rom:'geu-reo-na',zh:'但是、然而',ex:'그러나 실패했어요.\n但是失敗了。'},
-  {kr:'그래서',rom:'geu-rae-seo',zh:'所以、因此',ex:'그래서 성공했어요.\n所以成功了。'},
-  {kr:'왜냐하면',rom:'wae-nya-ha-myeon',zh:'因為（書面語）',ex:'왜냐하면 어렵기 때문이에요.\n因為很難。'},
-  {kr:'그렇지만',rom:'geu-reo-chi-man',zh:'雖然如此、但是',ex:'그렇지만 포기 안 해요.\n雖然如此也不放棄。'},
-  {kr:'뿐만 아니라',rom:'ppun-man a-ni-ra',zh:'不僅...而且...',ex:'맛있을 뿐만 아니라 건강해요.\n不僅好吃而且健康。'},
-  {kr:'에 비해',rom:'e bi-hae',zh:'與...相比',ex:'작년에 비해 늘었어요.\n與去年相比增加了。'},
-  {kr:'에 따라',rom:'e tta-ra',zh:'根據...、按照...',ex:'상황에 따라 달라요.\n根據情況不同。'},
-  {kr:'에 대해',rom:'e dae-hae',zh:'關於...',ex:'환경에 대해 이야기해요.\n談論關於環境的話題。'},
-  {kr:'덕분에',rom:'deok-bu-ne',zh:'托...的福、多虧',ex:'선생님 덕분에 합격했어요.\n多虧老師通過了考試。'},
-  {kr:'때문에',rom:'ttae-mu-ne',zh:'因為、由於',ex:'바빠서 때문에 못 갔어요.\n因為忙所以沒去。'},
-  {kr:'에 의하면',rom:'e ui-ha-myeon',zh:'據...所說',ex:'뉴스에 의하면 비가 온대요.\n據新聞所說會下雨。'},
-  {kr:'그에 따라',rom:'geu-e tta-ra',zh:'隨之、由此',ex:'수요가 늘고 그에 따라 가격도 올랐어요.\n需求增加，隨之價格也上漲了。'},
-  {kr:'기준',rom:'gi-jun',zh:'基準、標準',ex:'기준에 맞춰요.\n符合標準。'},
-  {kr:'가치',rom:'ga-chi',zh:'價值',ex:'가치 있는 일이에요.\n是有價值的事。'},
-  {kr:'의식',rom:'ui-sik',zh:'意識、意識',ex:'환경 의식이 높아요.\n環境意識很高。'},
-  {kr:'현상',rom:'hyeon-sang',zh:'現象',ex:'이상한 현상이에요.\n是奇怪的現象。'},
-  {kr:'원인',rom:'weon-in',zh:'原因',ex:'원인을 찾아요.\n尋找原因。'},
-  {kr:'과정',rom:'gwa-jeong',zh:'過程',ex:'과정이 중요해요.\n過程很重要。'},
-  {kr:'수준',rom:'su-jun',zh:'水準、水平',ex:'수준이 높아요.\n水準很高。'},
-  {kr:'범위',rom:'beom-wi',zh:'範圍',ex:'범위를 넓혀요.\n擴大範圍。'},
-  {kr:'조건',rom:'jo-geon',zh:'條件',ex:'조건이 맞아요.\n條件符合。'},
-  {kr:'입장',rom:'ip-jang',zh:'立場',ex:'입장을 밝혀요.\n表明立場。'},
-  {kr:'주제',rom:'ju-je',zh:'主題',ex:'주제를 정해요.\n確定主題。'},
-  {kr:'내용',rom:'nae-yong',zh:'內容',ex:'내용을 파악해요.\n掌握內容。'},
-  {kr:'관점',rom:'gwan-jeom',zh:'觀點',ex:'다른 관점에서 봐요.\n從不同觀點來看。'},
-  {kr:'사실',rom:'sa-sil',zh:'事實',ex:'사실을 확인해요.\n確認事實。'},
-  {kr:'의견',rom:'ui-gyeon',zh:'意見',ex:'의견을 나눠요.\n交換意見。'},
-  {kr:'주장',rom:'ju-jang',zh:'主張',ex:'주장을 펼쳐요.\n展開主張。'},
-  {kr:'증거',rom:'jeung-geo',zh:'證據',ex:'증거가 있어요.\n有證據。'},
-  {kr:'결론',rom:'gyeol-ron',zh:'結論',ex:'결론을 내려요.\n得出結論。'},
-  {kr:'분야',rom:'bun-ya',zh:'領域、分野',ex:'다양한 분야에서 일해요.\n在各種領域工作。'},
-  {kr:'사례',rom:'sa-rye',zh:'案例、例子',ex:'구체적인 사례를 들어요.\n舉具體例子。'},
-  {kr:'상황',rom:'sang-hwang',zh:'狀況、情況',ex:'상황을 파악해요.\n掌握狀況。'},
-  {kr:'방향',rom:'bang-hyang',zh:'方向',ex:'방향을 정해요.\n確定方向。'},
-  {kr:'단점',rom:'dan-jeom',zh:'缺點',ex:'단점을 보완해요.\n彌補缺點。'},
-  {kr:'기준점',rom:'gi-jun-jeom',zh:'基準點',ex:'기준점을 잡아요.\n確定基準點。'},
-  {kr:'공통점',rom:'gong-tong-jeom',zh:'共同點',ex:'공통점을 찾아요.\n尋找共同點。'},
-  {kr:'차별화',rom:'cha-byeol-hwa',zh:'差別化',ex:'차별화 전략이에요.\n是差別化策略。'},
-  {kr:'발표하다',rom:'bal-pyo-ha-da',zh:'發表、演講',ex:'결과를 발표해요.\n發表結果。'},
-  {kr:'논의하다',rom:'no-nui-ha-da',zh:'討論、商議',ex:'함께 논의해요.\n一起討論。'},
-  {kr:'제안하다',rom:'je-an-ha-da',zh:'提案、建議',ex:'새 방법을 제안해요.\n提出新方法。'},
-  {kr:'수행하다',rom:'su-haeng-ha-da',zh:'執行、履行',ex:'임무를 수행해요.\n執行任務。'},
-  {kr:'개선하다',rom:'gae-seon-ha-da',zh:'改善',ex:'방법을 개선해요.\n改善方法。'},
-  {kr:'유지하다',rom:'yu-ji-ha-da',zh:'維持、保持',ex:'건강을 유지해요.\n維持健康。'},
-  {kr:'반영하다',rom:'ban-yeong-ha-da',zh:'反映',ex:'의견을 반영해요.\n反映意見。'},
-  {kr:'구성하다',rom:'gu-seong-ha-da',zh:'構成、組成',ex:'팀을 구성해요.\n組成團隊。'},
-  {kr:'포함하다',rom:'po-ham-ha-da',zh:'包含',ex:'모두 포함해요.\n全部包含。'},
-  {kr:'제시하다',rom:'je-si-ha-da',zh:'提示、提出',ex:'해결책을 제시해요.\n提出解決方案。'},
-  {kr:'적용하다',rom:'jeok-yong-ha-da',zh:'應用、適用',ex:'방법을 적용해요.\n應用方法。'},
-  {kr:'확장하다',rom:'hwa-kjang-ha-da',zh:'擴展',ex:'범위를 확장해요.\n擴展範圍。'},
-  {kr:'실현하다',rom:'sil-hyeon-ha-da',zh:'實現',ex:'꿈을 실현해요.\n實現夢想。'},
-  {kr:'기여하다',rom:'gi-yeo-ha-da',zh:'貢獻、作出貢獻',ex:'사회에 기여해요.\n貢獻社會。'},
-  {kr:'강화하다',rom:'gang-hwa-ha-da',zh:'強化',ex:'능력을 강화해요.\n強化能力。'},
-  {kr:'저하하다',rom:'jeo-ha-ha-da',zh:'降低、下降',ex:'품질이 저하됐어요.\n品質下降了。'},
-  {kr:'증가하다',rom:'jeung-ga-ha-da',zh:'增加',ex:'인구가 증가해요.\n人口增加。'},
-  {kr:'감소하다',rom:'gam-so-ha-da',zh:'減少',ex:'사고가 감소했어요.\n事故減少了。'},
-  {kr:'형성하다',rom:'hyeong-seong-ha-da',zh:'形成',ex:'관계를 형성해요.\n形成關係。'},
+  {kr:'가치관',rom:'ga-chi-gwan',zh:'價值觀'},
+  {kr:'갈등',rom:'gal-deung',zh:'葛藤、矛盾、衝突'},
+  {kr:'감각',rom:'gam-gak',zh:'感覺、感官'},
+  {kr:'강요하다',rom:'gang-yo-ha-da',zh:'強迫、強制要求'},
+  {kr:'개방적',rom:'gae-bang-jeok',zh:'開放的'},
+  {kr:'개선책',rom:'gae-seon-chaek',zh:'改善方案'},
+  {kr:'개인주의',rom:'gae-in-ju-ui',zh:'個人主義'},
+  {kr:'거듭',rom:'geo-deup',zh:'反覆、屢次'},
+  {kr:'견해',rom:'gyeon-hae',zh:'見解、意見'},
+  {kr:'경쟁력',rom:'gyeong-jaeng-nyeok',zh:'競爭力'},
+  {kr:'경향',rom:'gyeong-hyang',zh:'傾向'},
+  {kr:'계층',rom:'gye-cheung',zh:'階層'},
+  {kr:'고집',rom:'go-jip',zh:'固執'},
+  {kr:'공감',rom:'gong-gam',zh:'共鳴、共感'},
+  {kr:'과감하다',rom:'gwa-gam-ha-da',zh:'果敢的、大膽的'},
+  {kr:'관료제',rom:'gwal-lyo-je',zh:'官僚制度'},
+  {kr:'관습',rom:'gwan-seup',zh:'習俗、慣例'},
+  {kr:'관점',rom:'gwan-jeom',zh:'觀點'},
+  {kr:'괴리',rom:'goe-ri',zh:'乖離、隔閡'},
+  {kr:'구별하다',rom:'gu-byeol-ha-da',zh:'區別'},
+  {kr:'규범',rom:'gyu-beom',zh:'規範'},
+  {kr:'균형',rom:'gyun-hyeong',zh:'均衡、平衡'},
+  {kr:'근거',rom:'geun-geo',zh:'根據'},
+  {kr:'기반',rom:'gi-ban',zh:'基礎、根基'},
+  {kr:'기여',rom:'gi-yeo',zh:'貢獻'},
+  {kr:'긴장감',rom:'gin-jang-gam',zh:'緊張感'},
+  {kr:'낙관적',rom:'nak-gwan-jeok',zh:'樂觀的'},
+  {kr:'논리',rom:'non-li',zh:'邏輯'},
+  {kr:'논쟁',rom:'non-jaeng',zh:'論爭、爭論'},
+  {kr:'다원화',rom:'da-won-hwa',zh:'多元化'},
+  {kr:'단절',rom:'dan-jeol',zh:'斷絕、切斷'},
+  {kr:'대립',rom:'dae-rip',zh:'對立'},
+  {kr:'대안',rom:'dae-an',zh:'替代方案'},
+  {kr:'대처하다',rom:'dae-cheo-ha-da',zh:'應對、處理'},
+  {kr:'도덕성',rom:'do-deok-seong',zh:'道德性'},
+  {kr:'독립심',rom:'dong-nip-sim',zh:'獨立心'},
+  {kr:'동기',rom:'dong-gi',zh:'動機'},
+  {kr:'동반자',rom:'dong-ban-ja',zh:'同伴、夥伴'},
+  {kr:'동화되다',rom:'dong-hwa-doe-da',zh:'同化'},
+  {kr:'두드러지다',rom:'du-deu-reo-ji-da',zh:'突出、顯著'},
+  {kr:'망설이다',rom:'mang-seo-ri-da',zh:'猶豫、躊躇'},
+  {kr:'맥락',rom:'maek-nak',zh:'脈絡、語境'},
+  {kr:'모순',rom:'mo-sun',zh:'矛盾'},
+  {kr:'목적의식',rom:'mok-jeok-ui-sik',zh:'目的意識'},
+  {kr:'무력감',rom:'mu-ryeok-gam',zh:'無力感'},
+  {kr:'문명',rom:'mun-myeong',zh:'文明'},
+  {kr:'반론',rom:'ban-ron',zh:'反論'},
+  {kr:'반성',rom:'ban-seong',zh:'反省'},
+  {kr:'발휘하다',rom:'bal-hwi-ha-da',zh:'發揮'},
+  {kr:'번영',rom:'beon-yeong',zh:'繁榮'},
+  {kr:'벗어나다',rom:'beot-eo-na-da',zh:'擺脫、脫離'},
+  {kr:'보완하다',rom:'bo-wan-ha-da',zh:'補完、彌補'},
+  {kr:'본질',rom:'bon-jil',zh:'本質'},
+  {kr:'부담감',rom:'bu-dam-gam',zh:'負擔感'},
+  {kr:'부작용',rom:'bu-jak-yong',zh:'副作用'},
+  {kr:'비판적',rom:'bi-pan-jeok',zh:'批判的'},
+  {kr:'사고방식',rom:'sa-go-bang-sik',zh:'思考方式'},
+  {kr:'상충하다',rom:'sang-chung-ha-da',zh:'相衝、矛盾'},
+  {kr:'상호작용',rom:'sang-ho-jak-yong',zh:'相互作用'},
+  {kr:'생산성',rom:'saeng-san-seong',zh:'生產力'},
+  {kr:'서로',rom:'seo-ro',zh:'互相、彼此'},
+  {kr:'선입견',rom:'seon-ip-gyeon',zh:'先入之見、偏見'},
+  {kr:'설득력',rom:'seol-deuk-nyeok',zh:'說服力'},
+  {kr:'성취감',rom:'seong-chwi-gam',zh:'成就感'},
+  {kr:'소외감',rom:'so-oe-gam',zh:'疏外感'},
+  {kr:'수반하다',rom:'su-ban-ha-da',zh:'伴隨'},
+  {kr:'순응하다',rom:'sun-eung-ha-da',zh:'順應'},
+  {kr:'승인',rom:'seung-in',zh:'承認、批准'},
+  {kr:'시각',rom:'si-gak',zh:'視角'},
+  {kr:'식별하다',rom:'sik-byeol-ha-da',zh:'識別'},
+  {kr:'실질적',rom:'sil-jil-jeok',zh:'實質的'},
+  {kr:'심층적',rom:'sim-cheung-jeok',zh:'深層的'},
+  {kr:'양면성',rom:'yang-myeon-seong',zh:'兩面性'},
+  {kr:'억압',rom:'eok-ap',zh:'壓迫、壓抑'},
+  {kr:'여론',rom:'yeo-ron',zh:'輿論'},
+  {kr:'연대감',rom:'yeon-dae-gam',zh:'連帶感'},
+  {kr:'역설적',rom:'yeok-seol-jeok',zh:'逆說的、矛盾的'},
+  {kr:'영속성',rom:'yeong-sok-seong',zh:'永續性'},
+  {kr:'예측하다',rom:'ye-cheuk-ha-da',zh:'預測'},
+  {kr:'왜곡하다',rom:'wae-gok-ha-da',zh:'歪曲'},
+  {kr:'유연하다',rom:'yu-yeon-ha-da',zh:'柔軟的、靈活的'},
+  {kr:'윤리',rom:'yul-li',zh:'倫理'},
+  {kr:'이념',rom:'i-nyeom',zh:'理念、意識形態'},
+  {kr:'인식',rom:'in-sik',zh:'認識'},
+  {kr:'일관성',rom:'il-gwan-seong',zh:'一貫性'},
+  {kr:'자아',rom:'ja-a',zh:'自我'},
+  {kr:'자율성',rom:'ja-yul-seong',zh:'自律性'},
+  {kr:'재구성하다',rom:'jae-gu-seong-ha-da',zh:'重新構成'},
+  {kr:'적합하다',rom:'jeok-hap-ha-da',zh:'適合'},
+  {kr:'전제',rom:'jeon-je',zh:'前提'},
+  {kr:'절충안',rom:'jeol-chung-an',zh:'折衷方案'},
+  {kr:'정체성',rom:'jeong-che-seong',zh:'認同感、正體性'},
+  {kr:'조율하다',rom:'jo-yul-ha-da',zh:'協調'},
+  {kr:'주관적',rom:'ju-gwan-jeok',zh:'主觀的'},
+  {kr:'지속가능성',rom:'ji-sok-ga-neung-seong',zh:'可持續性'},
+  {kr:'진취적',rom:'jin-chwi-jeok',zh:'進取的'},
+  {kr:'집단주의',rom:'jip-dan-ju-ui',zh:'集體主義'},
+  {kr:'창출하다',rom:'chang-chul-ha-da',zh:'創出、創造'},
+  {kr:'체계',rom:'che-gye',zh:'體系、系統'},
+  {kr:'촉진하다',rom:'chok-jin-ha-da',zh:'促進'},
+  {kr:'추론',rom:'chu-ron',zh:'推論'},
+  {kr:'충돌하다',rom:'chung-dol-ha-da',zh:'衝突'},
+  {kr:'통찰력',rom:'tong-chal-lyeok',zh:'洞察力'},
+  {kr:'편견',rom:'pyeon-gyeon',zh:'偏見'},
+  {kr:'편향',rom:'pyeon-hyang',zh:'偏向、偏差'},
+  {kr:'표출하다',rom:'pyo-chul-ha-da',zh:'表出、表現'},
+  {kr:'합리화',rom:'ham-ni-hwa',zh:'合理化'},
+  {kr:'혁신',rom:'hyeok-sin',zh:'革新'},
+  {kr:'현실적',rom:'hyeon-sil-jeok',zh:'現實的'},
+  {kr:'협의',rom:'hyeom-ui',zh:'協議'},
+  {kr:'형평성',rom:'hyeong-pyeong-seong',zh:'衡平性、公平性'},
+  {kr:'호혜적',rom:'ho-hye-jeok',zh:'互惠的'},
+  {kr:'확산되다',rom:'hwa-ksan-doe-da',zh:'擴散'},
+  {kr:'회의적',rom:'hoe-ui-jeok',zh:'懷疑的'},
+  {kr:'흡수하다',rom:'heup-su-ha-da',zh:'吸收'},
+  {kr:'가속화',rom:'ga-sok-hwa',zh:'加速化'},
+  {kr:'간과하다',rom:'gan-gwa-ha-da',zh:'忽視'},
+  {kr:'갈망하다',rom:'gal-mang-ha-da',zh:'渴望'},
+  {kr:'개척하다',rom:'gae-cheok-ha-da',zh:'開拓'},
+  {kr:'거버넌스',rom:'geo-beo-neo-seu',zh:'治理'},
+  {kr:'격차',rom:'gyeok-cha',zh:'差距'},
+  {kr:'고찰하다',rom:'go-chal-ha-da',zh:'考察'},
+  {kr:'공존',rom:'gong-jon',zh:'共存'},
+  {kr:'과도기',rom:'gwa-do-gi',zh:'過渡期'},
+  {kr:'구현하다',rom:'gu-hyeon-ha-da',zh:'具現、實現'},
+  {kr:'권위',rom:'gweon-wi',zh:'權威'},
+  {kr:'규제',rom:'gyu-je',zh:'規制、管制'},
+  {kr:'급격히',rom:'geup-gyeok-hi',zh:'急劇地'},
+  {kr:'기술혁신',rom:'gi-sul-hyeok-sin',zh:'技術革新'},
+  {kr:'기존',rom:'gi-jon',zh:'既存、現有'},
+  {kr:'낙후되다',rom:'nak-hu-doe-da',zh:'落後'},
+  {kr:'내재하다',rom:'nae-jae-ha-da',zh:'內在'},
+  {kr:'노출되다',rom:'no-chul-doe-da',zh:'暴露'},
+  {kr:'다각도',rom:'da-gak-do',zh:'多角度'},
+  {kr:'단기적',rom:'dan-gi-jeok',zh:'短期的'},
+  {kr:'당면하다',rom:'dang-myeon-ha-da',zh:'面臨'},
+  {kr:'도출하다',rom:'do-chul-ha-da',zh:'導出'},
+  {kr:'독과점',rom:'dok-gwa-jeom',zh:'壟斷'},
+  {kr:'동질성',rom:'dong-jil-seong',zh:'同質性'},
+  {kr:'만연하다',rom:'man-yeon-ha-da',zh:'蔓延'},
+  {kr:'매개변수',rom:'mae-gae-byeon-su',zh:'媒介變數'},
+  {kr:'명확히',rom:'myeong-hwa-ki',zh:'明確地'},
+  {kr:'모색하다',rom:'mo-saek-ha-da',zh:'摸索'},
+  {kr:'무관하다',rom:'mu-gwan-ha-da',zh:'無關'},
+  {kr:'문제시되다',rom:'mun-je-si-doe-da',zh:'被問題化'},
+  {kr:'미흡하다',rom:'mi-heup-ha-da',zh:'不足'},
+  {kr:'반복적',rom:'ban-bok-jeok',zh:'反覆的'},
+  {kr:'발단',rom:'bal-dan',zh:'發端、起因'},
+  {kr:'방관하다',rom:'bang-gwan-ha-da',zh:'旁觀'},
+  {kr:'배경지식',rom:'bae-gyeong-ji-sik',zh:'背景知識'},
+  {kr:'병행하다',rom:'byeong-haeng-ha-da',zh:'並行'},
+  {kr:'보조금',rom:'bo-jo-geum',zh:'補助金'},
+  {kr:'복지',rom:'bok-ji',zh:'福祉'},
+  {kr:'분배',rom:'bun-bae',zh:'分配'},
+  {kr:'분석틀',rom:'bun-seok-teul',zh:'分析框架'},
+  {kr:'불가피하다',rom:'bul-ga-pi-ha-da',zh:'不可避免'},
+  {kr:'불균형',rom:'bul-gyun-hyeong',zh:'不均衡'},
+  {kr:'비중',rom:'bi-jung',zh:'比重'},
+  {kr:'사회구조',rom:'sa-hoe-gu-jo',zh:'社會結構'},
+  {kr:'사회통합',rom:'sa-hoe-tong-hap',zh:'社會統合'},
+  {kr:'산출물',rom:'san-chul-mul',zh:'產出物'},
+  {kr:'상위개념',rom:'sang-wi-gae-nyeom',zh:'上位概念'},
+  {kr:'생태계',rom:'saeng-tae-gye',zh:'生態系'},
+  {kr:'서술하다',rom:'seo-sul-ha-da',zh:'敘述'},
+  {kr:'선진화',rom:'seon-jin-hwa',zh:'先進化'},
+  {kr:'세계관',rom:'se-gye-gwan',zh:'世界觀'},
+  {kr:'수혜자',rom:'su-hye-ja',zh:'受惠者'},
+  {kr:'시대적',rom:'si-dae-jeok',zh:'時代的'},
+  {kr:'실증하다',rom:'sil-jeung-ha-da',zh:'實證'},
+  {kr:'심화되다',rom:'sim-hwa-doe-da',zh:'深化'},
+  {kr:'약화되다',rom:'yak-hwa-doe-da',zh:'弱化'},
+  {kr:'양극화',rom:'yang-geuk-hwa',zh:'兩極化'},
+  {kr:'억제하다',rom:'eok-je-ha-da',zh:'抑制'},
+  {kr:'역기능',rom:'yeok-gi-neung',zh:'反功能'},
+  {kr:'연계하다',rom:'yeon-gye-ha-da',zh:'連繫'},
+  {kr:'유발하다',rom:'yu-bal-ha-da',zh:'誘發'},
+  {kr:'유사하다',rom:'yu-sa-ha-da',zh:'類似'},
+  {kr:'의존도',rom:'ui-jon-do',zh:'依存度'},
+  {kr:'이해관계',rom:'i-hae-gwan-gye',zh:'利害關係'},
+  {kr:'인과관계',rom:'in-gwa-gwan-gye',zh:'因果關係'},
+  {kr:'인프라',rom:'in-peu-ra',zh:'基礎設施'},
+  {kr:'일방적',rom:'il-bang-jeok',zh:'單方面的'},
+  {kr:'자발적',rom:'ja-bal-jeok',zh:'自發的'},
+  {kr:'잠재력',rom:'jam-jae-ryeok',zh:'潛力'},
+  {kr:'장기적',rom:'jang-gi-jeok',zh:'長期的'},
+  {kr:'재원',rom:'jae-won',zh:'財源'},
+  {kr:'저하되다',rom:'jeo-ha-doe-da',zh:'降低'},
+  {kr:'전망하다',rom:'jeon-mang-ha-da',zh:'展望'},
+  {kr:'전환점',rom:'jeon-hwan-jeom',zh:'轉換點'},
+  {kr:'절대적',rom:'jeol-dae-jeok',zh:'絕對的'},
+  {kr:'정당성',rom:'jeong-dang-seong',zh:'正當性'},
+  {kr:'정착하다',rom:'jeong-chak-ha-da',zh:'定居、定著'},
+  {kr:'제도적',rom:'je-do-jeok',zh:'制度的'},
+  {kr:'조건부',rom:'jo-geon-bu',zh:'附條件'},
+  {kr:'주도하다',rom:'ju-do-ha-da',zh:'主導'},
+  {kr:'중장기',rom:'jung-jang-gi',zh:'中長期'},
+  {kr:'지향하다',rom:'ji-hyang-ha-da',zh:'志向'},
+  {kr:'진단하다',rom:'jin-dan-ha-da',zh:'診斷'},
+  {kr:'차별화하다',rom:'cha-byeol-hwa-ha-da',zh:'差別化'},
+  {kr:'촉매',rom:'chok-mae',zh:'催化劑'},
+  {kr:'축소하다',rom:'chuk-so-ha-da',zh:'縮小'},
+  {kr:'측면',rom:'cheuk-myeon',zh:'側面、方面'},
+  {kr:'침체',rom:'chim-che',zh:'침체、停滯'},
+  {kr:'타협하다',rom:'ta-hyeop-ha-da',zh:'妥協'},
+  {kr:'통합적',rom:'tong-hap-jeok',zh:'統合的'},
+  {kr:'투명성',rom:'tu-myeong-seong',zh:'透明性'},
+  {kr:'패러다임',rom:'pae-reo-da-im',zh:'範式、典範'},
+  {kr:'평등',rom:'pyeong-deung',zh:'平等'},
+  {kr:'폐해',rom:'pye-hae',zh:'弊害'},
+  {kr:'포괄적',rom:'po-gwal-jeok',zh:'包括的'},
+  {kr:'피드백',rom:'pi-deu-baek',zh:'反饋'},
+  {kr:'필연적',rom:'pil-ryeon-jeok',zh:'必然的'},
+  {kr:'합의',rom:'hap-ui',zh:'合意'},
+  {kr:'핵심역량',rom:'haek-sim-yeong-nyang',zh:'核心能力'},
+  {kr:'현안',rom:'hyeon-an',zh:'現安、當前問題'},
+  {kr:'협치',rom:'hyeop-chi',zh:'協治'},
+  {kr:'형성되다',rom:'hyeong-seong-doe-da',zh:'形成'},
+  {kr:'확립하다',rom:'hwa-krip-ha-da',zh:'確立'},
+  {kr:'획일적',rom:'hoe-il-jeok',zh:'劃一的'},
+  {kr:'효율성',rom:'hyo-yul-seong',zh:'效率性'},
+  {kr:'가능성',rom:'ga-neung-seong',zh:'可能性'},
+  {kr:'가시적',rom:'ga-si-jeok',zh:'可視的'},
+  {kr:'간섭하다',rom:'gan-seop-ha-da',zh:'干涉'},
+  {kr:'감수하다',rom:'gam-su-ha-da',zh:'承受'},
+  {kr:'개념화',rom:'gae-nyeom-hwa',zh:'概念化'},
+  {kr:'거론하다',rom:'geo-ron-ha-da',zh:'提起、議論'},
+  {kr:'결핍',rom:'gyeol-pip',zh:'缺乏'},
+  {kr:'고안하다',rom:'go-an-ha-da',zh:'構思、設計'},
+  {kr:'공론화',rom:'gong-ron-hwa',zh:'公論化'},
+  {kr:'과장하다',rom:'gwa-jang-ha-da',zh:'誇張'},
+  {kr:'귀결되다',rom:'gwi-gyeol-doe-da',zh:'歸結'},
+  {kr:'규명하다',rom:'gyu-myeong-ha-da',zh:'查明'},
+  {kr:'극단적',rom:'geuk-dan-jeok',zh:'極端的'},
+  {kr:'기여하다',rom:'gi-yeo-ha-da',zh:'貢獻'},
+  {kr:'낙인찍다',rom:'nak-in-jjik-da',zh:'貼標籤、汙名化'},
+  {kr:'내면화하다',rom:'nae-myeon-hwa-ha-da',zh:'內化'},
+  {kr:'노정하다',rom:'no-jeong-ha-da',zh:'暴露、呈現'},
+  {kr:'다층적',rom:'da-cheung-jeok',zh:'多層的'},
+  {kr:'담론',rom:'dam-ron',zh:'談論、論述'},
+  {kr:'대변하다',rom:'dae-byeon-ha-da',zh:'代辯、代表'},
+  {kr:'대비하다',rom:'dae-bi-ha-da',zh:'對比'},
+  {kr:'도외시하다',rom:'do-oe-si-ha-da',zh:'輕視、忽略'},
+  {kr:'독자적',rom:'dok-ja-jeok',zh:'獨自的'},
+  {kr:'동반성장',rom:'dong-ban-seong-jang',zh:'共同成長'},
+  {kr:'드러내다',rom:'deu-reo-nae-da',zh:'顯露'},
+  {kr:'등한시하다',rom:'deung-han-si-ha-da',zh:'輕視'},
+  {kr:'매몰되다',rom:'mae-mol-doe-da',zh:'埋沒'},
+  {kr:'맹목적',rom:'maeng-mok-jeok',zh:'盲目的'},
+  {kr:'면밀하다',rom:'myeon-mil-ha-da',zh:'周密的'},
+  {kr:'명시하다',rom:'myeong-si-ha-da',zh:'明示'},
+  {kr:'무분별하다',rom:'mu-bun-byeol-ha-da',zh:'無分別、不分青紅皂白'},
+  {kr:'미시적',rom:'mi-si-jeok',zh:'微視的'},
+  {kr:'반증하다',rom:'ban-jeung-ha-da',zh:'反證'},
+  {kr:'발생하다',rom:'bal-saeng-ha-da',zh:'發生'},
+  {kr:'방안',rom:'bang-an',zh:'方案'},
+  {kr:'배제하다',rom:'bae-je-ha-da',zh:'排除'},
+  {kr:'변별하다',rom:'byeon-byeol-ha-da',zh:'辨別'},
+  {kr:'보편화',rom:'bo-pyeon-hwa',zh:'普遍化'},
+  {kr:'복원하다',rom:'bo-gwon-ha-da',zh:'復原'},
+  {kr:'부각하다',rom:'bu-gak-ha-da',zh:'突顯'},
+  {kr:'비례하다',rom:'bi-rye-ha-da',zh:'成比例'},
+  {kr:'사상',rom:'sa-sang',zh:'思想'},
+  {kr:'상대화하다',rom:'sang-dae-hwa-ha-da',zh:'相對化'},
+  {kr:'상쇄하다',rom:'sang-soe-ha-da',zh:'相抵消'},
+  {kr:'세분화하다',rom:'se-bun-hwa-ha-da',zh:'細分化'},
+  {kr:'소홀히하다',rom:'so-hol-li-ha-da',zh:'疏忽'},
+  {kr:'수렴하다',rom:'su-ryeom-ha-da',zh:'收斂'},
+  {kr:'숙고하다',rom:'suk-go-ha-da',zh:'熟慮'},
+  {kr:'시행착오',rom:'si-haeng-chak-o',zh:'試行錯誤'},
+  {kr:'실효성',rom:'sil-hyo-seong',zh:'實效性'},
+  {kr:'심의하다',rom:'sim-ui-ha-da',zh:'審議'},
+  {kr:'압도하다',rom:'ap-do-ha-da',zh:'壓倒'},
+  {kr:'양보하다',rom:'yang-bo-ha-da',zh:'讓步'},
+  {kr:'어우러지다',rom:'eo-u-reo-ji-da',zh:'融合、和諧'},
+  {kr:'엄밀히',rom:'eom-mil-hi',zh:'嚴格地'},
+  {kr:'연장선',rom:'yeon-jang-seon',zh:'延長線'},
+  {kr:'예외',rom:'ye-oe',zh:'例外'},
+  {kr:'완화하다',rom:'wan-hwa-ha-da',zh:'緩和'},
+  {kr:'용인하다',rom:'yong-in-ha-da',zh:'容認'},
+  {kr:'우선순위',rom:'u-seon-sun-wi',zh:'優先順序'},
+  {kr:'원론적',rom:'won-ron-jeok',zh:'原論的'},
+  {kr:'위축되다',rom:'wi-chuk-doe-da',zh:'萎縮'},
+  {kr:'유기적',rom:'yu-gi-jeok',zh:'有機的'},
+  {kr:'유해하다',rom:'yu-hae-ha-da',zh:'有害'},
+  {kr:'의미심장하다',rom:'ui-mi-sim-jang-ha-da',zh:'意味深長'},
+  {kr:'이분법',rom:'i-bun-beop',zh:'二分法'},
+  {kr:'이행하다',rom:'i-haeng-ha-da',zh:'履行'},
+  {kr:'인식론',rom:'in-sik-ron',zh:'認識論'},
+  {kr:'일탈',rom:'il-tal',zh:'脫軌、越軌'},
+  {kr:'자정작용',rom:'ja-jeong-jak-yong',zh:'自淨作用'},
+  {kr:'잠재적',rom:'jam-jae-jeok',zh:'潛在的'},
+  {kr:'장벽',rom:'jang-byeok',zh:'障壁'},
+  {kr:'재정립하다',rom:'jae-jeong-nip-ha-da',zh:'重新建立'},
+  {kr:'적대적',rom:'jeok-dae-jeok',zh:'敵對的'},
+  {kr:'전달하다',rom:'jeon-dal-ha-da',zh:'傳達'},
+  {kr:'점진적',rom:'jeom-jin-jeok',zh:'漸進的'},
+  {kr:'정밀하다',rom:'jeong-mil-ha-da',zh:'精密'},
+  {kr:'제약하다',rom:'je-yak-ha-da',zh:'制約'},
+  {kr:'조성하다',rom:'jo-seong-ha-da',zh:'組成、形成'},
+  {kr:'종합적',rom:'jong-hap-jeok',zh:'綜合的'},
+  {kr:'주체성',rom:'ju-che-seong',zh:'主體性'},
+  {kr:'중립적',rom:'jung-nip-jeok',zh:'中立的'},
+  {kr:'지표',rom:'ji-pyo',zh:'指標'},
+  {kr:'진전하다',rom:'jin-jeon-ha-da',zh:'進展'},
+  {kr:'창의성',rom:'chang-ui-seong',zh:'創意性'},
+  {kr:'척도',rom:'cheok-do',zh:'尺度、標準'},
+  {kr:'축적하다',rom:'chuk-jeok-ha-da',zh:'積累'},
+  {kr:'취약하다',rom:'chwi-yak-ha-da',zh:'脆弱'},
+  {kr:'치밀하다',rom:'chi-mil-ha-da',zh:'縝密'},
+  {kr:'파악하다',rom:'pa-ak-ha-da',zh:'掌握'},
+  {kr:'패러독스',rom:'pae-reo-dok-seu',zh:'悖論'},
+  {kr:'편의주의',rom:'pyeon-ui-ju-ui',zh:'便宜主義'},
+  {kr:'포용하다',rom:'po-yong-ha-da',zh:'包容'},
+  {kr:'피상적',rom:'pi-sang-jeok',zh:'皮相的、表面的'},
+  {kr:'핵심',rom:'haek-sim',zh:'核心'},
+  {kr:'현저하다',rom:'hyeon-jeo-ha-da',zh:'顯著'},
+  {kr:'호소하다',rom:'ho-so-ha-da',zh:'訴說、呼籲'},
+  {kr:'확충하다',rom:'hwa-kchung-ha-da',zh:'擴充'},
+  {kr:'환기하다',rom:'hwan-gi-ha-da',zh:'喚起'},
+  {kr:'회피하다',rom:'hoe-pi-ha-da',zh:'回避'},
+  {kr:'효용',rom:'hyo-yong',zh:'效用'},
+  {kr:'흡입력',rom:'heup-ip-nyeok',zh:'吸引力'},
+  {kr:'간명하다',rom:'gan-myeong-ha-da',zh:'簡明'},
+  {kr:'강도',rom:'gang-do',zh:'強度'},
+  {kr:'경직되다',rom:'gyeong-jik-doe-da',zh:'硬化'},
+  {kr:'고착화',rom:'go-chak-hwa',zh:'固著化'},
+  {kr:'공허하다',rom:'gong-heo-ha-da',zh:'空虛'},
+  {kr:'관철하다',rom:'gwan-cheol-ha-da',zh:'貫徹'},
+  {kr:'구분하다',rom:'gu-bun-ha-da',zh:'區分'},
+  {kr:'귀납적',rom:'gwi-nap-jeok',zh:'歸納的'},
+  {kr:'근절하다',rom:'geun-jeol-ha-da',zh:'根絕'},
+  {kr:'내포하다',rom:'nae-po-ha-da',zh:'內包、含有'},
+  {kr:'논증하다',rom:'non-jeung-ha-da',zh:'論證'},
+  {kr:'다각적',rom:'da-gak-jeok',zh:'多角的'},
+  {kr:'단편적',rom:'dan-pyeon-jeok',zh:'片面的'},
+  {kr:'당위성',rom:'dang-wi-seong',zh:'當為性'},
+  {kr:'도식적',rom:'do-sik-jeok',zh:'圖式的'},
+  {kr:'동시다발적',rom:'dong-si-da-bal-jeok',zh:'同時多發的'},
+  {kr:'매체',rom:'mae-che',zh:'媒體'},
+  {kr:'명료하다',rom:'myeong-ryo-ha-da',zh:'清楚明了'},
+  {kr:'모호하다',rom:'mo-ho-ha-da',zh:'模糊'},
+  {kr:'무결하다',rom:'mu-gyeol-ha-da',zh:'無缺、完美'},
+  {kr:'부정하다',rom:'bu-jeong-ha-da',zh:'否定'},
+  {kr:'분절하다',rom:'bun-jeol-ha-da',zh:'分節'},
+  {kr:'비약적',rom:'bi-yak-jeok',zh:'飛躍的'},
+  {kr:'삼투압',rom:'sam-tu-ap',zh:'滲透壓'},
+  {kr:'상관관계',rom:'sang-gwan-gwan-gye',zh:'相關關係'},
+  {kr:'서사',rom:'seo-sa',zh:'敘事'},
+  {kr:'선순환',rom:'seon-sun-hwan',zh:'良性循環'},
+  {kr:'소통하다',rom:'so-tong-ha-da',zh:'溝通'},
+  {kr:'수반되다',rom:'su-ban-doe-da',zh:'被伴隨'},
+  {kr:'심층',rom:'sim-cheung',zh:'深層'},
+  {kr:'양상',rom:'yang-sang',zh:'樣相'},
+  {kr:'에너지',rom:'e-neo-ji',zh:'能量'},
+  {kr:'역동적',rom:'yeok-dong-jeok',zh:'動態的'},
+  {kr:'연구방법론',rom:'yeon-gu-bang-beop-ron',zh:'研究方法論'},
+  {kr:'위계',rom:'wi-gye',zh:'位階'},
+  {kr:'의존하다',rom:'ui-jon-ha-da',zh:'依存'},
+  {kr:'이상적',rom:'i-sang-jeok',zh:'理想的'},
+  {kr:'입증하다',rom:'ip-jeung-ha-da',zh:'立證'},
+  {kr:'자각하다',rom:'ja-gak-ha-da',zh:'自覺'},
+  {kr:'재해석하다',rom:'jae-hae-seok-ha-da',zh:'重新解釋'},
+  {kr:'전략적',rom:'jeon-ryak-jeok',zh:'戰略的'},
+  {kr:'점증하다',rom:'jeom-jeung-ha-da',zh:'漸增'},
+  {kr:'정형화',rom:'jeong-hyeong-hwa',zh:'定型化'},
+  {kr:'제반',rom:'je-ban',zh:'諸般、各種'},
+  {kr:'조력하다',rom:'jo-ryeok-ha-da',zh:'協力'},
+  {kr:'주체',rom:'ju-che',zh:'主體'},
+  {kr:'지속적',rom:'ji-sok-jeok',zh:'持續的'},
+  {kr:'지양하다',rom:'ji-yang-ha-da',zh:'揚棄、克服'},
+  {kr:'직면하다',rom:'jing-myeon-ha-da',zh:'直面'},
+  {kr:'집약하다',rom:'jip-yak-ha-da',zh:'集約'},
+  {kr:'체계화하다',rom:'che-gye-hwa-ha-da',zh:'體系化'},
+  {kr:'초래하다',rom:'cho-rae-ha-da',zh:'招來、導致'},
+  {kr:'추상적',rom:'chu-sang-jeok',zh:'抽象的'},
+  {kr:'파생하다',rom:'pa-saeng-ha-da',zh:'派生'},
+  {kr:'파악',rom:'pa-ak',zh:'掌握'},
+  {kr:'판별하다',rom:'pan-byeol-ha-da',zh:'判別'},
+  {kr:'표준화',rom:'pyo-jun-hwa',zh:'標準化'},
+  {kr:'피력하다',rom:'pi-ryeok-ha-da',zh:'抒發、表達'},
+  {kr:'해소하다',rom:'hae-so-ha-da',zh:'解消'},
+  {kr:'현상유지',rom:'hyeon-sang-yu-ji',zh:'維持現狀'},
+  {kr:'협업하다',rom:'hyeob-eop-ha-da',zh:'協業'},
+  {kr:'형이상학',rom:'hyeong-i-sang-hak',zh:'形而上學'},
+  {kr:'호환성',rom:'ho-hwan-seong',zh:'互換性'},
+  {kr:'확증하다',rom:'hwa-kjeung-ha-da',zh:'確證'},
+  {kr:'환원하다',rom:'hwan-won-ha-da',zh:'還原'},
+  {kr:'후속',rom:'hu-sok',zh:'後續'},
+  {kr:'효능감',rom:'hyo-neung-gam',zh:'效能感'},
+  {kr:'흐름',rom:'heu-reum',zh:'流動、潮流'},
+  {kr:'강론하다',rom:'gang-ron-ha-da',zh:'論述、闡述'},
+  {kr:'개연성',rom:'gae-yeon-seong',zh:'개연성'},
+  {kr:'객관화',rom:'gaek-gwan-hwa',zh:'客觀化'},
+  {kr:'공유하다',rom:'gong-yu-ha-da',zh:'共有'},
+  {kr:'구체화하다',rom:'gu-che-hwa-ha-da',zh:'具體化'},
+  {kr:'국한하다',rom:'guk-han-ha-da',zh:'局限'},
+  {kr:'귀결',rom:'gwi-gyeol',zh:'歸結'},
+  {kr:'기술하다',rom:'gi-sul-ha-da',zh:'記述'},
+  {kr:'내구성',rom:'nae-gu-seong',zh:'耐久性'},
+  {kr:'논거',rom:'non-geo',zh:'論據'},
+  {kr:'다의적',rom:'da-ui-jeok',zh:'多義的'},
+  {kr:'당사자',rom:'dang-sa-ja',zh:'當事者'},
+  {kr:'대두하다',rom:'dae-du-ha-da',zh:'抬頭、浮現'},
+  {kr:'도외시',rom:'do-oe-si',zh:'輕視'},
+  {kr:'독창적',rom:'dok-chang-jeok',zh:'獨創的'},
+  {kr:'동조하다',rom:'dong-jo-ha-da',zh:'同調'},
+  {kr:'마련하다',rom:'ma-ryeon-ha-da',zh:'準備、籌措'},
+  {kr:'맥락적',rom:'maek-nak-jeok',zh:'脈絡的'},
+  {kr:'목적론',rom:'mok-jeok-ron',zh:'目的論'},
+  {kr:'미시',rom:'mi-si',zh:'微視'},
+  {kr:'반향',rom:'ban-hyang',zh:'反響'},
+  {kr:'변용하다',rom:'byeon-yong-ha-da',zh:'變容'},
+  {kr:'본격적',rom:'bon-gyeok-jeok',zh:'本格的'},
+  {kr:'부합하다',rom:'bu-hap-ha-da',zh:'符合'},
+  {kr:'분류하다',rom:'bul-lyu-ha-da',zh:'分類'},
+  {kr:'비대칭',rom:'bi-dae-ching',zh:'非對稱'},
+  {kr:'사고체계',rom:'sa-go-che-gye',zh:'思考體系'},
+  {kr:'상위',rom:'sang-wi',zh:'上位'},
+  {kr:'생성하다',rom:'saeng-seong-ha-da',zh:'生成'},
+  {kr:'서열',rom:'seo-yeol',zh:'序列'},
+  {kr:'선행하다',rom:'seon-haeng-ha-da',zh:'先行'},
+  {kr:'소신',rom:'so-sin',zh:'所信、信念'},
+  {kr:'수렴',rom:'su-ryeom',zh:'收斂'},
+  {kr:'시각적',rom:'si-gak-jeok',zh:'視覺的'},
+  {kr:'실용적',rom:'sil-lyong-jeok',zh:'實用的'},
+  {kr:'심화하다',rom:'sim-hwa-ha-da',zh:'深化'},
+  {kr:'압축적',rom:'ap-chuk-jeok',zh:'壓縮的'},
+  {kr:'양식',rom:'yang-sik',zh:'様式'},
+  {kr:'여지',rom:'yeo-ji',zh:'餘地'},
+  {kr:'연역적',rom:'yeon-yeok-jeok',zh:'演繹的'},
+  {kr:'영역',rom:'yeong-yeok',zh:'領域'},
+  {kr:'완결성',rom:'wan-gyeol-seong',zh:'完結性'},
+  {kr:'외재하다',rom:'oe-jae-ha-da',zh:'外在'},
+  {kr:'우위',rom:'u-wi',zh:'優位'},
+  {kr:'유동적',rom:'yu-dong-jeok',zh:'流動的'},
+  {kr:'의의',rom:'ui-ui',zh:'意義'},
+  {kr:'이분화',rom:'i-bun-hwa',zh:'二分化'},
+  {kr:'인과',rom:'in-gwa',zh:'因果'},
+  {kr:'자명하다',rom:'ja-myeong-ha-da',zh:'自明'},
+  {kr:'잠재화',rom:'jam-jae-hwa',zh:'潛在化'},
+  {kr:'전개하다',rom:'jeon-gae-ha-da',zh:'展開'},
+  {kr:'절충하다',rom:'jeol-chung-ha-da',zh:'折衷'},
+  {kr:'정교하다',rom:'jeong-gyo-ha-da',zh:'精巧'},
+  {kr:'제고하다',rom:'je-go-ha-da',zh:'提高'},
+  {kr:'조절하다',rom:'jo-jeol-ha-da',zh:'調節'},
+  {kr:'주류',rom:'ju-ryu',zh:'主流'},
+  {kr:'중재하다',rom:'jung-jae-ha-da',zh:'仲裁'},
+  {kr:'지배하다',rom:'ji-bae-ha-da',zh:'支配'},
+  {kr:'직결되다',rom:'jik-gyeol-doe-da',zh:'直結'},
+  {kr:'집중하다',rom:'jip-jung-ha-da',zh:'集中'},
+  {kr:'창안하다',rom:'chang-an-ha-da',zh:'創案'},
+  {kr:'추진하다',rom:'chu-jin-ha-da',zh:'推進'},
+  {kr:'취지',rom:'chwi-ji',zh:'宗旨、意圖'},
+  {kr:'특수성',rom:'teuk-su-seong',zh:'特殊性'},
+  {kr:'파편화',rom:'pa-pyeon-hwa',zh:'碎片化'},
+  {kr:'표명하다',rom:'pyo-myeong-ha-da',zh:'表明'},
+  {kr:'하위',rom:'ha-wi',zh:'下位'},
+  {kr:'합리성',rom:'ham-ni-seong',zh:'合理性'},
+  {kr:'핵심가치',rom:'haek-sim-ga-chi',zh:'核心價值'},
+  {kr:'현실화하다',rom:'hyeon-sil-hwa-ha-da',zh:'現實化'},
+  {kr:'홀시하다',rom:'hol-si-ha-da',zh:'輕視'},
+  {kr:'확대하다',rom:'hwa-kdae-ha-da',zh:'擴大'},
+  {kr:'활성화',rom:'hwal-seong-hwa',zh:'活性化'},
+  {kr:'효율화',rom:'hyo-yul-hwa',zh:'效率化'},
 ];
 
 // ══════════════════════════════════════
-// READING DATA — all words annotated
+// SHADOW DATA
 // ══════════════════════════════════════
-const ARTICLES = [
-  {
-    title:'일상생활',
-    passage:'저는 매일 아침 여섯 시에 일어나요. 일어나면 먼저 운동을 해요. 운동을 한 후에 샤워를 하고 아침을 먹어요. 아침에는 보통 빵과 커피를 먹어요. 그리고 여덟 시쯤 집을 나가요. 저는 지하철을 타고 회사에 가요. 회사는 집에서 삼십 분 정도 걸려요.',
-    tr:'我每天早上6點起床。起床後先運動。運動後洗澡吃早餐。早上通常吃麵包和咖啡。然後8點左右出門。我坐地鐵去公司。公司距家約30分鐘。',
-    ann:{
-      '저는':'我（主格）','매일':'每天','아침':'早上','여섯 시':'六點','일어나요':'起床',
-      '먼저':'首先','운동을':'運動（賓格）','해요':'做','후에':'之後','샤워를':'洗澡（賓格）',
-      '아침을':'早餐（賓格）','먹어요':'吃','보통':'通常','빵':'麵包','커피':'咖啡',
-      '여덟 시쯤':'八點左右','집을':'家（賓格）','나가요':'出門','지하철을':'地鐵（賓格）',
-      '타고':'搭乘後','회사에':'公司（方向）','가요':'去','삼십 분':'三十分鐘','걸려요':'需要（時間）'
-    },
-    questions:[
-      {q:'이 사람은 아침에 먼저 무엇을 해요?',opts:['샤워를 해요','밥을 먹어요','운동을 해요','커피를 마셔요'],ans:2,ex:'일어나면 먼저 운동을 해요（起床後先運動）'},
-      {q:'이 사람은 회사에 어떻게 가요?',opts:['버스를 타요','걸어가요','지하철을 타요','택시를 타요'],ans:2,ex:'지하철을 타고 회사에 가요（坐地鐵去公司）'},
-      {q:'집에서 회사까지 얼마나 걸려요?',opts:['10분','20분','40분','30분'],ans:3,ex:'집에서 삼십 분 정도 걸려요（距家約30分鐘）'},
-    ]
-  },
-  {
-    title:'환경 문제',
-    passage:'최근 환경 문제가 심각해지고 있어요. 특히 기후 변화로 인해 여러 가지 문제가 생기고 있어요. 여름은 점점 더워지고 겨울은 점점 따뜻해지고 있어요. 또한 미세먼지 문제도 심각해요. 전문가들은 이런 문제를 해결하기 위해 우리 모두가 노력해야 한다고 말해요.',
-    tr:'最近環境問題越來越嚴重。特別是由於氣候變化，出現了各種問題。夏天越來越熱，冬天越來越暖。此外細懸浮微粒問題也很嚴重。專家們說為了解決這些問題，我們所有人都必須努力。',
-    ann:{
-      '최근':'最近','환경':'環境','문제가':'問題（主格）','심각해지고 있어요':'越來越嚴重',
-      '특히':'特別是','기후':'氣候','변화로':'變化（因）','인해':'由於（因為）',
-      '여러 가지':'各種各樣','여름은':'夏天（主格）','점점':'漸漸','더워지고':'越來越熱',
-      '겨울은':'冬天（主格）','따뜻해지고':'越來越暖','또한':'此外','미세먼지':'細懸浮微粒',
-      '전문가들은':'專家們（主格）','해결하기 위해':'為了解決','모두가':'所有人（主格）',
-      '노력해야 한다고':'必須努力（間接引語）','말해요':'說'
-    },
-    questions:[
-      {q:'이 글의 주제는 무엇이에요?',opts:['날씨 예보','환경 문제','여름 여행','건강 관리'],ans:1,ex:'文章主題圍繞環境問題（환경 문제）'},
-      {q:'여름은 어떻게 변하고 있어요?',opts:['점점 시원해져요','점점 더워져요','점점 짧아져요','변화 없어요'],ans:1,ex:'여름은 점점 더워지고（夏天越來越熱）'},
-      {q:'전문가들의 주장은 무엇이에요?',opts:['정부만 노력해요','모두가 노력해야 해요','과학자만 해결해요','외국 도움 필요해요'],ans:1,ex:'우리 모두가 노력해야 한다고 말해요'},
-    ]
-  },
-  {
-    title:'한국 음식 문화',
-    passage:'한국에는 특별한 음식 문화가 있어요. 한국 사람들은 밥을 먹을 때 여러 가지 반찬을 같이 먹어요. 반찬에는 김치, 나물, 생선 등이 있어요. 또한 한국 사람들은 국이나 찌개를 꼭 먹어요. 한국 음식은 매운 것이 많아서 외국 사람들이 힘들어할 수도 있어요. 하지만 건강에 좋은 음식도 많이 있어요.',
-    tr:'韓國有特別的飲食文化。韓國人吃飯時會一起吃各種小菜。小菜有泡菜、涼拌菜、魚等。另外韓國人一定要吃湯或鍋。韓國食物辣的很多，外國人可能會覺得難以接受。但是也有很多對健康好的食物。',
-    ann:{
-      '특별한':'特別的','음식':'食物','문화가':'文化（主格）','밥을':'飯（賓格）','먹을 때':'吃的時候',
-      '여러 가지':'各種各樣','반찬을':'小菜（賓格）','같이':'一起','김치':'泡菜',
-      '나물':'涼拌菜','생선':'魚','등이':'等（主格）','국이나':'湯或','찌개를':'鍋（賓格）',
-      '꼭':'一定','매운 것이':'辣的東西（主格）','많아서':'因為很多','외국':'外國',
-      '힘들어할':'覺得難受','건강에':'對健康','좋은':'好的','하지만':'但是'
-    },
-    questions:[
-      {q:'반찬에 포함되지 않는 것은?',opts:['김치','나물','생선','과자'],ans:3,ex:'반찬에는 김치, 나물, 생선 등（小菜有泡菜涼拌菜魚等），沒有과자（餅乾）'},
-      {q:'한국 음식의 특징은?',opts:['단 것이 많아요','싱거운 것이 많아요','매운 것이 많아요','짠 것이 많아요'],ans:2,ex:'한국 음식은 매운 것이 많아서（韓國食物辣的很多）'},
-      {q:'이 글과 내용이 다른 것은?',opts:['국이나 찌개를 먹어요','반찬을 같이 먹어요','건강에 좋은 음식이 있어요','한국 음식은 건강에 안 좋아요'],ans:3,ex:'문장에서 건강에 좋은 음식도 많다고 했어요'},
-    ]
-  },
-  {
-    title:'외국어 학습',
-    passage:'요즘 많은 사람들이 외국어를 배우고 있어요. 외국어를 배우면 좋은 점이 많아요. 첫째, 다른 나라 사람들과 소통할 수 있어요. 둘째, 더 좋은 직업을 가질 수 있어요. 셋째, 다른 문화를 이해할 수 있어요. 외국어를 잘 배우려면 매일 꾸준히 공부하는 것이 중요해요.',
-    tr:'最近很多人在學外語。學外語有很多好處。第一可以和其他國家的人溝通。第二可以有更好的工作。第三可以理解其他文化。要學好外語，每天持續學習很重要。',
-    ann:{
-      '요즘':'最近','많은':'很多的','사람들이':'人們（主格）','외국어를':'外語（賓格）',
-      '배우고 있어요':'正在學習','좋은 점이':'好處（主格）','첫째':'第一',
-      '다른':'其他的','나라':'國家','소통할 수 있어요':'可以溝通','둘째':'第二',
-      '직업을':'職業（賓格）','가질 수 있어요':'可以擁有','셋째':'第三',
-      '이해할 수 있어요':'可以理解','잘':'好好地','배우려면':'要想學好的話',
-      '꾸준히':'持續地','공부하는 것이':'學習（主格形式）','중요해요':'重要'
-    },
-    questions:[
-      {q:'외국어 학습의 장점이 아닌 것은?',opts:['소통할 수 있어요','좋은 직업을 가져요','돈을 많이 벌어요','다른 문화를 이해해요'],ans:2,ex:'文章沒有提到「可以賺很多錢」'},
-      {q:'외국어를 잘 배우려면 어떻게 해야 해요?',opts:['가끔 공부해요','매일 꾸준히 공부해요','학원에만 다녀요','원어민 친구가 있어야 해요'],ans:1,ex:'매일 꾸준히 공부하는 것이 중요해요'},
-      {q:'학습 장점은 몇 가지?',opts:['1가지','2가지','3가지','4가지'],ans:2,ex:'첫째、둘째、셋째로 세 가지를 말해요'},
-    ]
-  },
+const SHADOW = [
+  [
+    {kr:'오늘 회의에서 제 의견을 제대로 전달하지 못한 것 같아서 아쉬워요.',rom:'오늘 hwi-ui-e-seo...',zh:'今天會議中似乎沒能好好傳達我的意見，很遺憾。'},
+    {kr:'그 문제에 대해서는 좀 더 신중하게 접근해야 할 것 같습니다.',rom:'geu mun-je-e...',zh:'對於那個問題，感覺需要更謹慎地去處理。'},
+    {kr:'최근 들어 업무량이 많이 늘어서 적응하기가 쉽지 않네요.',rom:'choe-geun deu-reo...',zh:'最近工作量增加很多，適應起來不太容易。'},
+    {kr:'이번 프로젝트를 통해 많은 것을 배우고 성장할 수 있었습니다.',rom:'i-beon peu-ro-jek-teu...',zh:'通過這次專案，學到了很多，也得到了成長。'},
+    {kr:'의견 충돌이 있었지만 서로 양보하면서 해결책을 찾았습니다.',rom:'ui-gyeon chung-dol...',zh:'雖然有意見衝突，但互相讓步找到了解決方案。'},
+  ],
+  [
+    {kr:'이 제품의 가격이 생각보다 많이 올랐네요.',rom:'i je-pum-ui ga-gyeok...',zh:'這個產品的價格比想像中漲了很多。'},
+    {kr:'환불 규정이 어떻게 되는지 자세히 알려 주시겠어요?',rom:'hwan-bul gyu-jeong...',zh:'能詳細告訴我退款規定是怎樣的嗎？'},
+    {kr:'좀 더 저렴한 대안이 있다면 추천해 주실 수 있나요?',rom:'jom deo jeo-ryeom-han...',zh:'如果有更便宜的替代方案，能推薦給我嗎？'},
+    {kr:'이 상품은 품질에 비해 가격이 합리적인 것 같습니다.',rom:'i sang-pum-eun...',zh:'這個商品的價格相對於品質來說感覺很合理。'},
+    {kr:'포장이 손상된 경우에도 교환이 가능한가요?',rom:'po-jang-i son-sang-doen...',zh:'包裝受損的情況下也可以換貨嗎？'},
+  ],
+  [
+    {kr:'이 문제에 대한 자신의 견해를 논리적으로 서술하십시오.',rom:'i mun-je-e dae-han...',zh:'請邏輯性地陳述自己對這個問題的見解。'},
+    {kr:'제시된 자료를 바탕으로 주제를 분석하십시오.',rom:'je-si-doen ja-ryo-reul...',zh:'請根據所提供的資料分析主題。'},
+    {kr:'두 관점의 공통점과 차이점을 비교하여 논하십시오.',rom:'du gwan-jeom-ui...',zh:'請比較兩個觀點的共同點和差異點進行論述。'},
+    {kr:'본인의 주장을 뒷받침하는 구체적인 근거를 제시하십시오.',rom:'bon-in-ui ju-jang-eul...',zh:'請提出支持自己主張的具體根據。'},
+    {kr:'사회적 현상에 대한 비판적 시각으로 분석하십시오.',rom:'sa-hoe-jeok hyeon-sang...',zh:'請用批判性視角分析社會現象。'},
+  ],
+  [
+    {kr:'이번 분기 실적이 예상을 크게 웃돌았습니다.',rom:'i-beon bun-gi sil-jeok...',zh:'本季業績大幅超出預期。'},
+    {kr:'전략적 파트너십을 통해 시장 점유율을 높일 수 있습니다.',rom:'jeon-ryak-jeok pa-teu-neo-sip...',zh:'通過戰略夥伴關係可以提高市場佔有率。'},
+    {kr:'리스크 관리 측면에서 보다 신중한 접근이 필요합니다.',rom:'ri-seu-keu gwal-li...',zh:'從風險管理角度來看，需要更謹慎的方式。'},
+    {kr:'지속가능한 성장을 위해 장기적 투자가 불가피합니다.',rom:'ji-sok-ga-neung-han...',zh:'為了可持續成長，長期投資是不可避免的。'},
+    {kr:'핵심 역량을 강화하여 경쟁우위를 확보해야 합니다.',rom:'haek-sim yeong-nyang...',zh:'必須強化核心能力以確保競爭優勢。'},
+  ],
+  [
+    {kr:'이 연구는 기존의 패러다임을 근본적으로 재검토한다.',rom:'i yeon-gu-neun...',zh:'這項研究從根本上重新審視現有的範式。'},
+    {kr:'사회구조적 모순을 분석하는 데 있어 다층적 접근이 요구된다.',rom:'sa-hoe-gu-jo-jeok...',zh:'在分析社會結構性矛盾時，需要多層次的方式。'},
+    {kr:'담론의 형성과 변화는 권력관계와 밀접하게 연관된다.',rom:'dam-ron-ui hyeong-seong...',zh:'論述的形成與變化與權力關係密切相關。'},
+    {kr:'인과관계를 규명하기 위해 정밀한 실증적 방법이 필요하다.',rom:'in-gwa-gwan-gye...',zh:'為了查明因果關係，需要精密的實證方法。'},
+    {kr:'이론과 실천의 괴리를 극복하는 것이 핵심 과제이다.',rom:'i-ron-gwa sil-cheon...',zh:'克服理論與實踐的隔閡是核心課題。'},
+  ],
 ];
 
-const SCRAMBLE_POOL = [
-  {zh:'我每天學習韓語。',tokens:['매일','저는','한국어를','공부해요'],ans:'저는 매일 한국어를 공부해요'},
-  {zh:'因為下雨，所以沒有出門。',tokens:['비가','외출하지','와서','않았어요'],ans:'비가 와서 외출하지 않았어요'},
-  {zh:'越學習越有趣。',tokens:['공부할수록','재미있어요','더'],ans:'공부할수록 더 재미있어요'},
-  {zh:'必須保護環境。',tokens:['환경을','해요','보호해야'],ans:'환경을 보호해야 해요'},
-  {zh:'我一邊聽音樂一邊學習。',tokens:['들으면서','음악을','공부해요'],ans:'음악을 들으면서 공부해요'},
-  {zh:'這個問題非常嚴重。',tokens:['이','심각해요','문제는','매우'],ans:'이 문제는 매우 심각해요'},
-  {zh:'不僅好吃，對健康也好。',tokens:['맛있을','건강에도','뿐만','아니라','좋아요'],ans:'맛있을 뿐만 아니라 건강에도 좋아요'},
-  {zh:'讓孩子們按時完成作業。',tokens:['제시간에','완성하도록','숙제를','하세요'],ans:'숙제를 제시간에 완성하도록 하세요'},
-  {zh:'我非常喜歡韓國文化。',tokens:['한국','저는','문화를','매우','좋아해요'],ans:'저는 한국 문화를 매우 좋아해요'},
-  {zh:'與去年相比，進步了很多。',tokens:['작년에','늘었어요','비해','많이'],ans:'작년에 비해 많이 늘었어요'},
-];
+// ══════════════════════════════════════
+// STATE
+// ══════════════════════════════════════
+let S = {
+  xp:0,lv:1,streak:0,lastDate:'',days:0,
+  studied:{},fam:{},hard:{},
+  ans:0,cor:0,gp:0,hs:{typing:0,scramble:0,fillblank:0},
+  hm:{},badges:[],night:false,
+  mis:{v:0,r:0,l:0,g:0,s:0},misDate:''
+};
 
-const FB_POOL = [
-  {q:'저는 음악을 ___ 공부해요.',blank:'들으면서',zh:'我一邊聽音樂一邊學習。',opts:['들으면서','들어서','들으니까','올수록'],exp:'-(으)면서 同時做兩個動作'},
-  {q:'비가 ___ 집에 있었어요.',blank:'와서',zh:'因為下雨待在家。',opts:['와서','오면서','오니까','올수록'],exp:'아서/어서 表示因果'},
-  {q:'공부할___ 어려워요.',blank:'수록',zh:'越學越難。',opts:['수록','때마다','정도','만큼'],exp:'-(으)ㄹ수록 越…越…'},
-  {q:'매일 연습___ 해요.',blank:'해야',zh:'必須每天練習。',opts:['해야','하려고','하면서','하도록'],exp:'-아/어야 하다 必須'},
-  {q:'내일 비가 ___ 것 같아요.',blank:'올',zh:'好像明天會下雨。',opts:['올','오는','온','오던'],exp:'-(으)ㄹ 것 같다 推測'},
-  {q:'환경 문제___ 대해 이야기해요.',blank:'에',zh:'談論關於環境問題。',opts:['에','을','이','의'],exp:'에 대해 關於'},
-  {q:'장점이 있는 ___ 단점도 있어요.',blank:'반면에',zh:'有優點的同時也有缺點。',opts:['반면에','경우에','때문에','덕분에'],exp:'반면에 另一方面'},
-  {q:'맛있을 뿐만 ___ 건강에도 좋아요.',blank:'아니라',zh:'不僅好吃對健康也好。',opts:['아니라','몰라도','해도','봐도'],exp:'뿐만 아니라 不僅…而且…'},
-  {q:'태풍___ 인해 피해가 생겼어요.',blank:'으로',zh:'由於颱風造成了損失。',opts:['으로','에서','에게','와'],exp:'(으)로 인해 由於（書面語）'},
-  {q:'아이들이 공부하___ 했어요.',blank:'도록',zh:'讓孩子們學習。',opts:['도록','면서','더라도','지만'],exp:'-도록 하다 讓…做'},
-  {q:'노력한 ___ 성공했어요.',blank:'덕분에',zh:'多虧努力所以成功了。',opts:['덕분에','때문에','반면에','수록'],exp:'덕분에 多虧、托...的福'},
-  {q:'상황에 ___ 방법이 달라요.',blank:'따라',zh:'根據情況方法不同。',opts:['따라','대해','비해','의해'],exp:'에 따라 根據…'},
-];
+const shf = a => [...a].sort(()=>Math.random()-.5);
+const pickN = (a,n) => shf(a).slice(0,Math.min(n,a.length));
 
-const SHADOW_DATA = [
-  [{kr:'오랜만이에요! 잘 지내셨어요?',rom:'o-raen-man-i-e-yo!',zh:'好久不見！您過得好嗎？'},
-   {kr:'요즘 많이 바쁘셨군요.',rom:'yo-jeum man-hi ba-ppeu-syeot-gun-yo.',zh:'最近很忙吧。'},
-   {kr:'제가 한국어를 공부한 지 1년이 됐어요.',rom:'je-ga han-gu-geo-reul...',zh:'我學韓語已經一年了。'},
-   {kr:'앞으로도 잘 부탁드립니다.',rom:'a-peu-ro-do jal bu-tak-deu-rim-ni-da.',zh:'今後也請多關照。'},
-   {kr:'덕분에 많이 늘었다고 생각해요.',rom:'deok-bu-ne man-hi neu-reot-da-go...',zh:'托您的福，感覺進步很多。'}],
-  [{kr:'이것 좀 보여 주세요.',rom:'i-geot jom bo-yeo ju-se-yo.',zh:'請讓我看一下這個。'},
-   {kr:'다른 색깔은 없나요?',rom:'da-reun saek-kka-reun eom-na-yo?',zh:'有其他顏色嗎？'},
-   {kr:'좀 더 큰 사이즈로 교환할 수 있나요?',rom:'jom deo keun sa-i-jeu-ro...',zh:'可以換大一點的尺寸嗎？'},
-   {kr:'카드로 결제해도 되나요?',rom:'ka-deu-ro gyeol-je-hae-do doe-na-yo?',zh:'可以用信用卡嗎？'},
-   {kr:'영수증 주시면 감사하겠습니다.',rom:'yeong-su-jeung ju-si-myeon...',zh:'如果給我收據非常感謝。'}],
-  [{kr:'다음을 듣고 물음에 답하십시오.',rom:'da-eu-meul deut-go...',zh:'請聽以下內容回答問題。'},
-   {kr:'빈칸에 들어갈 가장 알맞은 것을 고르십시오.',rom:'bin-ka-ne deu-reo-gal...',zh:'請選出最適合填入空格的選項。'},
-   {kr:'윗글의 내용과 같은 것을 고르십시오.',rom:'wit-geu-ri nae-yong-gwa...',zh:'請選出與上文內容相同的選項。'},
-   {kr:'글의 주제로 가장 알맞은 것을 고르십시오.',rom:'geu-ri ju-je-ro...',zh:'請選出最符合文章主題的選項。'},
-   {kr:'이 글은 무엇에 대한 글인지 고르십시오.',rom:'i geu-reun mu-eo-se...',zh:'請選出這篇文章是關於什麼的。'}],
-];
+function LS(){const d=localStorage.getItem('topik_v5');if(d)S={...S,...JSON.parse(d)};chkStreak();chkMis();}
+function SS(){localStorage.setItem('topik_v5',JSON.stringify(S));}
 
-const CONV_CTX=[
-  '你是韓國餐廳服務生，我是台灣顧客。用韓語練習點餐。格式：【韓語】\n【翻譯：中文】。先歡迎我。',
-  '你是韓國路人，我是迷路的觀光客。用韓語練習問路。格式：【韓語】\n【翻譯：中文】。先問我要去哪。',
-  '你是語言交換韓國朋友。練習自我介紹。格式：【韓語】\n【翻譯：中文】。先打招呼問我名字。',
-  '你是韓國傳統市場攤販。練習購物砍價。格式：【韓語】\n【翻譯：中文】。先介紹商品。',
-];
+function chkStreak(){
+  const t=new Date().toDateString();if(S.lastDate===t)return;
+  const y=new Date(Date.now()-864e5).toDateString();
+  S.streak=S.lastDate===y?S.streak+1:1;S.lastDate=t;S.days++;
+  S.hm[t]=(S.hm[t]||0)+1;if(new Date().getHours()>=22)S.night=true;SS();
+}
+function chkMis(){const t=new Date().toDateString();if(S.misDate!==t){S.mis={v:0,r:0,l:0,g:0,s:0};S.misDate=t;SS();}}
 
 const BADGES=[
   {e:'🌱',l:'初心者',c:'w10'},{e:'📚',l:'50單字',c:'w50'},{e:'💯',l:'100單字',c:'w100'},
@@ -790,33 +1047,10 @@ const BADGES=[
   {e:'🌟',l:'TOPIK戰士',c:'w200'},
 ];
 
-// ══════════════════════════════════════
-// STATE
-// ══════════════════════════════════════
-let S={
-  xp:0,lv:1,streak:0,lastDate:'',days:0,
-  studied:{},fam:{},hard:{}, // hard = 待複習
-  ans:0,cor:0,gp:0,hs:{match:0,typing:0,scramble:0,fillblank:0},
-  hm:{},badges:[],night:false,
-  mis:{v:0,r:0,g:0,s:0},misDate:''
-};
-const shf=a=>[...a].sort(()=>Math.random()-.5);
-const pickN=(a,n)=>shf(a).slice(0,n);
-function LS(){const d=localStorage.getItem('topik_v4');if(d)S={...S,...JSON.parse(d)};chkStreak();chkMis();}
-function SS(){localStorage.setItem('topik_v4',JSON.stringify(S));}
-function chkStreak(){
-  const t=new Date().toDateString();if(S.lastDate===t)return;
-  const y=new Date(Date.now()-864e5).toDateString();
-  S.streak=S.lastDate===y?S.streak+1:1;S.lastDate=t;S.days++;
-  S.hm[t]=(S.hm[t]||0)+1;if(new Date().getHours()>=22)S.night=true;SS();
-}
-function chkMis(){const t=new Date().toDateString();if(S.misDate!==t){S.mis={v:0,r:0,g:0,s:0};S.misDate=t;SS();}}
 function addXP(n){
   S.xp+=n;const need=100+(S.lv-1)*50;
   while(S.xp>=need){S.xp-=need;S.lv++;toast('🎉 升級！Level '+S.lv);}
-  SS();updXP();xpPop(n);chkBadges();
-}
-function chkBadges(){
+  SS();updXP();xpPop(n);
   const wc=Object.keys(S.studied).length;
   const c={w10:wc>=10,w50:wc>=50,w100:wc>=100,w200:wc>=200,s3:S.streak>=3,s7:S.streak>=7,s30:S.streak>=30,g10:S.gp>=10,a90:S.ans>10&&S.cor/S.ans>=.9,nt:S.night};
   BADGES.forEach(b=>{if(c[b.c]&&!S.badges.includes(b.c)){S.badges.push(b.c);toast('🏅 解鎖：'+b.e+b.l);SS();}});
@@ -825,30 +1059,32 @@ function chkBadges(){
 // ══════════════════════════════════════
 // UI
 // ══════════════════════════════════════
-function goScreen(id){
+function go(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('screen-'+id).classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
   const nb=document.getElementById('nav-'+id);if(nb)nb.classList.add('active');
   if(id==='home')rfHome();
   if(id==='vocab')initVocab();
   if(id==='review')rfReview();
   if(id==='reading')initReading();
-  updReviewDot();
+  if(id==='listen')initListen();
+  updDot();
 }
+
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2600);}
-function xpPop(n){const p=document.getElementById('xp-pop');document.getElementById('xp-pop-text').textContent='+'+n+' XP';p.classList.add('show');clearTimeout(p._t);p._t=setTimeout(()=>p.classList.remove('show'),1500);}
+function xpPop(n){const p=document.getElementById('xpp');document.getElementById('xpp-t').textContent='+'+n+' XP';p.classList.add('show');clearTimeout(p._t);p._t=setTimeout(()=>p.classList.remove('show'),1500);}
 function updXP(){
   const need=100+(S.lv-1)*50,pct=Math.min(100,S.xp/need*100);
-  const xb=document.getElementById('xp-bar');if(xb)xb.style.width=pct+'%';
-  const xc=document.getElementById('xp-curr');if(xc)xc.textContent=S.xp;
-  const xn=document.getElementById('xp-need');if(xn)xn.textContent=need;
-  const hl=document.getElementById('home-level');if(hl)hl.textContent=S.lv;
+  const xf=document.getElementById('xp-fill');if(xf)xf.style.width=pct+'%';
+  const xc=document.getElementById('xp-c');if(xc)xc.textContent=S.xp;
+  const xn=document.getElementById('xp-n');if(xn)xn.textContent=need;
+  const hl=document.getElementById('h-lv');if(hl)hl.textContent=S.lv;
 }
-function updReviewDot(){
+function updDot(){
   const hc=Object.keys(S.hard).length;
-  const dot=document.getElementById('review-dot');if(dot)dot.classList.toggle('show',hc>0);
-  const badge=document.getElementById('review-count-badge');if(badge)badge.textContent=hc;
+  const dot=document.getElementById('rev-dot');if(dot)dot.classList.toggle('on',hc>0);
+  const rb=document.getElementById('rev-badge');if(rb)rb.textContent=hc;
 }
 
 // ══════════════════════════════════════
@@ -858,331 +1094,431 @@ function rfHome(){
   updXP();
   const wc=Object.keys(S.studied).length;
   document.getElementById('streak-n').textContent=S.streak;
-  document.getElementById('s-words').textContent=wc;
-  document.getElementById('s-acc').textContent=S.ans?Math.round(S.cor/S.ans*100)+'%':'-';
-  document.getElementById('s-days').textContent=S.days;
-  // missions
-  const mis=[{k:'v',n:'單字練習',g:10,u:'張',i:'📚'},{k:'r',n:'閱讀測驗',g:3,u:'題',i:'📖'},{k:'g',n:'遊戲闖關',g:1,u:'局',i:'🎮'},{k:'s',n:'口說跟讀',g:5,u:'句',i:'🎙️'}];
-  document.getElementById('mission-list').innerHTML=mis.map(d=>{
+  document.getElementById('s-w').textContent=wc;
+  document.getElementById('s-a').textContent=S.ans?Math.round(S.cor/S.ans*100)+'%':'-';
+  document.getElementById('s-d').textContent=S.days;
+  const mis=[{k:'v',n:'單字練習',g:10,u:'張',i:'📚'},{k:'r',n:'閱讀測驗',g:3,u:'題',i:'📖'},{k:'l',n:'聽力測驗',g:3,u:'題',i:'🎧'},{k:'g',n:'遊戲闖關',g:1,u:'局',i:'🎮'},{k:'s',n:'口說跟讀',g:5,u:'句',i:'🎙️'}];
+  document.getElementById('mis-list').innerHTML=mis.map(d=>{
     const cur=S.mis[d.k]||0,pct=Math.min(100,cur/d.g*100),done=cur>=d.g;
-    return `<div class="mission-row"><div style="font-size:22px">${d.i}</div><div class="m-info"><div class="m-name">${done?'✅ ':''} ${d.n}</div><div class="m-prog">${cur}/${d.g} ${d.u}</div><div class="m-bar"><div class="m-fill" style="width:${pct}%"></div></div></div><div class="m-xp">${done?'完成':'+'+(d.g*15)+' XP'}</div></div>`;
+    return `<div class="mis-row"><div style="font-size:21px">${d.i}</div><div class="mis-info"><div class="mis-name">${done?'✅ ':''} ${d.n}</div><div class="mis-prog">${cur}/${d.g} ${d.u}</div><div class="mis-bar"><div class="mis-fill" style="width:${pct}%"></div></div></div><div class="mis-xp">${done?'完成':'+'+(d.g*15)+' XP'}</div></div>`;
   }).join('');
-  // heatmap
-  let h='';for(let i=69;i>=0;i--){const d=new Date(Date.now()-i*864e5).toDateString();const v=S.hm[d]||0;h+=`<div class="hm-cell ${v?v<3?'l1':v<5?'l2':v<8?'l3':'l4':''}"></div>`;}
-  document.getElementById('heatmap').innerHTML=h;
-  // badges
-  document.getElementById('badges-grid').innerHTML=BADGES.map(b=>`<div class="badge-item ${S.badges.includes(b.c)?'':'locked'}"><div>${b.e}</div><div class="badge-label">${b.l}</div></div>`).join('');
-  // high scores
+  let h='';for(let i=69;i>=0;i--){const d=new Date(Date.now()-i*864e5).toDateString();const v=S.hm[d]||0;h+=`<div class="hmc ${v?v<3?'l1':v<5?'l2':v<8?'l3':'l4':''}"></div>`;}
+  document.getElementById('hm').innerHTML=h;
+  document.getElementById('bg-grid').innerHTML=BADGES.map(b=>`<div class="bg-item ${S.badges.includes(b.c)?'':'locked'}"><div>${b.e}</div><div class="bg-lbl">${b.l}</div></div>`).join('');
   Object.keys(S.hs).forEach(g=>{const el=document.getElementById('hs-'+g);if(el)el.textContent=S.hs[g]||0;});
-  updReviewDot();
+  updDot();
 }
 
 // ══════════════════════════════════════
 // VOCAB
 // ══════════════════════════════════════
 let vDeck=[],vIdx=0,vFlipped=false;
+
 function initVocab(){
   const hard=WORDS.filter(w=>S.hard[w.kr]);
   const rest=shf(WORDS.filter(w=>!S.hard[w.kr]));
   vDeck=[...shf(hard),...rest];
   vIdx=0;showCard();
+  document.getElementById('ai-ex-box').classList.remove('show');
 }
+
 function showCard(){
   const c=vDeck[vIdx];if(!c)return;
   vFlipped=false;
-  document.getElementById('flashcard').classList.remove('flipped');
+  document.getElementById('fc').classList.remove('flipped');
   document.getElementById('fc-kr').textContent=c.kr;
   document.getElementById('fc-rom').textContent=c.rom;
   document.getElementById('fc-kr2').textContent=c.kr;
   document.getElementById('fc-zh').textContent=c.zh;
-  const ex=c.ex.split('\n');
-  document.getElementById('fc-ex').innerHTML=ex[0]+'<br><span style="color:var(--text3);font-size:12px">'+ex[1]+'</span>';
+  document.getElementById('fc-ex').textContent='';
   document.getElementById('fc-hint').textContent=(S.hard[c.kr]?'📌 待複習 · ':'')+'點擊翻面查看意思';
-  document.getElementById('vocab-info').textContent='共'+vDeck.length+'張';
-  document.getElementById('vp-fill').style.width=(vDeck.length?vIdx/vDeck.length*100:0)+'%';
-  document.getElementById('vp-text').textContent=vIdx+'/'+vDeck.length;
+  document.getElementById('v-info').textContent=`${vIdx+1}/${vDeck.length}`;
+  const fill=vDeck.length?(vIdx/vDeck.length*100):0;
+  document.getElementById('vp-fill').style.width=fill+'%';
+  document.getElementById('vp-txt').textContent=`${vIdx+1}/${vDeck.length}`;
+  document.getElementById('ai-ex-box').classList.remove('show');
 }
-function flipCard(){vFlipped=!vFlipped;document.getElementById('flashcard').classList.toggle('flipped');}
-function rateCard(r){
+
+function flipCard(){
+  vFlipped=!vFlipped;
+  document.getElementById('fc').classList.toggle('flipped');
+}
+
+function rate(r){
   const c=vDeck[vIdx];if(!c)return;
   if(r==='hard'){S.hard[c.kr]=true;S.fam[c.kr]=0;toast('📌 加入待複習');}
   else{delete S.hard[c.kr];S.fam[c.kr]=Math.min(3,(S.fam[c.kr]||0)+2);S.studied[c.kr]=true;S.ans++;S.cor++;S.mis.v=(S.mis.v||0)+1;addXP(10);if(S.mis.v===10){addXP(150);toast('✅ 每日單字任務完成！+150 XP');}}
-  SS();vIdx++;if(vIdx>=vDeck.length){toast('🎊 全部學完一輪！');initVocab();return;}showCard();updReviewDot();
+  SS();vIdx++;if(vIdx>=vDeck.length){toast('🎊 全部學完一輪！');initVocab();return;}showCard();updDot();
+}
+
+async function loadAIEx(){
+  const c=vDeck[vIdx];if(!c)return;
+  const box=document.getElementById('ai-ex-box');
+  const txt=document.getElementById('ai-ex-text');
+  box.classList.add('show');
+  txt.innerHTML='<div class="loading-dots"><div class="ld"></div><div class="ld"></div><div class="ld"></div></div>';
+  const res=await gemini(`請針對韓文單字「${c.kr}（${c.zh}）」，用繁體中文提供：
+1. 一個TOPIK II程度的例句（附中文翻譯）
+2. 這個單字常見的搭配詞或用法（2個）
+3. 容易混淆的相似詞（如有）
+格式簡潔，適合手機閱讀。`);
+  txt.textContent=res;
 }
 
 // ══════════════════════════════════════
 // REVIEW
 // ══════════════════════════════════════
 function rfReview(){
-  updReviewDot();
+  updDot();
   const keys=Object.keys(S.hard);
-  if(keys.length===0){document.getElementById('review-list').innerHTML='<div style="padding:40px 20px;text-align:center;color:var(--text2)">🎉 太棒了！目前沒有待複習的單字。</div>';return;}
-  document.getElementById('review-list').innerHTML=keys.map(kr=>{
+  if(keys.length===0){document.getElementById('rev-list').innerHTML='<div style="padding:40px 20px;text-align:center;color:var(--text2)">🎉 目前沒有待複習的單字！</div>';return;}
+  document.getElementById('rev-list').innerHTML=keys.map(kr=>{
     const w=WORDS.find(x=>x.kr===kr);if(!w)return '';
-    const ex=w.ex.split('\n');
-    return `<div class="review-card">
-      <div class="review-card-head" onclick="toggleRevCard('rc-${kr}')">
-        <div><div class="review-kr">${w.kr}</div><div style="font-size:12px;color:var(--text3)">${w.rom}</div></div>
-        <div class="review-zh">${w.zh}</div>
+    return `<div class="rev-card">
+      <div class="rev-head" onclick="toggleRev('rb-${kr}')">
+        <div><div class="rev-kr">${w.kr}</div><div style="font-size:12px;color:var(--text3)">${w.rom}</div></div>
+        <div class="rev-zh">${w.zh}</div>
       </div>
-      <div class="review-card-body" id="rc-${kr}">
-        <div class="review-ex"><strong>${ex[0]}</strong><br><span style="color:var(--text3)">${ex[1]}</span></div>
-        <div class="review-quiz-wrap">
-          <div class="review-quiz-q">✏️ 測驗：請打出這個單字的韓文</div>
-          <input class="review-quiz-input" id="ri-${kr}" placeholder="輸入韓文..." autocomplete="off" spellcheck="false">
-          <div class="review-quiz-result" id="rr-${kr}"></div>
+      <div class="rev-body" id="rb-${kr}">
+        <div class="rev-ex" id="re-${kr}">
+          <div class="loading-dots"><div class="ld"></div><div class="ld"></div><div class="ld"></div></div>
+        </div>
+        <div class="rev-quiz">
+          <div class="rev-q">✏️ 請打出這個單字的韓文</div>
+          <input class="rev-input" id="ri-${kr}" placeholder="輸入韓文..." autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter')checkRev('${kr}')">
+          <div class="rev-res" id="rr-${kr}"></div>
           <div style="display:flex;gap:8px;margin-top:8px">
-            <button onclick="checkReview('${kr}')" id="rb-${kr}" style="flex:1;padding:10px;background:var(--blue);color:#fff;border-radius:var(--radius-sm);font-size:13px;font-weight:700">確認答案</button>
+            <button onclick="checkRev('${kr}')" id="rb2-${kr}" style="flex:1;padding:9px;background:var(--blue);color:#fff;border-radius:var(--rs);font-size:13px;font-weight:700">確認答案</button>
           </div>
         </div>
       </div>
     </div>`;
   }).join('');
 }
-function toggleRevCard(id){const el=document.getElementById(id);if(el)el.classList.toggle('open');}
-function checkReview(kr){
-  const input=document.getElementById('ri-'+kr).value.trim();
+
+function toggleRev(id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  const wasOpen=el.classList.contains('open');
+  el.classList.toggle('open');
+  if(!wasOpen){
+    // load AI example
+    const kr=id.replace('rb-','');
+    const w=WORDS.find(x=>x.kr===kr);
+    if(!w)return;
+    const exEl=document.getElementById('re-'+kr);
+    gemini(`請用繁體中文為韓文單字「${kr}（${w.zh}）」提供：一個TOPIK II程度的例句和中文翻譯，格式：韓文例句\n中文翻譯`).then(r=>{exEl.innerHTML=r.replace(/\n/g,'<br>');});
+  }
+}
+
+function checkRev(kr){
+  const inp=document.getElementById('ri-'+kr).value.trim();
   const res=document.getElementById('rr-'+kr);
-  const btn=document.getElementById('rb-'+kr);
+  const btn=document.getElementById('rb2-'+kr);
   res.style.display='block';
-  if(input===kr){
+  if(inp===kr){
     res.style.color='var(--green)';res.textContent='✅ 正確！已從待複習移除。';
     delete S.hard[kr];S.cor++;S.ans++;SS();addXP(15);
     btn.textContent='已完成';btn.style.background='var(--green)';btn.disabled=true;
-    setTimeout(()=>rfReview(),800);
+    setTimeout(()=>rfReview(),700);
   } else {
-    res.style.color='var(--accent2)';res.textContent='❌ 正確答案：'+kr+'　再試一次！';
-    document.getElementById('ri-'+kr).value='';
-    document.getElementById('ri-'+kr).focus();
+    res.style.color='var(--red)';res.textContent='❌ 正確答案：'+kr+'　再試一次！';
+    document.getElementById('ri-'+kr).value='';document.getElementById('ri-'+kr).focus();
   }
-  updReviewDot();
+  updDot();
 }
 
 // ══════════════════════════════════════
-// READING
+// READING — AI 生成
 // ══════════════════════════════════════
-let rArt=0,rQ=0,rQOrder=[],rAnswered=false;
+let rQIdx=0,rQs=[],rAnswered=false;
+
 function initReading(){
-  rArt=rArt%ARTICLES.length;rQ=0;
-  rQOrder=shf([...Array(ARTICLES[rArt].questions.length).keys()]);
-  rAnswered=false;showReading();
+  document.getElementById('reading-content').innerHTML='';
+  document.getElementById('r-new-btn').style.display='none';
+  newArticle();
 }
-function showReading(){
-  const art=ARTICLES[rArt],q=art.questions[rQOrder[rQ]];
-  rAnswered=false;
-  document.getElementById('r-art').textContent=rArt+1;
-  document.getElementById('r-q').textContent=rQ+1;
-  // Build annotated passage — ALL segments clickable
-  const ann=art.ann||{};
-  const text=art.passage;
-  // Tokenise on spaces, punctuation boundaries
-  const tokens=text.match(/[가-힣]+[가-힣.,!?]*|[.,!? ]+|[0-9]+/g)||[text];
-  let html='';
-  tokens.forEach(tok=>{
-    const clean=tok.trim();
-    if(!clean||/^[ .,!?]+$/.test(tok)){html+=tok;return;}
-    // Try multi-word match first (longest), then single
-    let matched=false;
-    for(const key of Object.keys(ann).sort((a,b)=>b.length-a.length)){
-      if(text.includes(key)&&clean===key.split(' ')[0]){
-        // simple single-token match
-      }
+
+async function newArticle(){
+  document.getElementById('r-new-btn').style.display='none';
+  rQIdx=0;rAnswered=false;
+  document.getElementById('reading-content').innerHTML=`<div class="ai-loading" style="padding:30px 20px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;animation:spin 1s linear infinite"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> AI 正在生成TOPIK II程度的閱讀文章...</div>`;
+
+  const prompt=`請生成一篇TOPIK II中高級程度的韓文閱讀測驗。格式必須是JSON：
+{
+  "title": "文章標題（韓文）",
+  "passage": "韓文文章內容（200-250字，使用中高級詞彙）",
+  "passage_zh": "完整中文翻譯",
+  "questions": [
+    {
+      "q": "問題（韓文）",
+      "opts": ["選項①","選項②","選項③","選項④"],
+      "ans": 0,
+      "explain": "解析（繁體中文）"
     }
-    const zh=ann[clean]||null;
-    if(zh){html+=`<span class="rword" onclick="showTip(this,'${zh.replace(/'/g,"&#39;")}')">${tok}</span>`;}
-    else{html+=`<span class="rword" onclick="showTip(this,'${clean}')">${tok}</span>`;}
-  });
+  ]
+}
+請生成3道題目，涵蓋：主旨、細節理解、推論。文章主題隨機選擇（社會、文化、環境、科技、教育等）。`;
+
+  const data=await geminiJSON(prompt);
+  if(!data){document.getElementById('reading-content').innerHTML='<div style="padding:20px;color:var(--red)">生成失敗，請再試一次。</div><div style="padding:0 20px"><button onclick="newArticle()" class="btn-p">重新生成</button></div>';return;}
+  rQs=data.questions||[];
+  showReading(data);
+}
+
+let tipTimer2=null;
+function showReading(art){
+  rAnswered=false;
+  document.getElementById('r-q').textContent=rQIdx+1;
+  const q=rQs[rQIdx];
+  // build annotated passage — underline all Korean words
+  const passHtml=art.passage.replace(/([가-힣]+)/g,'<span class="rword" onclick="showTip2(event,\'$1\')">$1</span>');
   document.getElementById('reading-content').innerHTML=`
-    <div class="reading-passage-box">
-      <div style="font-size:11px;color:var(--blue);font-weight:700;margin-bottom:8px">📄 ${art.title}　<span style="color:var(--text3);font-weight:400">（點任意詞彙查看說明）</span></div>
-      <div id="passage-text" style="line-height:2.2;font-size:15px">${buildPassage(art)}</div>
-      <div class="passage-zh">${art.tr}</div>
+    <div class="art-box">
+      <div style="font-size:11px;font-weight:700;color:var(--blue);margin-bottom:8px">📄 ${art.title} <span style="color:var(--text3);font-weight:400">（點任意詞彙查看AI翻譯）</span></div>
+      <div>${passHtml}</div>
+      <div class="art-zh">${art.passage_zh}</div>
     </div>
-    <div class="reading-q-box">
-      <div class="reading-q">${rQ+1}. ${q.q}</div>
-      ${q.opts.map((o,i)=>`<button class="r-opt" id="ro-${i}" onclick="answerR(${i},${i===q.ans})">${['①','②','③','④'][i]} ${o}</button>`).join('')}
-      <div class="r-explain" id="r-ex">💡 ${q.ex}</div>
-      <button class="btn-next" id="r-next" onclick="nextR()">
-        ${rQ+1<art.questions.length?'下一題 →':'下一篇文章 →'}
+    <div class="q-box">
+      <div class="q-text">${rQIdx+1}. ${q.q}</div>
+      ${q.opts.map((o,i)=>`<button class="opt" id="ro-${i}" onclick="answerR(${i},${i===q.ans})">${['①','②','③','④'][i]} ${o}</button>`).join('')}
+      <div class="opt-explain" id="r-ex">💡 ${q.explain}</div>
+      <button class="btn-next" id="r-next" onclick="nextR(art)">
+        ${rQIdx+1<rQs.length?'下一題 →':'生成新文章 →'}
       </button>
     </div>`;
+  document.getElementById('r-next')._art=art;
 }
 
-function buildPassage(art){
-  const ann=art.ann||{};
-  // Sort keys by length desc to match longest first
-  const sorted=Object.keys(ann).sort((a,b)=>b.length-a.length);
-  let text=art.passage;
-  // Replace with placeholders to avoid double-replace
-  const map={};
-  sorted.forEach((k,i)=>{
-    const ph=`§${i}§`;
-    map[ph]={k,v:ann[k]};
-    text=text.split(k).join(ph);
-  });
-  // Also wrap remaining Korean chars
-  // Now replace placeholders with spans
-  let html=text;
-  Object.keys(map).forEach(ph=>{
-    const {k,v}=map[ph];
-    const safe=v.replace(/'/g,"&#39;");
-    html=html.split(ph).join(`<span class="rword" onclick="showTip(this,'${safe}')">${k}</span>`);
-  });
-  // Wrap remaining Korean words not annotated — show original word
-  html=html.replace(/([가-힣]+)/g,(m)=>{
-    if(m.includes('span')) return m;
-    return `<span class="rword" onclick="showTip(this,'${m}')">${m}</span>`;
-  });
-  return html;
-}
-
-let tipTimer=null;
-function showTip(el,zh){
+async function showTip2(e,word){
   document.querySelectorAll('.word-tip').forEach(t=>t.remove());
-  const tip=document.createElement('div');tip.className='word-tip';tip.textContent=zh;
-  const rect=el.getBoundingClientRect();
-  const box=document.getElementById('reading-content').getBoundingClientRect();
-  tip.style.top=(rect.top-box.top-38)+'px';
-  tip.style.left=(rect.left-box.left+rect.width/2)+'px';
-  document.getElementById('reading-content').style.position='relative';
-  document.getElementById('reading-content').appendChild(tip);
-  clearTimeout(tipTimer);tipTimer=setTimeout(()=>tip.remove(),2500);
+  const tip=document.createElement('div');tip.className='word-tip';tip.textContent='查詢中...';
+  tip.style.top=(e.clientY-45)+'px';tip.style.left=e.clientX+'px';
+  document.body.appendChild(tip);
+  clearTimeout(tipTimer2);
+  const res=await gemini(`請用5字以內的繁體中文解釋韓文詞彙「${word}」的意思或詞性，不需要其他說明。`);
+  tip.textContent=res.trim().slice(0,20);
+  tipTimer2=setTimeout(()=>tip.remove(),2500);
 }
 
 function answerR(idx,correct){
   if(rAnswered)return;rAnswered=true;
-  const art=ARTICLES[rArt],qi=rQOrder[rQ],q=art.questions[qi];
+  const q=rQs[rQIdx];
   for(let i=0;i<q.opts.length;i++){
     const el=document.getElementById('ro-'+i);
-    if(i===q.ans)el.classList.add('correct');
-    else if(i===idx&&!correct)el.classList.add('wrong');
+    if(i===q.ans)el.classList.add('ok');else if(i===idx&&!correct)el.classList.add('bad');
     el.style.pointerEvents='none';
   }
   document.getElementById('r-ex').classList.add('open');
-  document.getElementById('r-next').classList.add('show');
+  document.getElementById('r-next').classList.add('on');
   if(correct){S.cor++;addXP(20);}else addXP(3);
   S.ans++;S.mis.r=(S.mis.r||0)+1;
   if(S.mis.r===3){addXP(150);toast('✅ 每日閱讀任務完成！+150 XP');}
   SS();
 }
-function nextR(){
-  rQ++;
-  if(rQ>=ARTICLES[rArt].questions.length){
-    toast('🎊 這篇完成！進入下一篇');
-    rArt=(rArt+1)%ARTICLES.length;rQ=0;
-    rQOrder=shf([...Array(ARTICLES[rArt].questions.length).keys()]);
+
+function nextR(art){
+  const btn=document.getElementById('r-next');
+  const savedArt=btn._art||art;
+  rQIdx++;
+  if(rQIdx>=rQs.length){newArticle();return;}
+  showReading(savedArt);
+}
+
+// ══════════════════════════════════════
+// LISTENING — AI 生成
+// ══════════════════════════════════════
+let lQIdx=0,lQs=[],lDialogue='',lAnswered=false;
+
+function initListen(){
+  document.getElementById('listen-content').innerHTML='';
+  document.getElementById('l-new-btn').style.display='none';
+  newListen();
+}
+
+async function newListen(){
+  document.getElementById('l-new-btn').style.display='none';
+  lQIdx=0;lAnswered=false;
+  document.getElementById('listen-content').innerHTML=`<div class="ai-loading" style="padding:30px 20px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;animation:spin 1s linear infinite"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> AI 正在生成聽力情境...</div>`;
+
+  const types=['직장 동료 간의 대화','고객과 직원의 대화','학술 강연','뉴스 보도','인터뷰'];
+  const tp=types[Math.floor(Math.random()*types.length)];
+
+  const prompt=`請生成一個TOPIK II中高級程度的韓文聽力測驗情境（${tp}類型）。格式必須是JSON：
+{
+  "title": "情境標題（韓文）",
+  "type": "${tp}",
+  "dialogue": [
+    {"speaker": "A", "text": "韓文台詞"},
+    {"speaker": "B", "text": "韓文台詞"}
+  ],
+  "dialogue_zh": "完整中文翻譯（一段文字）",
+  "questions": [
+    {
+      "q": "問題（韓文）",
+      "opts": ["選項①","選項②","選項③","選項④"],
+      "ans": 0,
+      "explain": "解析（繁體中文）"
+    }
+  ]
+}
+對話約8-12個回合，使用中高級詞彙。請生成4道題目，涵蓋：主旨、細節、推論、態度。`;
+
+  const data=await geminiJSON(prompt);
+  if(!data){document.getElementById('listen-content').innerHTML='<div style="padding:20px;color:var(--red)">生成失敗，請再試一次。</div><div style="padding:0 20px"><button onclick="newListen()" class="btn-p">重新生成</button></div>';return;}
+  lQs=data.questions||[];lDialogue=data;
+  showListen(data);
+}
+
+function showListen(data){
+  lAnswered=false;
+  document.getElementById('l-q').textContent=lQIdx+1;
+  const q=lQs[lQIdx];
+  const dialogHtml=(data.dialogue||[]).map(d=>`<div style="margin-bottom:6px"><span class="listen-spk ${d.speaker==='A'?'a':'b'}">${d.speaker}</span>${d.text}</div>`).join('');
+  document.getElementById('listen-content').innerHTML=`
+    <div class="listen-ctx">
+      <div class="listen-tag">🎧 ${data.title||data.type} <button onclick="speakDialog()" style="margin-left:auto;padding:3px 10px;background:var(--blue);color:#fff;border-radius:50px;font-size:11px;font-weight:700">▶ 播放</button></div>
+      <div class="listen-dialog">${dialogHtml}</div>
+      <div class="art-zh">${data.dialogue_zh||''}</div>
+    </div>
+    <div class="q-box">
+      <div class="q-text">${lQIdx+1}. ${q.q}</div>
+      ${q.opts.map((o,i)=>`<button class="opt" id="lo-${i}" onclick="answerL(${i},${i===q.ans})">${['①','②','③','④'][i]} ${o}</button>`).join('')}
+      <div class="opt-explain" id="l-ex">💡 ${q.explain}</div>
+      <button class="btn-next" id="l-next" onclick="nextL(data)">${lQIdx+1<lQs.length?'下一題 →':'生成新對話 →'}</button>
+    </div>`;
+  document.getElementById('l-next')._data=data;
+}
+
+function speakDialog(){
+  if(!('speechSynthesis' in window)){toast('⚠️ 不支援語音合成');return;}
+  const lines=(lDialogue.dialogue||[]).map(d=>d.text).join('。');
+  const u=new SpeechSynthesisUtterance(lines);u.lang='ko-KR';u.rate=0.85;
+  window.speechSynthesis.cancel();window.speechSynthesis.speak(u);toast('🔊 播放中...');
+}
+
+function answerL(idx,correct){
+  if(lAnswered)return;lAnswered=true;
+  const q=lQs[lQIdx];
+  for(let i=0;i<q.opts.length;i++){
+    const el=document.getElementById('lo-'+i);
+    if(i===q.ans)el.classList.add('ok');else if(i===idx&&!correct)el.classList.add('bad');
+    el.style.pointerEvents='none';
   }
-  showReading();
+  document.getElementById('l-ex').classList.add('open');
+  document.getElementById('l-next').classList.add('on');
+  if(correct){S.cor++;addXP(20);}else addXP(3);
+  S.ans++;S.mis.l=(S.mis.l||0)+1;
+  if(S.mis.l===3){addXP(150);toast('✅ 每日聽力任務完成！+150 XP');}
+  SS();
+}
+
+function nextL(data){
+  const btn=document.getElementById('l-next');
+  const saved=btn._data||data;
+  lQIdx++;
+  if(lQIdx>=lQs.length){newListen();return;}
+  showListen(saved);
 }
 
 // ══════════════════════════════════════
 // GAMES
 // ══════════════════════════════════════
-let curGame=null,gTimer=null,gD={};
-function startGame(t){curGame=t;S.gp++;SS();document.getElementById('game-'+t).classList.add('open');if(t==='match')initMatch();if(t==='typing')initTyping();if(t==='scramble')initScramble();if(t==='fillblank')initFillblank();}
-function closeGame(t){document.getElementById('game-'+t).classList.remove('open');clearInterval(gTimer);}
+let curGame=null,gD={};
+
+function startGame(t){curGame=t;S.gp++;SS();document.getElementById('game-'+t).classList.add('open');if(t==='typing')initTyping();if(t==='scramble')initScramble();if(t==='fillblank')initFillblank();}
+function closeGame(t){document.getElementById('game-'+t).classList.remove('open');}
 function endGame(t,score,det){
-  clearInterval(gTimer);
-  const prev=S.hs[t]||0,isNew=score>prev;
-  if(isNew)S.hs[t]=score;
+  const prev=S.hs[t]||0,isNew=score>prev;if(isNew)S.hs[t]=score;
   S.mis.g=(S.mis.g||0)+1;if(S.mis.g===1){addXP(150);toast('✅ 每日遊戲任務完成！');}
   addXP(Math.min(score,200));SS();
   document.getElementById('game-'+t).classList.remove('open');
   const rs=document.getElementById('result-screen');rs._g=t;
-  document.getElementById('res-emoji').textContent=score>50?'🏆':score>20?'🎉':'😊';
-  document.getElementById('res-title').textContent=isNew?'🏅 新紀錄！':'遊戲結束！';
-  document.getElementById('res-score').textContent=score;
-  document.getElementById('res-label').textContent=(det||'分數')+'　+'+Math.min(score,200)+' XP';
+  document.getElementById('res-e').textContent=score>50?'🏆':score>20?'🎉':'😊';
+  document.getElementById('res-t').textContent=isNew?'🏅 新紀錄！':'遊戲結束！';
+  document.getElementById('res-s').textContent=score;
+  document.getElementById('res-l').textContent=(det||'分數')+'　+'+Math.min(score,200)+' XP';
   rs.classList.add('open');
-  // update high scores
   Object.keys(S.hs).forEach(g=>{const el=document.getElementById('hs-'+g);if(el)el.textContent=S.hs[g]||0;});
 }
 function playAgain(){document.getElementById('result-screen').classList.remove('open');if(document.getElementById('result-screen')._g)startGame(document.getElementById('result-screen')._g);}
 function closeResult(){document.getElementById('result-screen').classList.remove('open');}
 
-// MATCH
-function initMatch(){
-  const words=pickN(WORDS,8);
-  gD={mScore:0,mPairs:0,mSel:null,mMatched:new Set(),mTime:60};
-  document.getElementById('match-score').textContent=0;document.getElementById('match-pairs').textContent=0;
-  const items=shf([...words.map((w,i)=>({id:'k'+i,txt:w.kr,pair:i,t:'k'})),...words.map((w,i)=>({id:'z'+i,txt:w.zh.split('、')[0],pair:i,t:'z'}))]);
-  gD.mItems=items;
-  document.getElementById('match-grid').innerHTML=items.map(it=>`<div class="match-card" id="mc-${it.id}" onclick="clickMatch('${it.id}')">${it.txt}</div>`).join('');
-  clearInterval(gTimer);
-  gTimer=setInterval(()=>{gD.mTime--;document.getElementById('match-timer').textContent=gD.mTime;if(gD.mTime<=0)endGame('match',gD.mScore,'配對 '+gD.mPairs+'/8');},1000);
-}
-function clickMatch(id){
-  if(gD.mMatched.has(id))return;
-  const item=gD.mItems.find(x=>x.id===id),el=document.getElementById('mc-'+id);
-  if(!gD.mSel){gD.mSel={id,item,el};el.classList.add('selected');}
-  else{
-    const prev=gD.mSel;
-    if(prev.id===id){prev.el.classList.remove('selected');gD.mSel=null;return;}
-    if(prev.item.pair===item.pair&&prev.item.t!==item.t){
-      prev.el.classList.remove('selected');prev.el.classList.add('matched');el.classList.add('matched');
-      gD.mMatched.add(prev.id);gD.mMatched.add(id);
-      gD.mScore+=10+Math.floor(gD.mTime/5);gD.mPairs++;
-      document.getElementById('match-score').textContent=gD.mScore;document.getElementById('match-pairs').textContent=gD.mPairs;
-      if(gD.mPairs===8)endGame('match',gD.mScore,'全部配對完成！🎊');
-    } else {el.classList.add('wrong');prev.el.classList.add('wrong');setTimeout(()=>{el.classList.remove('wrong','selected');prev.el.classList.remove('wrong','selected');},600);}
-    gD.mSel=null;
-  }
-}
-
-// TYPING — wrong adds to review
-let tpDeck=[],tpIdx=0,tpScore=0,tpOk=0,tpBad=0,tpRevealed=false;
+// TYPING
+let tpDeck=[],tpIdx=0,tpScore=0,tpOk=0,tpBad=0,tpRev=false;
 function initTyping(){
-  tpDeck=pickN(WORDS,10);tpIdx=0;tpScore=0;tpOk=0;tpBad=0;tpRevealed=false;
-  ['tp-score','tp-ok','tp-bad'].forEach(id=>document.getElementById(id).textContent=0);
-  const rv=document.getElementById('tp-reveal');rv.style.display='none';rv.className='typing-reveal';
-  const nb=document.getElementById('tp-next');nb.className='btn-next';nb.style.display='none';
-  const cb=document.getElementById('tp-confirm');cb.className='btn-primary';cb.disabled=false;
+  tpDeck=pickN(WORDS,10);tpIdx=0;tpScore=0;tpOk=0;tpBad=0;tpRev=false;
+  ['tp-sc','tp-ok','tp-bad'].forEach(id=>document.getElementById(id).textContent=0);
+  document.getElementById('tp-reveal').style.display='none';document.getElementById('tp-reveal').className='tp-reveal';
+  document.getElementById('tp-next').className='btn-next';
+  document.getElementById('tp-confirm').className='btn-p';document.getElementById('tp-confirm').disabled=false;document.getElementById('tp-confirm').textContent='確認答案';
   showTyping();document.getElementById('tp-input').value='';document.getElementById('tp-input').focus();
-  document.getElementById('tp-input').onkeydown=e=>{if(e.key==='Enter'&&!tpRevealed)checkTyping();};
+  document.getElementById('tp-input').onkeydown=e=>{if(e.key==='Enter'&&!tpRev)checkTyping();};
 }
 function showTyping(){
   if(tpIdx>=tpDeck.length){endGame('typing',tpScore,'正確 '+tpOk+' / 錯誤 '+tpBad);return;}
   const w=tpDeck[tpIdx];
-  document.getElementById('tp-zh').textContent=w.zh.split('、')[0];
-  document.getElementById('tp-rom').textContent='拼音：'+w.rom;
-  document.getElementById('tp-num').textContent=tpIdx+1;
-  const rv=document.getElementById('tp-reveal');rv.style.display='none';rv.className='typing-reveal';
-  const nb=document.getElementById('tp-next');nb.className='btn-next';nb.style.display='none';
-  const cb=document.getElementById('tp-confirm');cb.className='btn-primary';cb.disabled=false;cb.textContent='確認答案';
-  document.getElementById('tp-input').value='';tpRevealed=false;
+  document.getElementById('tp-zh').textContent=w.zh;document.getElementById('tp-rom').textContent='拼音：'+w.rom;
+  document.getElementById('tp-n').textContent=tpIdx+1;
+  document.getElementById('tp-reveal').style.display='none';document.getElementById('tp-reveal').className='tp-reveal';
+  document.getElementById('tp-next').className='btn-next';
+  document.getElementById('tp-confirm').className='btn-p';document.getElementById('tp-confirm').disabled=false;document.getElementById('tp-confirm').textContent='確認答案';
+  document.getElementById('tp-input').value='';tpRev=false;
 }
 function checkTyping(){
-  if(tpRevealed)return;tpRevealed=true;
-  const inp=document.getElementById('tp-input').value.trim(),target=tpDeck[tpIdx].kr,correct=inp===target;
+  if(tpRev)return;tpRev=true;
+  const inp=document.getElementById('tp-input').value.trim(),target=tpDeck[tpIdx].kr,ok=inp===target;
   const rv=document.getElementById('tp-reveal');rv.style.display='block';
-  if(correct){tpOk++;tpScore+=10;rv.className='typing-reveal show ok';rv.textContent='✅ 正確！'+target;document.getElementById('tp-ok').textContent=tpOk;}
-  else{tpBad++;rv.className='typing-reveal show bad';rv.innerHTML='❌ 你輸入：'+(inp||'（空白）')+'<br>正確答案：<span style="color:var(--blue);font-size:20px">'+target+'</span>';document.getElementById('tp-bad').textContent=tpBad;S.hard[target]=true;SS();updReviewDot();toast('📌 '+target+' 已加入待複習');}
-  document.getElementById('tp-score').textContent=tpScore;
-  // UX: confirm → grey, next → coloured
-  const cb=document.getElementById('tp-confirm');cb.className='btn-disabled';cb.disabled=true;cb.textContent='已確認';
-  const nb=document.getElementById('tp-next');nb.className='btn-next show';nb.style.display='block';
+  if(ok){tpOk++;tpScore+=10;rv.className='tp-reveal show ok';rv.textContent='✅ 正確！'+target;document.getElementById('tp-ok').textContent=tpOk;}
+  else{tpBad++;rv.className='tp-reveal show bad';rv.innerHTML='❌ 你輸入：'+(inp||'（空白）')+'<br>正確答案：<span style="color:var(--blue);font-size:20px">'+target+'</span>';document.getElementById('tp-bad').textContent=tpBad;S.hard[target]=true;SS();updDot();toast('📌 '+target+' 已加入待複習');}
+  document.getElementById('tp-score')&&(document.getElementById('tp-sc').textContent=tpScore);
+  document.getElementById('tp-confirm').className='btn-dis';document.getElementById('tp-confirm').disabled=true;document.getElementById('tp-confirm').textContent='已確認';
+  document.getElementById('tp-next').className='btn-next on';
 }
 function nextTyping(){tpIdx++;showTyping();}
 
-// SCRAMBLE
+// SCRAMBLE — AI
 let scDeck=[],scIdx=0,scScore=0,scPlaced=[],scAnswered=false;
-function initScramble(){scDeck=pickN(SCRAMBLE_POOL,8);scIdx=0;scScore=0;showScramble();}
+
+async function initScramble(){
+  scIdx=0;scScore=0;scDeck=[];
+  document.getElementById('scr-loading').style.display='flex';
+  document.getElementById('sc-zh').textContent='';
+  document.getElementById('sc-drop').innerHTML='<span style="color:var(--text3);font-size:12px">點詞彙加入這裡</span>';
+  document.getElementById('sc-pool').innerHTML='';
+
+  const prompt=`請生成8道TOPIK II中高級程度的韓文排句練習題。格式必須是JSON陣列：
+[
+  {
+    "zh": "中文意思",
+    "tokens": ["詞彙1","詞彙2","詞彙3","詞彙4"],
+    "ans": "正確韓文句子（詞彙之間用空格）"
+  }
+]
+要求：使用中高級文法如-(으)ㄹ수록、-는 반면에、-(으)로 인해、뿐만 아니라等。每題4-6個詞彙。`;
+
+  const data=await geminiJSON(prompt);
+  document.getElementById('scr-loading').style.display='none';
+  if(!data||!Array.isArray(data)){document.getElementById('sc-zh').textContent='生成失敗，請關閉重試';return;}
+  scDeck=data;showScramble();
+}
+
 function showScramble(){
   const q=scDeck[scIdx];scPlaced=[];scAnswered=false;
-  document.getElementById('sc-num').textContent=scIdx+1;
+  document.getElementById('sc-n').textContent=scIdx+1;
   document.getElementById('sc-zh').textContent=q.zh;
-  document.getElementById('sc-result').className='sc-result';
-  document.getElementById('sc-next').className='btn-next';document.getElementById('sc-next').style.display='none';
-  const cb=document.getElementById('sc-confirm');cb.className='btn-primary';cb.disabled=false;cb.textContent='確認順序';
+  document.getElementById('sc-res').className='scr-res';
+  document.getElementById('sc-next').className='btn-next';
+  document.getElementById('sc-confirm').className='btn-p';document.getElementById('sc-confirm').disabled=false;document.getElementById('sc-confirm').textContent='確認順序';
   document.getElementById('sc-drop').innerHTML='<span style="color:var(--text3);font-size:12px">點詞彙加入這裡</span>';
-  document.getElementById('sc-tokens').innerHTML=shf(q.tokens).map((t,i)=>`<button class="sc-token" id="sct-${i}" onclick="placeToken('${t}',${i})">${t}</button>`).join('');
+  document.getElementById('sc-pool').innerHTML=shf(q.tokens).map((t,i)=>`<button class="tok" id="sct-${i}" onclick="placeToken('${t.replace(/'/g,"\\'")}',${i})">${t}</button>`).join('');
 }
 function placeToken(txt,i){
-  const el=document.getElementById('sct-'+i);if(el.classList.contains('used'))return;
+  const el=document.getElementById('sct-'+i);if(!el||el.classList.contains('used'))return;
   el.classList.add('used');scPlaced.push({txt,i});
   const drop=document.getElementById('sc-drop');
   if(scPlaced.length===1)drop.innerHTML='';
-  const btn=document.createElement('button');btn.className='sc-token placed';btn.textContent=txt;
+  const btn=document.createElement('button');btn.className='tok placed';btn.textContent=txt;
   btn.onclick=()=>{scPlaced=scPlaced.filter(x=>!(x.txt===txt&&x.i===i));btn.remove();el.classList.remove('used');if(scPlaced.length===0)drop.innerHTML='<span style="color:var(--text3);font-size:12px">點詞彙加入這裡</span>';};
   drop.appendChild(btn);
 }
@@ -1190,24 +1526,50 @@ function resetScramble(){scPlaced=[];document.getElementById('sc-drop').innerHTM
 function checkScramble(){
   if(scAnswered)return;scAnswered=true;
   const q=scDeck[scIdx],ua=scPlaced.map(x=>x.txt).join(' '),ok=ua===q.ans;
-  const res=document.getElementById('sc-result');res.classList.add('show');
-  if(ok){scScore+=15;res.classList.add('ok');res.innerHTML='✅ 正確！<br><span style="font-size:13px;color:var(--text2)">'+q.ans+'</span>';}
+  const res=document.getElementById('sc-res');res.classList.add('show');
+  if(ok){scScore+=15;res.classList.add('ok');res.innerHTML='✅ 正確！<br><span style="font-size:13px;font-weight:400">'+q.ans+'</span>';}
   else{scScore+=2;res.classList.add('bad');res.innerHTML='❌ 正確：<span style="color:var(--blue)">'+q.ans+'</span>';}
-  const cb=document.getElementById('sc-confirm');cb.className='btn-disabled';cb.disabled=true;cb.textContent='已確認';
-  const nb=document.getElementById('sc-next');nb.className='btn-next show';nb.style.display='block';
+  document.getElementById('sc-confirm').className='btn-dis';document.getElementById('sc-confirm').disabled=true;document.getElementById('sc-confirm').textContent='已確認';
+  document.getElementById('sc-next').className='btn-next on';
 }
 function nextScramble(){scIdx++;if(scIdx>=scDeck.length){endGame('scramble',scScore,scDeck.length+' 題完成');return;}showScramble();}
 
-// FILLBLANK
+// FILLBLANK — AI
 let fbDeck=[],fbIdx=0,fbScore=0,fbAnswered=false;
-function initFillblank(){fbDeck=pickN(FB_POOL,10);fbIdx=0;fbScore=0;showFillblank();}
+
+async function initFillblank(){
+  fbIdx=0;fbScore=0;fbDeck=[];
+  document.getElementById('fb-loading').style.display='flex';
+  document.getElementById('fb-q').textContent='';document.getElementById('fb-opts').innerHTML='';
+
+  const prompt=`請生成10道TOPIK II中高級程度的韓文克漏字選擇題。格式必須是JSON陣列：
+[
+  {
+    "q": "韓文句子，空格用___表示",
+    "zh": "中文翻譯",
+    "blank": "正確答案",
+    "opts": ["選項A","選項B","選項C","選項D"],
+    "exp": "解析（繁體中文，說明為何選這個）"
+  }
+]
+要求：
+- 測試中高級文法：-(으)ㄹ수록、-는 반면에、-(으)로 인해、뿐만 아니라、에 따르면、-기 마련이다、-(으)ㄹ 터이다等
+- 四個選項都是合理的文法，只有一個最適合
+- 正確答案隨機分布在opts中的不同位置`;
+
+  const data=await geminiJSON(prompt);
+  document.getElementById('fb-loading').style.display='none';
+  if(!data||!Array.isArray(data)){document.getElementById('fb-q').textContent='生成失敗，請關閉重試';return;}
+  fbDeck=data;showFillblank();
+}
+
 function showFillblank(){
   const q=fbDeck[fbIdx];fbAnswered=false;
-  document.getElementById('fb-num').textContent=fbIdx+1;
+  document.getElementById('fb-n').textContent=fbIdx+1;
   document.getElementById('fb-q').textContent=q.q.replace('___','＿＿＿');
   document.getElementById('fb-zh').textContent=q.zh;
-  document.getElementById('fb-result').style.display='none';
-  const nb=document.getElementById('fb-next');nb.className='btn-next';nb.style.display='none';
+  document.getElementById('fb-res').style.display='none';
+  document.getElementById('fb-next').className='btn-next';
   const opts=shf(q.opts.map(o=>({txt:o,ok:o===q.blank})));
   document.getElementById('fb-opts').innerHTML=opts.map((o,i)=>`<button class="fb-opt" id="fbo-${i}" onclick="answerFB(${i},${o.ok})">${['①','②','③','④'][i]} ${o.txt}</button>`).join('');
   document.getElementById('fb-opts')._opts=opts;
@@ -1217,105 +1579,80 @@ function answerFB(idx,correct){
   const opts=document.getElementById('fb-opts')._opts;
   for(let i=0;i<opts.length;i++){
     const el=document.getElementById('fbo-'+i);
-    if(opts[i].ok)el.classList.add('correct');else if(i===idx&&!correct)el.classList.add('wrong');
+    if(opts[i].ok)el.classList.add('ok');else if(i===idx&&!correct)el.classList.add('bad');
     el.style.pointerEvents='none';
   }
-  const q=fbDeck[fbIdx],res=document.getElementById('fb-result');res.style.display='block';
+  const q=fbDeck[fbIdx],res=document.getElementById('fb-res');res.style.display='block';
   if(correct){fbScore+=20;S.cor++;res.innerHTML='<span style="color:var(--green);font-weight:700">✅ 正確！</span><br><small style="color:var(--text2)">'+q.exp+'</small>';}
-  else{fbScore+=2;res.innerHTML='<span style="color:var(--accent2);font-weight:700">❌</span> 正確答案：<span style="color:var(--blue)">'+q.blank+'</span><br><small style="color:var(--text2)">'+q.exp+'</small>';}
+  else{fbScore+=2;res.innerHTML='<span style="color:var(--red);font-weight:700">❌</span> 正確答案：<span style="color:var(--blue)">'+q.blank+'</span><br><small style="color:var(--text2)">'+q.exp+'</small>';}
   S.ans++;SS();
-  const nb=document.getElementById('fb-next');nb.className='btn-next show';nb.style.display='block';
+  document.getElementById('fb-next').className='btn-next on';
 }
 function nextFillblank(){fbIdx++;if(fbIdx>=fbDeck.length){endGame('fillblank',fbScore,fbDeck.length+' 題完成');return;}showFillblank();}
 
 // ══════════════════════════════════════
-// SPEAKING
+// SPEAKING — SHADOWING
 // ══════════════════════════════════════
-let shCat=0,shIdx=0,isRec=false,recObj=null,convHist=[],convCtxIdx=0,isCvRec=false;
+let shCat=0,shIdx=0,isRec=false,recObj=null;
 
-function switchSpeak(t){
-  document.getElementById('sec-sh').style.display=t==='sh'?'block':'none';
-  document.getElementById('sec-cv').style.display=t==='cv'?'block':'none';
-  document.getElementById('tab-sh').className='speak-tab'+(t==='sh'?' active':'');
-  document.getElementById('tab-cv').className='speak-tab'+(t==='cv'?' active':'');
-  if(t==='cv'&&convHist.length===0)startConv(0);
-}
-function loadShadow(c){
+function loadSh(c){
   shCat=c;shIdx=0;
-  [0,1,2].forEach(i=>{const b=document.getElementById('sht-'+i);if(b){b.style.background=i===c?'var(--blue)':'var(--bg3)';b.style.color=i===c?'#fff':'var(--text2)';}});
-  showShadow();
+  [0,1,2,3,4].forEach(i=>{const b=document.getElementById('sht-'+i);if(b){b.style.background=i===c?'var(--blue)':'var(--surface2)';b.style.color=i===c?'#fff':'var(--text2)';}});
+  showSh();
 }
-function showShadow(){const s=SHADOW_DATA[shCat][shIdx];document.getElementById('sh-kr').textContent=s.kr;document.getElementById('sh-rom').textContent=s.rom;document.getElementById('sh-zh').textContent=s.zh;document.getElementById('spk-result').classList.remove('open');}
-function speakKr(){if(!('speechSynthesis' in window)){toast('⚠️ 不支援語音合成');return;}const u=new SpeechSynthesisUtterance(SHADOW_DATA[shCat][shIdx].kr);u.lang='ko-KR';u.rate=.85;window.speechSynthesis.cancel();window.speechSynthesis.speak(u);toast('🔊 播放中...');}
-function prevSh(){if(shIdx>0){shIdx--;showShadow();}}
-function nextSh(){if(shIdx<SHADOW_DATA[shCat].length-1){shIdx++;showShadow();}else{toast('🎊 完成！');loadShadow((shCat+1)%3);}}
+function showSh(){
+  if(!SHADOW[shCat]||!SHADOW[shCat][shIdx])return;
+  const s=SHADOW[shCat][shIdx];
+  document.getElementById('sh-kr').textContent=s.kr;document.getElementById('sh-rom').textContent=s.rom;document.getElementById('sh-zh').textContent=s.zh;
+  document.getElementById('spk-res').classList.remove('open');
+}
+function speakKr(){if(!('speechSynthesis' in window)){toast('⚠️ 不支援語音合成');return;}const u=new SpeechSynthesisUtterance(SHADOW[shCat][shIdx].kr);u.lang='ko-KR';u.rate=.82;window.speechSynthesis.cancel();window.speechSynthesis.speak(u);toast('🔊 播放中...');}
+function prevSh(){if(shIdx>0){shIdx--;showSh();}}
+function nextSh(){if(shIdx<SHADOW[shCat].length-1){shIdx++;showSh();}else{toast('🎊 完成！');loadSh((shCat+1)%5);}}
 function toggleRec(){
   const btn=document.getElementById('rec-btn');
   if(!isRec){
     if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){toast('⚠️ 請用 Chrome');return;}
     const SR=window.SpeechRecognition||window.webkitSpeechRecognition;recObj=new SR();recObj.lang='ko-KR';recObj.interimResults=false;
     recObj.onresult=e=>{
-      const said=e.results[0][0].transcript,target=SHADOW_DATA[shCat][shIdx].kr;
+      const said=e.results[0][0].transcript,target=SHADOW[shCat][shIdx].kr;
       const pct=Math.round(similarity(said,target)*100);
-      const res=document.getElementById('spk-result');res.classList.add('open');
-      res.innerHTML=`<div style="font-weight:700;color:${pct>70?'var(--green)':pct>40?'var(--orange)':'var(--accent2)'}">相似度：${pct}%</div>
-        <div style="margin-top:6px">你說：<span style="color:var(--text)">${said}</span></div>
+      const res=document.getElementById('spk-res');res.classList.add('open');
+      res.innerHTML=`<div style="font-weight:700;color:${pct>70?'var(--green)':pct>40?'var(--orange)':'var(--red)'}">相似度：${pct}%</div>
+        <div style="margin-top:5px">你說：<span style="color:var(--text)">${said}</span></div>
         <div>原句：<span style="color:var(--blue)">${target}</span></div>
-        <div style="color:var(--text2);font-size:12px;margin-top:4px">${pct>70?'發音很棒！':pct>40?'繼續練習！':'多聽幾次再試！'}</div>`;
+        <div style="color:var(--text2);font-size:12px;margin-top:3px">${pct>70?'發音很棒！':pct>40?'繼續練習！':'多聽幾次再試！'}</div>`;
       if(pct>40){S.mis.s=(S.mis.s||0)+1;addXP(10);SS();if(S.mis.s>=5)toast('✅ 每日口說任務完成！');}
     };
     recObj.onerror=()=>toast('語音識別失敗');
-    recObj.onend=()=>{isRec=false;btn.textContent='🎤 開始跟讀';btn.className='spk-btn rec';};
-    recObj.start();isRec=true;btn.textContent='⏹ 停止錄音';btn.className='spk-btn rec recording';toast('🎤 錄音中...');
-  }else{recObj&&recObj.stop();isRec=false;btn.textContent='🎤 開始跟讀';btn.className='spk-btn rec';}
+    recObj.onend=()=>{isRec=false;btn.textContent='🎤 開始跟讀';btn.className='spkbtn rec';};
+    recObj.start();isRec=true;btn.textContent='⏹ 停止錄音';btn.className='spkbtn rec recording';toast('🎤 錄音中...');
+  }else{recObj&&recObj.stop();isRec=false;btn.textContent='🎤 開始跟讀';btn.className='spkbtn rec';}
 }
-function similarity(a,b){a=a.replace(/\s/g,'');b=b.replace(/\s/g,'');if(a===b)return 1;let m=0;for(let i=0;i<Math.min(a.length,b.length);i++)if(a[i]===b[i])m++;return m/Math.max(a.length,b.length);}
 
-function startConv(idx){
-  convCtxIdx=idx;convHist=[];document.getElementById('conv-msgs').innerHTML='';
-  callAI('請開始對話情境，用韓語打招呼。');
+async function loadAISh(){
+  const cats=['職場情境','學術討論','社會議題','日常對話','文化交流'];
+  toast('🤖 AI 生成中...');
+  const res=await gemini(`請生成一個TOPIK II中高級程度的韓文跟讀句子，情境：${cats[Math.floor(Math.random()*cats.length)]}。
+格式：
+韓文句子（使用中高級詞彙和文法）
+羅馬拼音（簡寫即可）
+繁體中文翻譯
+只輸出這三行，不要其他說明。`);
+  const lines=res.trim().split('\n').filter(l=>l.trim());
+  if(lines.length>=3){
+    const newSentence={kr:lines[0],rom:lines[1],zh:lines[2]};
+    if(!SHADOW[shCat])SHADOW[shCat]=[];
+    SHADOW[shCat].push(newSentence);shIdx=SHADOW[shCat].length-1;showSh();toast('✅ 新句子已生成！');
+  }
 }
-function addMsg(role,ko,zh){
-  const msgs=document.getElementById('conv-msgs');
-  const d=document.createElement('div');d.className='msg '+role;
-  d.innerHTML=`<div class="ko">${ko}</div>${zh?`<div class="zh">${zh}</div>`:''}`;
-  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
-}
-async function callAI(userMsg){
-  const msgs=document.getElementById('conv-msgs');
-  const ld=document.createElement('div');ld.className='msg ai';
-  ld.innerHTML='<div class="loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
-  msgs.appendChild(ld);msgs.scrollTop=msgs.scrollHeight;
-  convHist.push({role:'user',content:userMsg});
-  try{
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':'','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:300,system:CONV_CTX[convCtxIdx],messages:convHist})
-    });
-    const data=await resp.json();const text=data.content?.[0]?.text||'...';
-    convHist.push({role:'assistant',content:text});ld.remove();
-    let ko=text,zh='';
-    text.split('\n').forEach(l=>{if(l.startsWith('【韓語】'))ko=l.replace('【韓語】','').trim();else if(l.startsWith('【翻譯：'))zh=l.replace('【翻譯：','').replace('】','').trim();});
-    addMsg('ai',ko,zh);S.mis.s=(S.mis.s||0)+1;addXP(5);SS();
-  }catch(e){ld.remove();addMsg('ai','⚠️ 連線失敗','');}
-}
-async function sendMsg(){const inp=document.getElementById('cv-input');const m=inp.value.trim();if(!m)return;inp.value='';addMsg('user',m,'');await callAI(m);}
-function toggleCvRec(){
-  const btn=document.getElementById('cv-mic');
-  if(!isCvRec){
-    if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){toast('⚠️ 請用 Chrome');return;}
-    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;const r=new SR();r.lang='ko-KR';
-    r.onresult=e=>{document.getElementById('cv-input').value=e.results[0][0].transcript;};
-    r.onend=()=>{isCvRec=false;btn.textContent='🎤';};
-    r.start();isCvRec=true;btn.textContent='⏹';toast('🎤 請說韓語...');
-  }else{isCvRec=false;btn.textContent='🎤';}
-}
+
+function similarity(a,b){a=a.replace(/\s/g,'');b=b.replace(/\s/g,'');if(a===b)return 1;let m=0;for(let i=0;i<Math.min(a.length,b.length);i++)if(a[i]===b[i])m++;return m/Math.max(a.length,b.length);}
 
 // ══════════════════════════════════════
 // INIT
 // ══════════════════════════════════════
-LS();rfHome();loadShadow(0);
+LS();rfHome();loadSh(0);
 </script>
 </body>
 </html>
